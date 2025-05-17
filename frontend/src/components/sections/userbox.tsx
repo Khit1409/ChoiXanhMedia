@@ -8,7 +8,7 @@ export default function UserBox() {
   if (!decoded) return null;
 
   return (
-    <div className="absolute top-20 right-10 w-64 bg-white shadow-lg rounded-lg p-4 z-50">
+    <div>
       <div className="text-center mb-4">
         <p className="text-gray-600 text-sm">Tài khoản</p>
         <p className="font-semibold text-lg text-blue-700">

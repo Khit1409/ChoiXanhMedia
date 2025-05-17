@@ -50,6 +50,7 @@ export default function SignIn() {
         alert("Đăng nhập thành công");
         router.push("/");
         setFormData({ userid: "", pass: "" });
+        window.location.reload();
       }
     } catch (error) {
       console.log(error);

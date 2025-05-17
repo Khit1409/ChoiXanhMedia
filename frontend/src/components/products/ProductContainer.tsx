@@ -1,7 +1,7 @@
 "use client";
 
 import { getAllProduct } from "@/redux/slices/productSlice";
-import { AppDispatch } from "@/redux/store";
+import { AppDispatch, RootState } from "@/redux/store";
 import {
   faCartPlus,
   faFilter,
@@ -14,18 +14,24 @@ import {
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Image from "next/image";
 import { useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import Link from "next/link";
 import { DataProductResponse } from "@/types/productTypes";
 import Filter from "../tools/Filter";
 import SearchForm from "../form/SearchForm";
+import { reNameInfo } from "@/redux/utils";
+import { handleAddToCart } from "@/api/onclickApi";
 
 export default function ProductContainer() {
   const dispatch = useDispatch<AppDispatch>();
   const [mess, setMess] = useState("");
   const [products, setProducts] = useState<DataProductResponse[] | null>([]);
   const [openFilter, setOpenFilter] = useState(false);
-
+  const { decoded } = useSelector((state: RootState) => state.auths);
+  //
+  const userid = decoded?.users.userid;
+  const pass = decoded?.users.pass;
+  //
   useEffect(() => {
     const fetchProducts = async () => {
       try {
@@ -49,7 +55,7 @@ export default function ProductContainer() {
       <div className="my-6 bg-gray-200 rounded shadow-lg px-2 flex items-center justify-around py-3">
         <SearchForm />{" "}
         <button
-          className="bg-green-600 py-1 px-5 rounded-full text-white"
+          className="bg-green-500 py-1 px-4 rounded-xl text-white"
           onClick={() => setOpenFilter(!openFilter)}
         >
           <FontAwesomeIcon icon={faFilter} />
@@ -86,7 +92,7 @@ export default function ProductContainer() {
                         </div>
 
                         <Image
-                          src={`http://demodienmay.181.atoz.vn${product_detail.hinhdaidien}`}
+                          src={`http://choixanh.com.vn${product_detail.hinhdaidien}`}
                           alt={product_detail.tieude || ""}
                           width={750}
                           height={750}
@@ -124,7 +130,7 @@ export default function ProductContainer() {
                                       className="text-cyan-500"
                                     />
                                     <strong className="text-cyan-500">
-                                      {name}
+                                      {reNameInfo(name)}:
                                     </strong>
                                     <div className="flex gap-2 flex-wrap">
                                       {value.map((vl) =>
@@ -165,7 +171,16 @@ export default function ProductContainer() {
 
                         <div className="flex justify-between gap-2 mt-4 px-2">
                           <button className="flex-1 bg-emerald-500 hover:bg-emerald-600 text-white font-semibold py-2 rounded-lg">
-                            <FontAwesomeIcon icon={faCartPlus} />
+                            <FontAwesomeIcon
+                              icon={faCartPlus}
+                              onClick={() =>
+                                handleAddToCart(
+                                  `${product_detail.id}`,
+                                  `${userid}`,
+                                  `${pass}`
+                                )
+                              }
+                            />
                           </button>
                           <button className="flex-1 bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 rounded-lg">
                             <FontAwesomeIcon icon={faHeart} />

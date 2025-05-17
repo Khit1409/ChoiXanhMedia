@@ -1,27 +1,10 @@
-import { DataProductResponse } from "@/types/productTypes";
+import {
+  DataProductResponse,
+  initialState,
+  ProductDetail,
+} from "@/types/productTypes";
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
-
-interface Menu {
-  tieude: string;
-  url: string;
-}
-
-interface ProductState {
-  products: DataProductResponse[] | DataProductResponse | null;
-  menu: Menu[] | null;
-  loading: boolean;
-  product: DataProductResponse[] | null;
-  error: string | null;
-}
-
-const initialState: ProductState = {
-  products: null,
-  product: null,
-  menu: null,
-  loading: false,
-  error: null,
-};
 
 // Async thunk to fetch product data
 export const getAllProduct = createAsyncThunk<
@@ -66,7 +49,25 @@ export const getProductByUrl = createAsyncThunk<
   }
 });
 // lấy sản phẩm chi tiết
-
+export const getProductDetail = createAsyncThunk<
+  ProductDetail[],
+  { id: string },
+  { rejectValue: string }
+>("product/detail", async ({ id }, thunkAPI) => {
+  try {
+    const response = await axios.get(
+      `http://localhost:5000/api/san-pham/chi-tiet/${id}`
+    );
+    if (response.data) {
+      return response.data.products;
+    }
+  } catch (error) {
+    if (axios.isAxiosError(error)) {
+      return thunkAPI.rejectWithValue("Lỗi axios!");
+    }
+    return thunkAPI.rejectWithValue("Lỗi không xác định");
+  }
+});
 //slice
 const productSlice = createSlice({
   name: "product",
@@ -101,6 +102,18 @@ const productSlice = createSlice({
       })
       .addCase(getProductByUrl.rejected, (state, action) => {
         state.error = (action.payload as string) ?? "Lỗi";
+        state.loading = false;
+      })
+      .addCase(getProductDetail.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(getProductDetail.fulfilled, (state, action) => {
+        state.productDetail = action.payload;
+        state.loading = false;
+      })
+      .addCase(getProductDetail.rejected, (state, action) => {
+        state.error = action.payload as string;
         state.loading = false;
       });
   },

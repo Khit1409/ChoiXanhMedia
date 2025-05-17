@@ -1,67 +1,48 @@
 [
   {
-    "id": "60009",
-    "chophepbinhluan": "False",
-    "hienthibinhluan": "False",
-    "thuonghieu": [{ "tengoi": "Khác", "url": "may-vi-tinh-khac" }],
-    "cpu": [{ "tengoi": "Intel Core i3", "url": "intel-core-i3" }],
-    "mainboard": [
-      { "tengoi": "Mainboard Gigabyte", "url": "mainboard-gigabyte" }
-    ],
-    "ram": [{ "tengoi": "8GB", "url": "ram-may-tinh-8gb" }],
-    "ocung": [{ "tengoi": "SSD 512GB", "url": "ssd-512gb" }],
-    "carddohoa": [{ "tengoi": "AMD Radeon", "url": "amd-radeon" }],
-    "nhucau": [{ "tengoi": "PC văn phòng", "url": "pc-van-phong" }],
-    "kichcomanhinh": [
-      { "tengoi": "19-24 inch", "url": "may-tinh-man-hinh-19-24-inch" }
-    ],
-    "ngaydang": "3/11/2025 5:28:53 PM",
-    "ma": "60009",
-    "gia": "0",
-    "giakhuyenmai": "0",
-    "giasi": "0",
-    "hinhdaidien": "/mediaroot/media/userfiles/useruploads/455/image/singpc-aio-m24ei3128m5-w-i3-12100-thumb-638642547447015303-750x500.jpg",
-    "hinhlienquan": [
+    "footerA": [
       {
-        "id": "146",
-        "ord": "1",
-        "hinhdaidien": "/mediaroot/media/userfiles/useruploads/455/image/60009/singpc-aio-m24ei3128m5-w-i3-12100-4-638642542283891185-750x500.jpg",
-        "tieude": ""
+        "id": 1,
+        "icon": "faCompany",
+        "content": "Công ty TNHH Chồi Xanh Media"
       },
       {
-        "id": "147",
-        "ord": "2",
-        "hinhdaidien": "/mediaroot/media/userfiles/useruploads/455/image/60009/singpc-aio-m24ei3128m5-w-i3-12100-34-638642547893622350-750x500.jpg",
-        "tieude": ""
+        "id": 2,
+        "icon": "fa",
+        "content": "82A - 82B Dân Tộc, Q.Tân Phú"
       },
       {
-        "id": "148",
-        "ord": "3",
-        "hinhdaidien": "/mediaroot/media/userfiles/useruploads/455/image/60009/singpc-aio-m24ei3128m5-w-i3-12100-2-638642542269618357-750x500.jpg",
-        "tieude": ""
+        "id": 3,
+        "icon": "",
+        "content": "MST: 0314581926"
       },
       {
-        "id": "149",
-        "ord": "4",
-        "hinhdaidien": "/mediaroot/media/userfiles/useruploads/455/image/60009/singpc-aio-m24ei3128m5-w-i3-12100-thumb-638642547447015303-750x500.jpg",
-        "tieude": ""
+        "id": 4,
+        "icon": "faPhone",
+        "content": "028 3974 3179"
       },
       {
-        "id": "150",
-        "ord": "5",
-        "hinhdaidien": "/mediaroot/media/userfiles/useruploads/455/image/60009/singpc-aio-m24ei3128m5-w-i3-12100-3-638642542275145788-750x500.jpg",
-        "tieude": ""
-      },
-      {
-        "id": "151",
-        "ord": "6",
-        "hinhdaidien": "/mediaroot/media/userfiles/useruploads/455/image/60009/singpc-aio-m24ei3128m5-w-i3-12100-1-638642542263115363-750x500.jpg",
-        "tieude": ""
+        "id": 5,
+        "icon": "faMail",
+        "content": "info@choixanh.vn"
       }
     ],
-    "url": "singpc-aio-m24ei5128m5-w-i5-12400-8gb-512gb-23-8-inch-full-hd-ban-phim-chuot-win11pro",
-    "luotxem": "439",
-    "tieude": "SingPC AIO M24Ei5128M5-W i5 12400/8GB/512GB/23.8 inch Full HD/Bàn Phím/Chuột/Win11Pro",
-    "noidungchitiet": "<h3>Với thiết kế hiện đại, cấu hình mạnh mẽ SingPC AIO M24Ei5128M5-W i5 12400 là người bạn đồng hành hoàn hảo cho mọi công việc và giải trí. Từ làm việc văn phòng, học tập trực tuyến đến thưởng thức phim ảnh, chơi game nhẹ nhàng, sản phẩm đều đáp ứng một cách xuất sắc.</h3><p>&bull; Màn hình<strong> 23.8 inch </strong>cho một không gian làm việc và giải trí thoải mái. Với độ phân giải <strong>Full HD</strong>, các nội dung sẽ được hiển thị rõ nét, màu sắc chân thật. Màn hình sử dụng tấm nền <strong>IPS </strong>nên có góc nhìn rộng, dù bạn nhìn thẳng hay nghiêng thì chất lượng nội dung vẫn được đảm bảo.</p><p>&bull; Hiệu năng của chiếc máy tính để bàn này đến từ con chip <strong>Intel Core i5 12400</strong> với tốc độ lên đến<strong> 4.40 GHz</strong>. Từ việc soạn thảo văn bản trên Word, tạo bảng tính Excel phức tạp đến chỉnh sửa ảnh trên Photoshop, mọi tác vụ đều được xử lý nhanh chóng và hiệu quả.</p><p>&bull; Sử dụng <strong>RAM 8 GB DDR4 SO-DIMM</strong> có tốc độ <strong>3200 MHz</strong> cho khả năng đa nhiệm tốt. Mở cùng lúc nhiều ứng dụng, chuyển đổi giữa các tab một cách nhanh chóng, mọi tác vụ đều trở nên mượt mà với chiếc máy tính để bàn học tập - văn phòng này. Bạn cũng có thể năng cấp RAM lên tối đa 64 GB nếu có nhu cầu sử dụng cao hơn.</p><p>&bull; Với ổ cứng <strong>SSD M.2-PCIe </strong>máy tính <strong>SingPC </strong>sẽ khởi động và mở ứng dụng của bạn nhanh như chớp. Bạn sẽ không còn phải chờ đợi lâu để bắt đầu làm việc hay giải trí nữa. Ổ cứng 512 GB rộng rãi cho phép bạn thoải mái lưu trữ hình ảnh, video, tài liệu và các phần mềm cần thiết.</p><p>&bull; Card đồ họa tích hợp Intel <strong>UHD Graphics 730 </strong>được tích hợp trên máy tính để bàn SingPC giúp bạn có thể thoải mái thưởng thức những thước phim sắc nét, chỉnh sửa ảnh cơ bản hoặc thậm chí chơi một số tựa game nhẹ nhàng. Mặc dù không mạnh mẽ bằng card đồ họa rời, nhưng vẫn đáp ứng tốt nhu cầu sử dụng hàng ngày của bạn.</p><p>&bull; Máy tính để bàn All-in-one được trang bị sẵn <strong>webcam 3.1 MP (with Mic)</strong>, khi tham gia các cuộc họp hay học trực tuyến bạn không cần phải lắp đặt thêm, vừa tiện lợi vừa tiết kiệm chi phí. Máy tính còn đi kèm chuột và bàn phím không dây, bạn không cần phải mua thêm.</p><p>&bull; Với các cổng USB 3.2 Gen 2, HDMI, USB Type-C, USB 2.0, USB 3.2,... bạn có thể dễ dàng kết nối máy tính với nhiều thiết bị ngoại vi như màn hình, ổ cứng di động, loa,... để tạo nên một không gian làm việc chuyên nghiệp hoặc một hệ thống giải trí tại nhà.</p>"
+    "footerB": [
+      {
+        "id": 1,
+        "icon": "",
+        "content": "Theo dõi Chồi Xanh Media"
+      },
+      {
+        "id": 2,
+        "icon": "",
+        "content": ""
+      },
+      {
+        "id": 3,
+        "icon": "fa",
+        "content": "Vận hành bởi Chồi Xanh Media thành viên của Atoz.vn"
+      }
+    ]
   }
 ]

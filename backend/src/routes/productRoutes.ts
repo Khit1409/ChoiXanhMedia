@@ -1,15 +1,25 @@
 import express from "express";
 import {
+  addToCart,
   getAllProduct,
   getAllProductByUrl,
+  getProductDetail,
 } from "../controllers/productController";
 
 const productroutes = express.Router();
 
-// Lấy toàn bộ sản phẩm
+//lấy sản phẩm chi tiết
+productroutes.get("/chi-tiet/:id", async (req, res) => {
+  await getProductDetail(req, res);
+});
+productroutes.post("/them-gio-hang", async (req, res) => {
+  await addToCart(req, res);
+});
+//lấy sản phẩm theo trang
 productroutes.get("/:producturl", async (req, res) => {
   await getAllProductByUrl(req, res);
 });
+// Lấy toàn bộ sản phẩm
 productroutes.get("/", async (req, res) => {
   await getAllProduct(req, res);
 });

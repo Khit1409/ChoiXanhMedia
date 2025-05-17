@@ -18,14 +18,10 @@ export default function Header() {
   const { products } = useSelector((state: RootState) => state.products);
   const [openUserMenu, setOpenUserMenu] = useState(false);
 
-  //debug
-  const { decoded } = useSelector((state: RootState) => state.auths);
-  console.log(decoded);
-  console.log(Array.isArray(decoded)); // true nếu là mảng
-
   //openMenu toggle
   const toggleResponsive = () => {
     setOpenMenu((prev) => !prev);
+    setOpenUserMenu(false);
   };
 
   useEffect(() => {
@@ -35,22 +31,22 @@ export default function Header() {
     fetchProductMenu();
   }, [dispatch]);
 
-  //logout handle
-
+  // open usser menu...
   const handleOpenUserMenu = () => {
+    setOpenMenu(false);
     setOpenUserMenu(!openUserMenu);
   };
 
   return (
-    <div className="sticky top-0 z-50 bg-green-500 text-white shadow-md">
+    <div className="sticky top-0 z-50 bg-green-600 text-white shadow-md">
       <div className=" mx-auto px-5 py-4 flex items-center justify-between">
         {/* Logo & Toggle */}
         <div className="flex items-center gap-4">
           <button
             onClick={toggleResponsive}
-            className="p-2 border border-white rounded-lg transition duration-300 ease-in-out hover:text-cyan-400 hover:border-cyan-400"
+            className="py-2 border-2 flex items-center px-3 text-center font-bold border-white rounded-lg transition duration-300 ease-in-out hover:text-cyan-400 hover:border-cyan-400"
           >
-            <FontAwesomeIcon icon={faBars} className="text-xl" />
+            <FontAwesomeIcon icon={faBars} className="text-2xl" />
           </button>
         </div>
 
@@ -65,7 +61,7 @@ export default function Header() {
             </Link>
             <button
               onClick={handleOpenUserMenu}
-              className="bg-white text-green-500 font-bold px-4 py-2 rounded-lg text-base hover:bg-gray-100"
+              className="bg-white text-green-500 font-bold px-4 py-2 rounded-lg md:block hidden text-base hover:bg-gray-100"
             >
               <FontAwesomeIcon icon={faUser} />
             </button>
@@ -83,7 +79,7 @@ export default function Header() {
       {/* Mobile Navigation */}
       {openMenu && (
         <nav
-          className={`bg-green-500 px-6 py-3 animate-slide-down ${
+          className={`bg-green-600 px-6 py-3 animate-slide-down ${
             openMenu ? "" : "hidden"
           }`}
         >
@@ -91,11 +87,6 @@ export default function Header() {
             <li>
               <Link href="/" onClick={toggleResponsive}>
                 Trang chủ
-              </Link>
-            </li>
-            <li>
-              <Link href="/about" onClick={toggleResponsive}>
-                Thông tin
               </Link>
             </li>
             <li>
@@ -116,6 +107,7 @@ export default function Header() {
                         className="hover:border-b border-white"
                       >
                         <Link
+                          onClick={() => toggleResponsive()}
                           href={`/san-pham/${url}`}
                           className="text-base before:content-['-'] before:mr-2"
                         >
@@ -130,7 +122,11 @@ export default function Header() {
         </nav>
       )}
       {/* user box */}
-      {openUserMenu && <UserBox />}
+      {openUserMenu && (
+        <div className="absolute border border-gray-300 top-20 right-10 w-64 bg-white shadow-lg rounded-lg p-4 z-50">
+          <UserBox />
+        </div>
+      )}
     </div>
   );
 }

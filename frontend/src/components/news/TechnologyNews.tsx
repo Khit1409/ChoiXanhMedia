@@ -25,6 +25,7 @@ export interface NewsResponseItem {
 
 export default function TechnologyNews() {
   const [news, setNews] = useState<NewsResponseItem[]>([]);
+  const [newsTech, setNewsTech] = useState<NewsResponseItem[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
@@ -42,6 +43,20 @@ export default function TechnologyNews() {
         setLoading(false);
       }
     };
+    // tech news
+    const fetchTN = async () => {
+      try {
+        const res = await axios.get(
+          `https://choixanh.com.vn/ww2/module.tintuc.trangchu.asp?id=35139&sl=9&pageid=1`
+        );
+        if (Array.isArray(res.data)) {
+          setNewsTech(res.data);
+        }
+      } catch (error) {
+        console.error(error);
+      }
+    };
+    fetchTN();
     fetchNews();
   }, []);
 
@@ -57,40 +72,23 @@ export default function TechnologyNews() {
     <div className="max-w-7xl mx-auto px-4 py-8 space-y-12">
       {/* Tin tuyển dụng */}
       <section>
-        <h1 className="text-2xl font-bold text-cyan-600 mb-6">
-          📢Chồi Xanh Media Tuyển Dụng
-        </h1>
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+        <h1 className="text-2xl font-bold text-cyan-600 mb-6">Tuyển Dụng</h1>
+        <div className="grid grid-cols-1 gap-2">
           {news.map((group) =>
             group.data.map((n) => (
-              <Link
-                href={`/news/${n.url}`}
-                key={n.id}
-                className="border rounded-xl overflow-hidden shadow hover:shadow-lg bg-white transition duration-200 flex flex-col"
-              >
-                {n.hinhdaidien ? (
-                  <Image
-                    src={`http://demodienmay.181.atoz.vn${n.hinhdaidien}`}
-                    alt={n.tieude}
-                    width={400}
-                    height={200}
-                    className="w-full h-48 object-cover"
-                  />
-                ) : (
-                  <div className="w-full h-48 bg-gray-200 flex items-center justify-center text-sm text-gray-500">
-                    Không có hình ảnh
-                  </div>
-                )}
+              <Link href={`${n.url}`} key={n.id} className="flex gap-2">
+                <Image
+                  src={`http://demodienmay.181.atoz.vn${n.hinhdaidien}`}
+                  alt={n.tieude}
+                  width={200}
+                  height={200}
+                  className=""
+                />
 
-                <div className="p-4 flex flex-col flex-1">
-                  <h3 className="font-semibold text-lg text-cyan-500 mb-2">
-                    {n.tieude}
-                  </h3>
-                  <div
-                    className="text-gray-600 text-sm line-clamp-3"
-                    dangerouslySetInnerHTML={{ __html: n.noidungtomtat }}
-                  />
-                  <p className="mt-2 text-xs text-gray-400">
+                <div className="flex flex-col gap-2">
+                  <p className="text-cyan-500 ">{n.tieude}</p>
+                  <p dangerouslySetInnerHTML={{ __html: n.noidungtomtat }} />
+                  <p className="text-xs text-gray-400">
                     Đăng ngày:{" "}
                     {new Date(n.ngaydang).toLocaleDateString("vi-VN", {
                       day: "2-digit",
@@ -102,6 +100,41 @@ export default function TechnologyNews() {
               </Link>
             ))
           )}
+        </div>
+      </section>
+      {/*----Công nghệ----*/}
+      <section>
+        <h1 className="text-2xl font-bold text-cyan-600 mb-6">Công nghệ</h1>
+        <div className="grid md:grid-cols-2 grid-cols-1 gap-2">
+          {newsTech &&
+            newsTech.map((news) =>
+              news.data.map((newx) => (
+                <Link href={newx.url} key={newx.id} className="flex gap-2">
+                  <Image
+                    src={`${newx.hinhdaidien}`}
+                    width={200}
+                    height={200}
+                    alt={`${newx.tieude}`}
+                  />
+                  <div>
+                    <p className="text-blue-500 hover:underline">
+                      {newx.tieude}
+                    </p>
+                    <p
+                      dangerouslySetInnerHTML={{ __html: newx.noidungtomtat }}
+                    />
+                    <p className="text-xs text-gray-400">
+                      Đăng ngày:{" "}
+                      {new Date(newx.ngaydang).toLocaleDateString("vi-VN", {
+                        day: "2-digit",
+                        month: "2-digit",
+                        year: "numeric",
+                      })}
+                    </p>
+                  </div>
+                </Link>
+              ))
+            )}
         </div>
       </section>
     </div>
