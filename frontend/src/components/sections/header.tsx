@@ -10,6 +10,7 @@ import { AppDispatch, RootState } from "@/redux/store";
 import { toSlug } from "@/redux/utils";
 import { getAllProduct } from "@/redux/slices/productSlice";
 import UserBox from "./userbox";
+import { logout } from "@/redux/slices/authSlice";
 
 export default function Header() {
   const [openMenu, setOpenMenu] = useState(false);
@@ -17,7 +18,6 @@ export default function Header() {
   const { loggedIn } = useSelector((state: RootState) => state.auths);
   const { products } = useSelector((state: RootState) => state.products);
   const [openUserMenu, setOpenUserMenu] = useState(false);
-
   //openMenu toggle
   const toggleResponsive = () => {
     setOpenMenu((prev) => !prev);
@@ -37,8 +37,18 @@ export default function Header() {
     setOpenUserMenu(!openUserMenu);
   };
 
+  const handleLogout = async () => {
+    try {
+      await dispatch(logout());
+      window.location.reload();
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
   return (
     <div className="sticky top-0 z-50 bg-green-600 text-white shadow-md">
+      {/* button */}
       <div className=" mx-auto px-5 py-4 flex items-center justify-between">
         {/* Logo & Toggle */}
         <div className="flex items-center gap-4">
@@ -53,12 +63,12 @@ export default function Header() {
         {/* Sign in / Logout */}
         {loggedIn ? (
           <div className="flex gap-2">
-            <Link
-              href={"/logout"}
+            <button
+              onClick={handleLogout}
               className="bg-white text-green-500 font-bold px-4 py-2 rounded-lg text-base hover:bg-gray-100"
             >
               Đăng xuất
-            </Link>
+            </button>
             <button
               onClick={handleOpenUserMenu}
               className="bg-white text-green-500 font-bold px-4 py-2 rounded-lg md:block hidden text-base hover:bg-gray-100"
@@ -76,7 +86,7 @@ export default function Header() {
         )}
       </div>
 
-      {/* Mobile Navigation */}
+      {/*Navigation */}
       {openMenu && (
         <nav
           className={`bg-green-600 px-6 py-3 animate-slide-down ${
@@ -102,14 +112,11 @@ export default function Header() {
                     if (!item.metadescriptions) return null;
                     const url = toSlug(item.tieude as string);
                     return (
-                      <li
-                        key={item.id || Math.random()}
-                        className="hover:border-b border-white"
-                      >
+                      <li key={item.id || Math.random()}>
                         <Link
                           onClick={() => toggleResponsive()}
                           href={`/san-pham/${url}`}
-                          className="text-base before:content-['-'] before:mr-2"
+                          className="text-base hover:underline"
                         >
                           {item.tieude}
                         </Link>

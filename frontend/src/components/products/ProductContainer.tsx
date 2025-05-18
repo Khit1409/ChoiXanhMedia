@@ -53,7 +53,7 @@ export default function ProductContainer() {
     <section className="w-full px-8 py-6 bg-gray-100">
       {/* filter/search */}
       <div className="my-6 bg-gray-200 rounded shadow-lg px-2 flex items-center justify-around py-3">
-        <SearchForm />{" "}
+        <SearchForm />
         <button
           className="bg-green-500 py-1 px-4 rounded-xl text-white"
           onClick={() => setOpenFilter(!openFilter)}
@@ -70,12 +70,17 @@ export default function ProductContainer() {
               key={`group-${items.id || items.url || Math.random()}`}
               className="shadow-md p-4 rounded-lg bg-white"
             >
-              <div className="mb-3 text-center border-b">
-                <h2 className="text-2xl font-bold text-blue-600">
+              {/* tiêu đè */}
+              <div
+                className="mb-3"
+                id={`${items.tieude.toLowerCase().split(" ").join("-")}`}
+              >
+                <h2 className="text-2xl font-bold text-white inline px-1 py-1 rounded bg-blue-600">
                   {items.tieude.toUpperCase()}
                 </h2>
               </div>
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+              {/* khung sản phẩm */}
+              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-1 flex-wrap">
                 {items.data.map(
                   (product_detail) =>
                     product_detail.hinhdaidien && (
@@ -91,15 +96,21 @@ export default function ProductContainer() {
                           {product_detail.tieude}
                         </div>
 
-                        <Image
-                          src={`http://choixanh.com.vn${product_detail.hinhdaidien}`}
-                          alt={product_detail.tieude || ""}
-                          width={750}
-                          height={750}
-                          className="rounded-md object-cover mt-2"
-                        />
-
-                        <div className="flex flex-col gap-3 mt-4 text-sm px-2">
+                        <div className="flex items-center justify-center">
+                          <Image
+                            src={`http://choixanh.com.vn${product_detail.hinhdaidien}`}
+                            alt={product_detail.tieude || ""}
+                            style={{
+                              insetBlock: "auto",
+                              inlineSize: "171.5px",
+                            }}
+                            width={171.5}
+                            height={550}
+                            className="rounded-md object-cover mt-2"
+                          />
+                        </div>
+                        {/* thông số sản phẩm */}
+                        <div className="flex flex-col gap-1 mt-4 text-sm px-2">
                           <p className="font-bold border-b">
                             <span className="pr-2">
                               <FontAwesomeIcon icon={faList} />
@@ -168,7 +179,7 @@ export default function ProductContainer() {
                             <p>{product_detail.gia}</p>
                           </div>
                         </div>
-
+                        {/* nút thao tác */}
                         <div className="flex justify-between gap-2 mt-4 px-2">
                           <button className="flex-1 bg-emerald-500 hover:bg-emerald-600 text-white font-semibold py-2 rounded-lg">
                             <FontAwesomeIcon

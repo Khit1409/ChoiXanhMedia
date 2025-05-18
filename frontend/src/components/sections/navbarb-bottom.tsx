@@ -41,7 +41,7 @@ export default function NavbarBottom() {
   ];
 
   return (
-    <nav className="fixed bottom-0 left-0 right-0 flex border-t border-gray-300 justify-around bg-white shadow-lg w-full md:hidden">
+    <nav className="fixed bottom-0 flex border-t border-gray-300 justify-around bg-white shadow-lg w-full md:hidden">
       {/* UserBox overlay */}
       {openUserMenu && (
         <div className="absolute bottom-16 right-2 rounded bg-white border border-gray-300 p-4 animate-slide-up">

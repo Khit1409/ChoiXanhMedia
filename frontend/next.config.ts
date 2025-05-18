@@ -7,6 +7,7 @@ const nextConfig: NextConfig = {
       "thumbs.dreamstime.com",
       "choixanh.com.vn",
       "cdn2.tuoitre.vn",
+      "www.bing.com",
     ],
   },
 };

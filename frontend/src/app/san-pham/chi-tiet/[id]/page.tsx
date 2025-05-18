@@ -87,7 +87,8 @@ export default function ProductDetail() {
               </div>
 
               {/* Thumbnail */}
-              <div className="flex gap-2 overflow-x-auto justify-center">
+              <strong className="border-b">Tổng quan sản phẩm</strong>
+              <div className="grid grid-cols-6 gap-2 overflow-x-auto justify-center">
                 {products.images.map((imgs) =>
                   imgs.data.map((img, index) => (
                     <div

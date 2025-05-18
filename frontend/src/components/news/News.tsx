@@ -23,26 +23,26 @@ export interface NewsResponseItem {
   data: NewsItem[];
 }
 
-export default function TechnologyNews() {
-  const [news, setNews] = useState<NewsResponseItem[]>([]);
+export default function News() {
+  // const [news, setNews] = useState<NewsResponseItem[]>([]);
   const [newsTech, setNewsTech] = useState<NewsResponseItem[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const fetchNews = async () => {
-      try {
-        const res = await axios.get(
-          `http://demodienmay.181.atoz.vn/ww2/module.tintuc.trangchu.asp?id=35013`
-        );
-        if (Array.isArray(res.data)) {
-          setNews(res.data);
-        }
-      } catch (error) {
-        console.error("Error fetching news:", error);
-      } finally {
-        setLoading(false);
-      }
-    };
+    // const fetchNews = async () => {
+    //   try {
+    //     const res = await axios.get(
+    //       `http://demodienmay.181.atoz.vn/ww2/module.tintuc.trangchu.asp?id=35013`
+    //     );
+    //     if (Array.isArray(res.data)) {
+    //       // setNews(res.data);
+    //     }
+    //   } catch (error) {
+    //     console.error("Error fetching news:", error);
+    //   } finally {
+    //     setLoading(false);
+    //   }
+    // };
     // tech news
     const fetchTN = async () => {
       try {
@@ -54,10 +54,12 @@ export default function TechnologyNews() {
         }
       } catch (error) {
         console.error(error);
+      } finally {
+        setLoading(false);
       }
     };
     fetchTN();
-    fetchNews();
+    // fetchNews();
   }, []);
 
   if (loading) {
@@ -71,14 +73,18 @@ export default function TechnologyNews() {
   return (
     <div className="max-w-7xl mx-auto px-4 py-8 space-y-12">
       {/* Tin tuyển dụng */}
-      <section>
+      {/* <section>
         <h1 className="text-2xl font-bold text-cyan-600 mb-6">Tuyển Dụng</h1>
         <div className="grid grid-cols-1 gap-2">
           {news.map((group) =>
             group.data.map((n) => (
               <Link href={`${n.url}`} key={n.id} className="flex gap-2">
                 <Image
-                  src={`http://demodienmay.181.atoz.vn${n.hinhdaidien}`}
+                  src={`${
+                    n.hinhdaidien
+                      ? `http://demodienmay.181.atoz.vn${n.hinhdaidien}`
+                      : "https://www.bing.com/images/search?q=news+pic&id=1483EB8C3D2BE837D9D73581355351309E8B87A3&FORM=IACFIR"
+                  }`}
                   alt={n.tieude}
                   width={200}
                   height={200}
@@ -101,7 +107,7 @@ export default function TechnologyNews() {
             ))
           )}
         </div>
-      </section>
+      </section> */}
       {/*----Công nghệ----*/}
       <section>
         <h1 className="text-2xl font-bold text-cyan-600 mb-6">Công nghệ</h1>

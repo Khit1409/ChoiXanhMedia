@@ -56,19 +56,16 @@ export default function CommentReviewer() {
             comment.data.map((db) => (
               <div
                 key={db.id}
-                className="bg-white shadow-md rounded-2xl p-6 hover:shadow-lg transition-all duration-300 border"
+                className="bg-white flex shadow p-2 rounded"
               >
-                <div className="flex items-center gap-4 mb-4">
-                  <div className="w-16 h-16 relative rounded-full overflow-hidden bg-gray-200">
+                <div className="flex gap-4 mb-4 items-start">
+                  <div>
                     <Image
-                      src={
-                        db.hinhdaidien
-                          ? db.hinhdaidien
-                          : "https://thumbs.dreamstime.com/b/default-avatar-profile-icon-vector-social-media-user-photo-183042379.jpg"
-                      }
+                      src="https://thumbs.dreamstime.com/b/default-avatar-profile-icon-vector-social-media-user-photo-183042379.jpg"
                       alt={db.tieude}
-                      fill
-                      className="object-cover"
+                      width={200}
+                      height={200}
+                      className="rounded-full"
                     />
                   </div>
                   <div>
@@ -76,12 +73,12 @@ export default function CommentReviewer() {
                       {db.tieude}
                     </p>
                     <p className="text-sm text-gray-500">{db.ngaydang}</p>
+                    <div
+                      className="text-gray-700 text-sm"
+                      dangerouslySetInnerHTML={{ __html: db.noidungtomtat }}
+                    />
                   </div>
                 </div>
-                <div
-                  className="text-gray-700 text-sm"
-                  dangerouslySetInnerHTML={{ __html: db.noidungtomtat }}
-                />
               </div>
             ))
           )}
