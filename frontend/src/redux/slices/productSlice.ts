@@ -14,8 +14,9 @@ export const getAllProduct = createAsyncThunk<
 >("product/get-all", async (_, thunkAPI) => {
   try {
     const res = await axios.get(`http://localhost:5000/api/san-pham`);
-    if (res.data) {
-      return res.data.products;
+    if (res.data.products) {
+      const products = res.data.products;
+      return products;
     }
     return thunkAPI.rejectWithValue("Không có dữ liệu sản phẩm");
   } catch (error) {
@@ -25,27 +26,6 @@ export const getAllProduct = createAsyncThunk<
       );
     }
     return thunkAPI.rejectWithValue("Lỗi không xác định!");
-  }
-});
-
-// lấy sản phẩm cho trang riêng
-export const getProductByUrl = createAsyncThunk<
-  DataProductResponse[],
-  { producturl: string },
-  { rejectValue: string }
->("product/get-by-url", async ({ producturl }, thunkAPI) => {
-  try {
-    const response = await axios.get(
-      `http://localhost:5000/api/san-pham/${producturl}`
-    );
-    if (response.data) {
-      return response.data.product;
-    }
-  } catch (error) {
-    if (axios.isAxiosError(error)) {
-      return thunkAPI.rejectWithValue("Lỗi axios");
-    }
-    return thunkAPI.rejectWithValue("Lỗi không xác định");
   }
 });
 // lấy sản phẩm chi tiết
@@ -89,19 +69,6 @@ const productSlice = createSlice({
       })
       .addCase(getAllProduct.rejected, (state, action) => {
         state.error = action.payload ?? "Lỗi";
-        state.loading = false;
-      })
-      .addCase(getProductByUrl.pending, (state) => {
-        state.loading = true;
-        state.error = null;
-      })
-      .addCase(getProductByUrl.fulfilled, (state, action) => {
-        state.product = action.payload;
-        state.loading = false;
-        state.error = null;
-      })
-      .addCase(getProductByUrl.rejected, (state, action) => {
-        state.error = (action.payload as string) ?? "Lỗi";
         state.loading = false;
       })
       .addCase(getProductDetail.pending, (state) => {

@@ -50,7 +50,6 @@ export default function SignIn() {
         alert("Đăng nhập thành công");
         router.push("/");
         setFormData({ userid: "", pass: "" });
-        window.location.reload();
       }
     } catch (error) {
       console.log(error);
@@ -58,79 +57,81 @@ export default function SignIn() {
   };
 
   return (
-    <section className="flex items-center justify-center h-screen bg-gray-100">
-      <div className="flex md:flex-row flex-col gap-10 shadow-2xl w-[90%] md:w-[70%] p-8 rounded-lg bg-white">
+    <section className="d-flex justify-content-center align-items-center vh-100 bg-light">
+      <div
+        className="row shadow-lg bg-white rounded-4 p-4 w-100 mx-2 mx-md-0"
+        style={{ maxInlineSize: "900px" }}
+      >
         {/* Form Đăng nhập */}
-        <form
-          onSubmit={handleSignIn}
-          className="flex flex-col gap-4 md:w-1/2 w-full justify-around "
-        >
-          <h1 className="text-2xl font-bold text-gray-700 text-center">
-            Đăng nhập
-          </h1>
-          <input
-            type="text"
-            name="userid"
-            placeholder="Nhập email hoặc số điện thoại"
-            value={formData.userid}
-            onChange={handleOnchange}
-            className="border border-gray-300 rounded-full px-4 py-4 focus:outline-none focus:ring-2 focus:ring-blue-500"
-          />
-          <input
-            type="password"
-            name="pass"
-            placeholder="Nhập mật khẩu"
-            value={formData.pass}
-            onChange={handleOnchange}
-            className="border border-gray-300 rounded-full px-4 py-4 focus:outline-none focus:ring-2 focus:ring-blue-500"
-          />
-          <div className="flex items-center justify-center">
-            <button
-              type="submit"
-              className="bg-blue-600 text-white py-2 rounded-full w-1/2 hover:bg-blue-700 transition"
-            >
-              Đăng nhập
-            </button>
-          </div>
-        </form>
+        <div className="col-md-6 mb-4 mb-md-0">
+          <form onSubmit={handleSignIn} className="d-flex flex-column gap-3">
+            <h2 className="text-center text-primary fw-bold">Đăng nhập</h2>
+            <input
+              type="text"
+              name="userid"
+              value={formData.userid}
+              onChange={handleOnchange}
+              placeholder="Nhập email hoặc số điện thoại"
+              className="form-control form-control-lg rounded-pill"
+            />
+            <input
+              type="password"
+              name="pass"
+              value={formData.pass}
+              onChange={handleOnchange}
+              placeholder="Nhập mật khẩu"
+              className="form-control form-control-lg rounded-pill"
+            />
+            <div className="text-center">
+              <button
+                type="submit"
+                className="btn btn-primary w-50 rounded-pill"
+              >
+                Đăng nhập
+              </button>
+            </div>
+          </form>
+        </div>
 
-        {/* Sign in với MXH + Link đăng ký */}
-        <div className="md:w-1/2 w-full flex flex-col justify-center items-center gap-5">
-          <h2 className="text-center text-xl text-gray-600 font-semibold">
+        {/* Đăng nhập MXH + Link */}
+        <div className="col-md-6 d-flex flex-column align-items-center justify-content-center gap-3">
+          <h5 className="fw-semibold text-secondary">
             Đăng nhập với mạng xã hội
-          </h2>
-          <div className="grid grid-cols-2 gap-4 w-full">
-            <button className="flex items-center justify-center gap-2 bg-cyan-600 text-white py-2 rounded-full font-semibold">
-              <FontAwesomeIcon icon={faLinkedin} />
-              LinkedIn
-            </button>
-            <button className="flex items-center justify-center gap-2 bg-blue-600 text-white py-2 rounded-full font-semibold">
-              <FontAwesomeIcon icon={faFacebook} />
-              Facebook
-            </button>
-            <button className="flex items-center justify-center gap-2 bg-blue-400 text-white py-2 rounded-full font-semibold">
-              <FontAwesomeIcon icon={faTwitter} />
-              Twitter
-            </button>
-            <button className="flex items-center justify-center gap-2 bg-red-500 text-white py-2 rounded-full font-semibold">
-              <FontAwesomeIcon icon={faGoogle} />
-              Google
-            </button>
+          </h5>
+          <div className="row w-100 gy-2">
+            <div className="col-6">
+              <button className="btn btn-info text-white w-100 rounded-pill d-flex align-items-center justify-content-center gap-2">
+                <FontAwesomeIcon icon={faLinkedin} />
+                LinkedIn
+              </button>
+            </div>
+            <div className="col-6">
+              <button className="btn btn-primary w-100 rounded-pill d-flex align-items-center justify-content-center gap-2">
+                <FontAwesomeIcon icon={faFacebook} />
+                Facebook
+              </button>
+            </div>
+            <div className="col-6">
+              <button className="btn btn-secondary w-100 rounded-pill d-flex align-items-center justify-content-center gap-2">
+                <FontAwesomeIcon icon={faTwitter} />
+                Twitter
+              </button>
+            </div>
+            <div className="col-6">
+              <button className="btn btn-danger w-100 rounded-pill d-flex align-items-center justify-content-center gap-2">
+                <FontAwesomeIcon icon={faGoogle} />
+                Google
+              </button>
+            </div>
           </div>
-          <h2 className="text-center text-xl text-gray-600 font-semibold mt-4">
+          <h5 className="fw-semibold text-secondary mt-3">
             Chưa có tài khoản?
-          </h2>
-          <div className="flex gap-4">
-            <Link
-              href="/dang-ki"
-              className="bg-green-600 text-white px-6 py-2 rounded-full hover:bg-green-700 transition"
-            >
+          </h5>
+          <div className="d-flex gap-3">
+            <Link href="/dang-ki" className="btn btn-success rounded-pill">
               <FontAwesomeIcon icon={faUserPlus} /> Đăng ký
             </Link>
-            <Link
-              href="/"
-              className="bg-gray-500 text-white px-6 py-2 rounded-full hover:bg-gray-600 transition"
-            >
+            <Link href="/" className="btn btn-dark rounded-pill">
               <FontAwesomeIcon icon={faHouse} /> Trang chủ
             </Link>
           </div>

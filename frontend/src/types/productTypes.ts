@@ -54,12 +54,12 @@ export interface ProductInfo {
   hienthibinhluan: boolean;
   // thong so
   [thongso: string]: unknown;
-  // 
+  //
   ngaydang: Date;
   ma: string;
-  gia:number;
-  giakhuyenmai:number;
-  giasi:number;
+  gia: number;
+  giakhuyenmai: number;
+  giasi: number;
   // không lấy
   hinhdaidien: string;
   hinhlienquan: Array<{
@@ -68,7 +68,7 @@ export interface ProductInfo {
     hinhdaidien: string;
     tieude: string;
   }>;
-  // 
+  //
   url: string;
   luotxem: number;
   tieude: string;
@@ -81,17 +81,15 @@ export interface ProductDetail {
 }
 // interface chính
 export interface ProductState {
-  products: DataProductResponse[] | DataProductResponse | null;
+  products: DataProductResponse[]| null;
   productDetail: ProductDetail[] | null;
   menu: Menu[] | null;
   loading: boolean;
-  product: DataProductResponse[] | null;
   error: string | null;
 }
 //initial state
 export const initialState: ProductState = {
   products: null,
-  product: null,
   menu: null,
   loading: false,
   productDetail: null,

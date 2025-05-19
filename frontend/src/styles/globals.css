@@ -1,6 +1,5 @@
 @import url("https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Nunito:ital,wght@0,200..1000;1,200..1000&display=swap");
-
-@import "tailwindcss";
+@import "bootstrap/dist/css/bootstrap.min.css";
 
 :root {
   --background: #ffffff;
@@ -33,6 +32,84 @@ body {
   font-weight: bold;
   font-size: 20px;
 }
+.bg-primary-second{
+  background-color:rgb(37, 134, 244);
+}
 a {
   cursor: pointer;
+}
+.containerPage {
+  inline-size: 100%;
+}
+.productNavigation {
+  font-size: 14px;
+}
+.productDescription p {
+  font-size: 12px;
+}
+.productDescription h2 {
+  font-size: 15px;
+}
+.productDescription h1 {
+  font-size: 16px;
+}
+.productDescription h3 {
+  font-size: 13px;
+}
+.navbarProductDetail {
+  font-size: 12px;
+}
+.productTitle {
+  color: #000000;
+  font-size: 12px;
+}
+/*  */
+.spinContainer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.spinIcon {
+  inline-size: 50px;
+  block-size: 50px;
+  border-radius: 100%;
+  border: solid 2px gray;
+  animation: spinAnimation linear infinite;
+  border-block-start: transparent;
+}
+.zoom-hover {
+  transition: transform 0.3s ease;
+}
+.zoom-hover img{
+  block-size: 100px;
+  inline-size: auto;
+}
+.zoom-hover:hover {
+  transform: scale(1.1); /* Zoom lên 10% */
+}
+.bg-gray{
+  background-color: rgba(166, 163, 163, 0.919);
+}
+.productInfo{
+  font-size: 13px;
+}
+@keyframes spinAnimation {
+  100% {
+    transform: rotate(360deg);
+  }
+}
+/* nhỏ hơn thì khác */
+@media (max-width: 750px) {
+  .mobileNavbar {
+    display: none;
+  }
+  .productRows {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+/* lớn hơn thì khác */
+@media (min-width: 750px) {
+  .productRows {
+    grid-template-columns: repeat(5, 1fr);
+  }
 }

@@ -2,7 +2,6 @@ import express from "express";
 import {
   addToCart,
   getAllProduct,
-  getAllProductByUrl,
   getProductDetail,
 } from "../controllers/productController";
 
@@ -14,10 +13,6 @@ productroutes.get("/chi-tiet/:id", async (req, res) => {
 });
 productroutes.post("/them-gio-hang", async (req, res) => {
   await addToCart(req, res);
-});
-//lấy sản phẩm theo trang
-productroutes.get("/:producturl", async (req, res) => {
-  await getAllProductByUrl(req, res);
 });
 // Lấy toàn bộ sản phẩm
 productroutes.get("/", async (req, res) => {

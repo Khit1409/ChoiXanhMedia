@@ -10,7 +10,7 @@ const app = express();
 
 // Cấu hình CORS
 const corsOptions = {
-  origin: "http://localhost:3000",
+  origin: ["http://localhost:3000", "http://192.168.137.1:3000"],
   credentials: true,
 };
 

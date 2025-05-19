@@ -19,27 +19,21 @@ export default function UserBox() {
 
   return (
     <div>
-      <div className="text-center mb-4">
-        <p className="text-gray-600 text-sm">Tài khoản</p>
-        <p className="font-semibold text-lg text-blue-700">
-          {decoded.users.userid}
-        </p>
-      </div>
-      <ul className="space-y-2">
+      <ul className="py-2 list-unstyled m-0">
         {decoded.menu.map((item) => (
-          <li key={item.id}>
+          <li key={item.id} className="mb-2">
             <a
               {...(item.tenham === "dang-thoat"
-                ? { onClick: handleLogout }
+                ? { onClick: handleLogout, role: "button" }
                 : { href: item.url })}
-              className="block bg-gray-100 hover:bg-gray-200 transition-colors duration-200 text-gray-800 rounded px-3 py-2"
+              className="d-block text-black rounded px-3 py-2 text-decoration-none"
+              style={{ transition: "background-color 0.2s ease" }}
             >
-              {item.tieude}
+              {item.tieude === "Đăng thoát" ? "Đăng xuất" : item.tieude}
             </a>
           </li>
         ))}
       </ul>
-      4
     </div>
   );
 }

@@ -46,37 +46,34 @@ export default function CommentReviewer() {
   }, []);
 
   return (
-    <div className="max-w-6xl mx-auto px-4 py-10">
-      <h2 className="text-3xl font-bold text-center mb-8 text-gray-800">
-        Ý Kiến Khách Hàng
-      </h2>
-      <div className="grid gap-6 sm:grid-cols-1 md:grid-cols-2 lg:grid-cols-3">
+    <div className="container py-3">
+      <h2 className="text-center fw-bold mb-4 text-dark">Ý Kiến Khách Hàng</h2>
+      <div className="row g-4">
         {comments &&
           comments.map((comment) =>
             comment.data.map((db) => (
-              <div
-                key={db.id}
-                className="bg-white flex shadow p-2 rounded"
-              >
-                <div className="flex gap-4 mb-4 items-start">
-                  <div>
-                    <Image
-                      src="https://thumbs.dreamstime.com/b/default-avatar-profile-icon-vector-social-media-user-photo-183042379.jpg"
-                      alt={db.tieude}
-                      width={200}
-                      height={200}
-                      className="rounded-full"
-                    />
-                  </div>
-                  <div>
-                    <p className="font-semibold text-lg text-gray-900">
-                      {db.tieude}
-                    </p>
-                    <p className="text-sm text-gray-500">{db.ngaydang}</p>
-                    <div
-                      className="text-gray-700 text-sm"
-                      dangerouslySetInnerHTML={{ __html: db.noidungtomtat }}
-                    />
+              <div className="col-12 col-md-6 col-lg-4" key={db.id}>
+                <div className=" shadow-sm h-100">
+                  <div className="d-flex gap-3 align-items-start">
+                    <div>
+                      <Image
+                        src="https://thumbs.dreamstime.com/b/default-avatar-profile-icon-vector-social-media-user-photo-183042379.jpg"
+                        alt={db.tieude}
+                        width={80}
+                        height={80}
+                        className="rounded-circle"
+                      />
+                    </div>
+                    <div>
+                      <p className="fw-semibold h6 text-dark mb-1">
+                        {db.tieude}
+                      </p>
+                      <p className="text-muted small mb-2">{db.ngaydang}</p>
+                      <div
+                        className="text-secondary small"
+                        dangerouslySetInnerHTML={{ __html: db.noidungtomtat }}
+                      />
+                    </div>
                   </div>
                 </div>
               </div>

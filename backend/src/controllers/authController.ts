@@ -2,11 +2,12 @@ import axios from "axios";
 import { Request, Response } from "express";
 import jwt from "jsonwebtoken";
 import crypto from "crypto";
-interface LoginResponse {
+interface ResponseAPI {
   ThongBao: string;
   maloi: number;
   memberid: string;
   user: string;
+  email: string;
   chucnang: string;
 }
 interface MenuUser {
@@ -24,7 +25,7 @@ export const login = async (req: Request, res: Response) => {
     const response = await axios.post(
       `https://choixanh.com.vn/ww1/userlogin.asp?userid=${userid}&pass=${pass}`
     );
-    const data = response.data as LoginResponse[];
+    const data = response.data as ResponseAPI[];
 
     if (
       data.map((db) => {
@@ -118,5 +119,42 @@ export const logout = async (req: Request, res: Response) => {
     return res.status(200).json({ message: "Đăng xuất thành công" });
   } catch (error) {
     return res.status(500).json({ message: "Đăng xuất thất bại", error });
+  }
+};
+
+//Đăng ký
+
+export const register = async (req: Request, res: Response) => {
+  try {
+    //khai bao
+    const id2 = req.body.id2;
+    const loaithanhvien = req.body.loaithanhvien;
+    const tenkh = req.body.tenkh;
+    const email = req.body.email;
+    const tel = req.body.tel;
+    const userid = req.body.userid;
+    const pass = req.body.pass;
+    // gọi api
+    const response = await axios.post(
+      `https://choixanh.com.vn/ww1/userlogin.asp?id2=${id2}&loaithanhvien=${loaithanhvien}&tenkh=${tenkh}&email=${email}&tel=${tel}&userid=${userid}&pass=${pass}`
+    );
+    // trả về kết quả
+    if (response.data) {
+      const results: ResponseAPI[] = response.data;
+      const message = results.map((rs) => {
+        return rs.ThongBao as string;
+      });
+      const mess = message[0];
+      if (
+        mess ===
+        "Tài khoản chưa kích hoạt, vui lòng làm theo hướng dẫn trong email"
+      ) {
+        return res.status(200).json({ message: "Thông báo", kq: mess });
+      } else {
+        return res.status(500).json({ message: "Thông báo", kq: mess });
+      }
+    }
+  } catch (error) {
+    return res.status(401).json({ message: "Loi server" });
   }
 };

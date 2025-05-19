@@ -24,26 +24,10 @@ export interface NewsResponseItem {
 }
 
 export default function News() {
-  // const [news, setNews] = useState<NewsResponseItem[]>([]);
   const [newsTech, setNewsTech] = useState<NewsResponseItem[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    // const fetchNews = async () => {
-    //   try {
-    //     const res = await axios.get(
-    //       `http://demodienmay.181.atoz.vn/ww2/module.tintuc.trangchu.asp?id=35013`
-    //     );
-    //     if (Array.isArray(res.data)) {
-    //       // setNews(res.data);
-    //     }
-    //   } catch (error) {
-    //     console.error("Error fetching news:", error);
-    //   } finally {
-    //     setLoading(false);
-    //   }
-    // };
-    // tech news
     const fetchTN = async () => {
       try {
         const res = await axios.get(
@@ -59,86 +43,55 @@ export default function News() {
       }
     };
     fetchTN();
-    // fetchNews();
   }, []);
 
   if (loading) {
     return (
-      <p className="text-center text-gray-500 py-10 text-lg">
-        Đang tải tin tức...
-      </p>
+      <p className="text-center text-muted py-5 fs-5">Đang tải tin tức...</p>
     );
   }
 
   return (
-    <div className="max-w-7xl mx-auto px-4 py-8 space-y-12">
-      {/* Tin tuyển dụng */}
-      {/* <section>
-        <h1 className="text-2xl font-bold text-cyan-600 mb-6">Tuyển Dụng</h1>
-        <div className="grid grid-cols-1 gap-2">
-          {news.map((group) =>
-            group.data.map((n) => (
-              <Link href={`${n.url}`} key={n.id} className="flex gap-2">
-                <Image
-                  src={`${
-                    n.hinhdaidien
-                      ? `http://demodienmay.181.atoz.vn${n.hinhdaidien}`
-                      : "https://www.bing.com/images/search?q=news+pic&id=1483EB8C3D2BE837D9D73581355351309E8B87A3&FORM=IACFIR"
-                  }`}
-                  alt={n.tieude}
-                  width={200}
-                  height={200}
-                  className=""
-                />
-
-                <div className="flex flex-col gap-2">
-                  <p className="text-cyan-500 ">{n.tieude}</p>
-                  <p dangerouslySetInnerHTML={{ __html: n.noidungtomtat }} />
-                  <p className="text-xs text-gray-400">
-                    Đăng ngày:{" "}
-                    {new Date(n.ngaydang).toLocaleDateString("vi-VN", {
-                      day: "2-digit",
-                      month: "2-digit",
-                      year: "numeric",
-                    })}
-                  </p>
-                </div>
-              </Link>
-            ))
-          )}
-        </div>
-      </section> */}
-      {/*----Công nghệ----*/}
+    <div className="container py-4">
       <section>
-        <h1 className="text-2xl font-bold text-cyan-600 mb-6">Công nghệ</h1>
-        <div className="grid md:grid-cols-2 grid-cols-1 gap-2">
+        <h1 className="h4 fw-bold text-info mb-4">Công nghệ</h1>
+        <div className="row row-cols-1 row-cols-md-2 g-3">
           {newsTech &&
             newsTech.map((news) =>
               news.data.map((newx) => (
-                <Link href={newx.url} key={newx.id} className="flex gap-2">
-                  <Image
-                    src={`${newx.hinhdaidien}`}
-                    width={200}
-                    height={200}
-                    alt={`${newx.tieude}`}
-                  />
-                  <div>
-                    <p className="text-blue-500 hover:underline">
-                      {newx.tieude}
-                    </p>
-                    <p
-                      dangerouslySetInnerHTML={{ __html: newx.noidungtomtat }}
+                <div key={newx.id} className="col">
+                  <Link
+                    href={newx.url}
+                    className="d-flex gap-3 text-decoration-none"
+                  >
+                    <Image
+                      src={newx.hinhdaidien}
+                      width={200}
+                      height={150}
+                      alt={newx.tieude}
+                      className="flex-shrink-0"
                     />
-                    <p className="text-xs text-gray-400">
-                      Đăng ngày:{" "}
-                      {new Date(newx.ngaydang).toLocaleDateString("vi-VN", {
-                        day: "2-digit",
-                        month: "2-digit",
-                        year: "numeric",
-                      })}
-                    </p>
-                  </div>
-                </Link>
+                    <div>
+                      <p className="text-primary fw-semibold mb-1">
+                        {newx.tieude}
+                      </p>
+                      <div
+                        className="text-dark small mb-1"
+                        dangerouslySetInnerHTML={{
+                          __html: newx.noidungtomtat,
+                        }}
+                      />
+                      <p className="text-muted small">
+                        Đăng ngày:{" "}
+                        {new Date(newx.ngaydang).toLocaleDateString("vi-VN", {
+                          day: "2-digit",
+                          month: "2-digit",
+                          year: "numeric",
+                        })}
+                      </p>
+                    </div>
+                  </Link>
+                </div>
               ))
             )}
         </div>
