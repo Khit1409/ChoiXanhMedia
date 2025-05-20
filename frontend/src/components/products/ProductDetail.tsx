@@ -10,17 +10,20 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import ProductContainer from "./ProductContainer";
 import SpinAnimation from "../items/SpinAnimation";
+import { useRouter } from "next/navigation";
 
 export default function ProductDetail() {
   //reducer
   const dispatch = useDispatch<AppDispatch>();
   const { productDetail } = useSelector((state: RootState) => state.products);
   const { decoded } = useSelector((state: RootState) => state.auths);
-
+  const { loggedIn } = useSelector((state: RootState) => state.auths);
   // request
   const userid = decoded?.users.userid;
   const pass = decoded?.users.pass;
   const { id } = useParams() as { id: string };
+  // hook
+  const router = useRouter();
 
   // state use in component
   const [mainImg, setMainImg] = useState<string | null>(null);
@@ -46,6 +49,9 @@ export default function ProductDetail() {
   //handle add product to cart
   const handleAddToCart = async () => {
     try {
+      if (!loggedIn) {
+        router.push("/dang-nhap");
+      }
       const result = await dispatch(
         addToCart({ userid: userid as string, pass: pass as string, id: id })
       );
@@ -82,7 +88,7 @@ export default function ProductDetail() {
         productDetail.map((products, idx) => (
           <div key={idx}>
             {/* Breadcrumb */}
-            <div className="row mb-3 bg-body py-2">
+            <div className="row mb-3 py-2">
               <div className="navbarProductDetail">
                 <a
                   href="https://www.choixanh.com.vn"
@@ -114,7 +120,7 @@ export default function ProductDetail() {
             <div className="row mb-5">
               {/* Ảnh sản phẩm */}
               <div className="col-md-6 mb-4">
-                <div className="p-3 shadow-sm">
+                <div className="p-3 shadow-sm ">
                   <div className="text-center mb-3">
                     {mainImg && (
                       <Image
@@ -126,7 +132,7 @@ export default function ProductDetail() {
                       />
                     )}
                   </div>
-                  <h5 className="border-bottom pb-2">Tổng quan sản phẩm</h5>
+                  <h5 className="border-bottom pb-2 ">Tổng quan sản phẩm</h5>
                   <div className="row g-3 gap-1 mt-2">
                     {products.images.map((imgs, groupIndex) =>
                       imgs.data.map((img, imgIndex) => (

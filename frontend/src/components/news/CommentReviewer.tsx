@@ -1,3 +1,5 @@
+"use client";
+
 import axios from "axios";
 import Image from "next/image";
 import { useEffect, useState } from "react";
@@ -48,12 +50,12 @@ export default function CommentReviewer() {
   return (
     <div className="container py-3">
       <h2 className="text-center fw-bold mb-4 text-dark">Ý Kiến Khách Hàng</h2>
-      <div className="row g-4">
+      <div className="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
         {comments &&
           comments.map((comment) =>
             comment.data.map((db) => (
-              <div className="col-12 col-md-6 col-lg-4" key={db.id}>
-                <div className=" shadow-sm h-100">
+              <div className="col-12 col-md-6 col-lg-4 " key={db.id}>
+                <div className="bg-white px-1 shadow-sm h-100">
                   <div className="d-flex gap-3 align-items-start">
                     <div>
                       <Image

@@ -81,7 +81,7 @@ export default function News() {
                           __html: newx.noidungtomtat,
                         }}
                       />
-                      <p className="text-muted small">
+                      <p className="text-muted small ">
                         Đăng ngày:{" "}
                         {new Date(newx.ngaydang).toLocaleDateString("vi-VN", {
                           day: "2-digit",

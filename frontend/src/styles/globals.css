@@ -1,4 +1,4 @@
-@import url("https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Nunito:ital,wght@0,200..1000;1,200..1000&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Ancizar+Sans:ital,wght@0,100..1000;1,100..1000&family=Montserrat:ital,wght@0,100..900;1,100..900&family=Nunito:ital,wght@0,200..1000;1,200..1000&display=swap");
 @import "bootstrap/dist/css/bootstrap.min.css";
 
 :root {
@@ -24,7 +24,7 @@
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: "Nunito", sans-serif;
   min-inline-size: l00vh;
 }
 .nav-link {
@@ -78,11 +78,14 @@ a {
   animation: spinAnimation linear infinite;
   border-block-start: transparent;
 }
+.whiteSmoke {
+  background-color: rgb(238, 239, 239);
+}
 .zoom-hover {
   transition: tranform 0.3s infinite;
 }
 .zoom-hover img {
-  block-size: 100px;
+  block-size: auto;
   inline-size: auto;
 }
 .zoom-hover:hover {

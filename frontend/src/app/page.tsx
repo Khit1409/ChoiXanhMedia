@@ -6,10 +6,8 @@ import ProductContainer from "@/components/products/ProductContainer";
 
 export default function Home() {
   return (
-    <main style={{ backgroundColor: "whitesmoke" }}>
-      <div style={{ backgroundColor: "whitesmoke" }}>
-        <ProductContainer />
-      </div>
+    <main>
+      <ProductContainer />
       <CommentReviewer />
       <News />
     </main>

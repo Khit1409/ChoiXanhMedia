@@ -78,3 +78,11 @@ https://choixanh.com.vn/ww2/module.sanpham.chitiet.boloc.asp?id=60009
 https://choixanh.com.vn/ww2/tinhnang.hinhanh.idpart.asp?id=60009
 //api mô tả sản phẩm
 https://choixanh.com.vn/ww2/module.sanpham.chitiet.asp?id=60009
+
+**_NOTE CHO MAI_**
+
+- Làm trang cho người dùng
+- Làm trang tin tức
+- Làm trang giải trí
+- Làm trang tuyển dụng
+- Làm trang đăng ký

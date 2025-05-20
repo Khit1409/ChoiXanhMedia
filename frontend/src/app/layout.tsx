@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Nunito } from "next/font/google";
 import "../styles/globals.css";
 import "../icons/fontawesome";
 import { ReduxProvider } from "@/redux/provider";
@@ -8,15 +8,15 @@ import Header from "@/components/sections/header";
 import Footer from "@/components/sections/footer";
 import "bootstrap/dist/css/bootstrap.min.css";
 
-const geistSans = Geist({
+const geistSans = Nunito({
   variable: "--font-geist-sans",
   subsets: ["latin"],
 });
 
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-});
+// const geistMono = Geist_Mono({
+//   variable: "--font-geist-mono",
+//   subsets: ["latin"],
+// });
 
 export const metadata: Metadata = {
   title:
@@ -47,13 +47,13 @@ export default function RootLayout({
         />
       </head>
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        className={`${geistSans.variable} antialiased`}
       >
         <main className="containerPage">
           <ReduxProvider>
             <AuthProvider>
               <Header />
-              {children}
+              <div className="container">{children}</div>
               <Footer />
             </AuthProvider>
           </ReduxProvider>

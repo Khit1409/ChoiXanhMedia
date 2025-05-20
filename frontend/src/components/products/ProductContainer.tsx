@@ -56,10 +56,10 @@ export default function ProductContainer() {
             <div className="row row-cols-2 row-cols-sm-3 row-cols-md-4 row-cols-lg-6 g-2">
               {items.data.map((product_detail) =>
                 product_detail.hinhdaidien ? (
-                  <div className="col " key={`product-${product_detail.id}`}>
+                  <div className="col" key={`product-${product_detail.id}`}>
                     <Link
                       href={`/san-pham/chi-tiet/${product_detail.id}`}
-                      className="border bg-white d-block text-decoration-none text-dark p-2 zoom-hover"
+                      className="border h-100 bg-white d-block text-decoration-none text-dark p-2 zoom-hover"
                     >
                       {product_detail.giakhuyenmai &&
                         product_detail.giakhuyenmai > 0 && (
