@@ -4,13 +4,17 @@ import dotenv from "dotenv";
 import productroutes from "./src/routes/productRoutes";
 import authrouter from "./src/routes/authRoutes";
 import cookieParser from "cookie-parser";
+// import connectDB from "./src/db/db";
 dotenv.config();
 
 const app = express();
 
+// database connect
+// connectDB();
+
 // Cấu hình CORS
 const corsOptions = {
-  origin: ["http://localhost:3000", "http://192.168.137.1:3000"],
+  origin: ["http://localhost:3000"],
   credentials: true,
 };
 

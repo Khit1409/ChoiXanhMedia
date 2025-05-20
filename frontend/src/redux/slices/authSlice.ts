@@ -1,45 +1,8 @@
+import { Decoded, LoginResponse, initialState } from "@/types/authType";
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
 
-interface Decoded {
-  users: { userid: string; pass: string };
-  token: string;
-  menu: {
-    id: string;
-    tieude: string;
-    url: string;
-    module: string;
-    tenham: string;
-  }[];
-}
-
-interface LoginResponse {
-  message: string;
-  results: string;
-  users: {
-    userid: string;
-    pass: string;
-  }[];
-  token: string;
-}
-
-interface AuthState {
-  loading: boolean;
-  decoded: Decoded| null;
-  error: string | null;
-  loggedIn: boolean;
-  users: LoginResponse | null;
-  mess: string | null;
-}
-
-const initialState: AuthState = {
-  decoded: null,
-  loading: false,
-  error: null,
-  users: null,
-  mess: null,
-  loggedIn: false,
-};
+const auhtApiUrl = process.env.NEXT_PUBLIC_AUTH_API;
 
 //authenticated
 export const checkAuth = createAsyncThunk<
@@ -48,7 +11,7 @@ export const checkAuth = createAsyncThunk<
   { rejectValue: string }
 >("auth/checkAuth", async (_, thunkAPI) => {
   try {
-    const response = await axios.get("http://localhost:5000/api/auth/check", {
+    const response = await axios.get(`http://localhost:5000/api/auth/check`, {
       withCredentials: true,
     });
     return response.data as Decoded;
@@ -67,7 +30,7 @@ export const login = createAsyncThunk<
 >("auth/login", async ({ userid, pass }, thunkAPI) => {
   try {
     const response = await axios.post(
-      "http://localhost:5000/api/auth/login",
+      `http://localhost:5000/api/auth/login`,
       { userid, pass },
       { withCredentials: true }
     );
@@ -84,7 +47,7 @@ export const logout = createAsyncThunk<string, void, { rejectValue: string }>(
   async (_, thunkAPI) => {
     try {
       const response = await axios.post(
-        `http://localhost:5000/api/auth/logout`,
+        `${auhtApiUrl}/logout`,
         {},
         { withCredentials: true }
       );

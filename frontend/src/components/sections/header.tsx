@@ -7,6 +7,7 @@ import {
   faFile,
   faHeadphones,
   faHouse,
+  faLongArrowAltRight,
   faNewspaper,
   faSearch,
   faUser,
@@ -26,27 +27,20 @@ import {
   faYoutube,
 } from "@fortawesome/free-brands-svg-icons";
 import Image from "next/image";
-import {  useRouter } from "next/navigation";
 
 export default function Header() {
   const [openMenu, setOpenMenu] = useState(false);
   const dispatch = useDispatch<AppDispatch>();
   const { loggedIn } = useSelector((state: RootState) => state.auths);
-  const [openUserMenu, setOpenUserMenu] = useState(false);
   const { products } = useSelector((state: RootState) => state.products);
   const [openProductMenu, setOpenProductMenu] = useState(false);
-  const router = useRouter()
+  const [url, setUrl] = useState<string>();
   //mở navbar reponsive
   const toggleResponsive = () => {
     setOpenMenu((prev) => !prev);
-    setOpenUserMenu(false);
+    setOpenProductMenu(false);
   };
 
-  //open menu
-  const handleOpenUserMenu = () => {
-    setOpenMenu(false);
-    setOpenUserMenu(!openUserMenu);
-  };
   const handleOpenProductMenu = () => {
     setOpenProductMenu(!openProductMenu);
   };
@@ -109,7 +103,6 @@ export default function Header() {
           </li>
           <li>
             <a
-              onClick={handleOpenUserMenu}
               href="/trang-ca-nhan"
               className="text-reset text-decoration-none d-flex gap-1 align-items-center"
             >
@@ -141,17 +134,21 @@ export default function Header() {
             className="form-control text-center bg-white rounded-0"
             placeholder="Tìm kiếm sản phẩm..."
             style={{ inlineSize: "90%" }}
+            onChange={(e) => setUrl(e.target.value)}
           />
-          <button className="btn rounded-0 btn-primary" onClick={(e)=>router.push(`#${e.target.name,e.target.value}`)}>
+          <a
+            className="btn rounded-0 btn-primary"
+            href={`#${url ? toSlug(url as string) : ""}`}
+          >
             <FontAwesomeIcon icon={faSearch} />
-          </button>
+          </a>
         </form>
 
         {/* button */}
         <div className="d-flex gap-2">
           {loggedIn ? (
             <div className="d-flex gap-2">
-              <Link href={"/"}>
+              <Link href={"/gio-hang"}>
                 <button className="btn btn-outline-primary position-relative">
                   <FontAwesomeIcon icon={faCartShopping} />
                   {/* Badge số lượng giỏ hàng (nếu có) */}
@@ -164,7 +161,11 @@ export default function Header() {
                 onClick={handleLogout}
                 className="btn btn-outline-primary"
               >
-                <span className="d-block">Đăng xuất</span>
+                <span className="d-md-block d-none">Đăng xuất</span>
+                <FontAwesomeIcon
+                  icon={faLongArrowAltRight}
+                  className="d-md-none d-block"
+                />
               </button>
             </div>
           ) : (
@@ -214,11 +215,10 @@ export default function Header() {
           </li>
           <li className="position-relative">
             <a
-              href="#"
               onClick={handleOpenProductMenu}
-              className="text-white text-decoration-none pointer"
+              className=" text-white text-decoration-none pointer"
             >
-              <FontAwesomeIcon icon={faCartPlus} /> Sản phẩm
+              <FontAwesomeIcon icon={faCartPlus} /> Shop
             </a>
             {/*  */}
             {openProductMenu && (
@@ -259,7 +259,7 @@ export default function Header() {
       {/* Navigation menu - chỉ hiện khi openMenu = true */}
       {openMenu && (
         <nav
-          className="bg-success mt-1 py-1 d-md-none"
+          className="bg-success mt-1 py-1 d-md-none pb-3"
           style={{
             animation: "slideDown 0.3s ease forwards",
           }}
@@ -306,20 +306,6 @@ export default function Header() {
           </ul>
         </nav>
       )}
-
-      {/* Animation keyframes (optional, bạn có thể thêm vào CSS global) */}
-      <style jsx>{`
-        @keyframes slideDown {
-          0% {
-            opacity: 0;
-            transform: translateY(-10%);
-          }
-          100% {
-            opacity: 1;
-            transform: translateY(0);
-          }
-        }
-      `}</style>
     </div>
   );
 }

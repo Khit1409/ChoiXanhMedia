@@ -54,7 +54,7 @@ export const login = async (req: Request, res: Response) => {
         .status(200)
         .json({
           message: "ĐĂNG NHẬP THÀNH CÔNG",
-          results: "thanh cong",
+          results: "Thành công!",
           users: {
             userid,
             pass: hashPass,
@@ -84,14 +84,14 @@ export const checkAuth = async (req: Request, res: Response) => {
     ) as jwt.JwtPayload;
 
     const { userid, pass, member } = decoded;
-    console.log("userid:", userid, "pass:", pass, "member:", member);
+    // console.log("userid:", userid, "pass:", pass, "member:", member);
 
     //lấy user menu
     const menu = await axios.get(
       `https://choixanh.com.vn/ww1/member.${member}.asp?userid=${userid}&pass=${pass}`
     );
     const menuRes = menu.data as MenuUser[];
-    console.log(menuRes);
+    // console.log(menuRes);
 
     if (!userid || !pass) {
       return res.status(401).json({ message: "Token không hợp lệ" });

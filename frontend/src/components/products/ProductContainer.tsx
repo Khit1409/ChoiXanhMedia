@@ -49,6 +49,9 @@ export default function ProductContainer() {
             key={`group-${items.id || items.url || Math.random()}`}
             className="p-4 mb-4"
           >
+            <h4 id={toSlug(items.tieude)}>
+              {items.tieude.toLocaleUpperCase()}
+            </h4>
             {/* sản phẩm */}
             <div className="row row-cols-2 row-cols-sm-3 row-cols-md-4 row-cols-lg-6 g-2">
               {items.data.map((product_detail) =>
@@ -69,7 +72,7 @@ export default function ProductContainer() {
 
                       <div className="d-flex justify-content-center">
                         <Image
-                          src={`http://choixanh.com.vn${product_detail.hinhdaidien}`}
+                          src={`${product_detail.hinhdaidien}`}
                           alt={product_detail.tieude || ""}
                           width={100}
                           height={100}

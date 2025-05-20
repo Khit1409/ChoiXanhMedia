@@ -79,10 +79,19 @@ export interface ProductDetail {
   images: ProductDetailImage[];
   info: ProductInfo[];
 }
+// interface
+export interface AddCartResponse {
+  ThongBao: string;
+  maloi: string | number;
+  link: string;
+  sobg: number;
+}
+
 // interface chính
 export interface ProductState {
-  products: DataProductResponse[]| null;
+  products: DataProductResponse[] | null;
   productDetail: ProductDetail[] | null;
+  addcart: AddCartResponse[] | null;
   menu: Menu[] | null;
   loading: boolean;
   error: string | null;
@@ -91,6 +100,7 @@ export interface ProductState {
 export const initialState: ProductState = {
   products: null,
   menu: null,
+  addcart: null,
   loading: false,
   productDetail: null,
   error: null,

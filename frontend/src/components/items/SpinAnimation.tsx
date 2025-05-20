@@ -4,6 +4,6 @@ import React from 'react'
 
 export default function SpinAnimation() {
   return (
-      <span className='spinIcon'/>
+      <div className='spinIcon zoom-hover'/>
   )
 }

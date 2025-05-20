@@ -25,6 +25,7 @@ body {
   background: var(--background);
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
+  min-inline-size: l00vh;
 }
 .nav-link {
   font-family: var(--font-nav-link);
@@ -32,8 +33,8 @@ body {
   font-weight: bold;
   font-size: 20px;
 }
-.bg-primary-second{
-  background-color:rgb(37, 134, 244);
+.bg-primary-second {
+  background-color: rgb(37, 134, 244);
 }
 a {
   cursor: pointer;
@@ -78,19 +79,19 @@ a {
   border-block-start: transparent;
 }
 .zoom-hover {
-  transition: transform 0.3s ease;
+  transition: tranform 0.3s infinite;
 }
-.zoom-hover img{
+.zoom-hover img {
   block-size: 100px;
   inline-size: auto;
 }
 .zoom-hover:hover {
   transform: scale(1.1); /* Zoom lên 10% */
 }
-.bg-gray{
+.bg-gray {
   background-color: rgba(166, 163, 163, 0.919);
 }
-.productInfo{
+.productInfo {
   font-size: 13px;
 }
 @keyframes spinAnimation {
