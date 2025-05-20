@@ -1,4 +1,4 @@
-import Entertaiment from '@/components/items/Entertaiment'
+import Entertaiment from '@/components/news/Entertaiment'
 import React from 'react'
 
 export default function Page() {

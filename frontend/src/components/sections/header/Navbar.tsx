@@ -18,7 +18,7 @@ type PropsType = {
   openMenu: boolean;
 };
 
-export default function Navbar({ openMenu}: PropsType) {
+export default function Navbar({ openMenu }: PropsType) {
   const { loggedIn } = useSelector((state: RootState) => state.auths);
 
   const toggleResponsive = () => {
@@ -57,46 +57,62 @@ export default function Navbar({ openMenu}: PropsType) {
               <FontAwesomeIcon icon={faFile} /> Tuyển dụng
             </Link>
           </li>
-          <li className="position-relative">
+          <li className="openProductMenu list-unstyled">
             <a
               onClick={handleOpenProductMenu}
-              className=" text-white text-decoration-none pointer"
+              className="text-white text-decoration-none cursor-pointer d-inline-block"
+              role="button"
             >
               <FontAwesomeIcon icon={faCartPlus} /> Shop
             </a>
-            {/*  */}
-            {openProductMenu && (
-              <ul className="">
-                {Array.isArray(products) &&
-                  products.map((item) => {
-                    if (!item.metadescriptions) return null;
-                    const url = toSlug(item.tieude as string);
-                    return (
-                      <li
-                        key={item.id || Math.random()}
-                        className="list-unstyled"
+            {/* Dropdown sản phẩm */}
+            <ul className="productMenu bg-success position-absolute p-2 top-5 rounded shadow w-auto">
+              {Array.isArray(products) &&
+                products.map((item) => {
+                  if (!item.metadescriptions) return null;
+                  const url = toSlug(item.tieude as string);
+                  return (
+                    <li
+                      key={item.id || Math.random()}
+                      className="list-unstyled"
+                    >
+                      <Link
+                        href={`/san-pham/${url}`}
+                        className="text-decoration-none text-white d-block py-1"
                       >
-                        <Link
-                          onClick={() => setOpenProductMenu(false)}
-                          href={`/san-pham/${url}`}
-                          className="text-decoration-none text-white"
-                        >
-                          {item.tieude}
-                        </Link>
-                      </li>
-                    );
-                  })}
-              </ul>
-            )}
+                        {item.tieude}
+                      </Link>
+                    </li>
+                  );
+                })}
+            </ul>
           </li>
-          <li>
-            <Link
-              href="/tin-tuc"
+
+          <li className="openNewsMenu list-unstyled">
+            <a
               onClick={toggleResponsive}
-              className="text-white text-decoration-none"
+              className="text-white text-decoration-none cursor-pointer d-inline-block"
             >
               <FontAwesomeIcon icon={faNewspaper} /> Tin tức
-            </Link>
+            </a>
+            <ul className="newsMenu position-absolute bg-success rounded shadow top-5 p-2 w-auto list-unstyled">
+              <li>
+                <Link
+                  className="text-decoration-none text-white d-block py-1"
+                  href={"/tin-tuc/nhip-song-so"}
+                >
+                  Nhịp sống số
+                </Link>
+              </li>
+              <li>
+                <Link
+                  className="text-decoration-none text-white d-block py-1"
+                  href={"/tin-tuc/tin-cong-nghe"}
+                >
+                  Công nghệ
+                </Link>
+              </li>
+            </ul>
           </li>
           <li>
             <Link
@@ -154,13 +170,30 @@ export default function Navbar({ openMenu}: PropsType) {
                     );
                   })}
                 <li>
-                  <Link
-                    href="/tin-tuc"
+                  <a
                     onClick={toggleResponsive}
                     className="text-white text-decoration-none"
                   >
-                    Tin tức
-                  </Link>
+                    Công nghệ
+                  </a>
+                  <ul className="list-unstyled">
+                    <li className="px-3 pt-2">
+                      <Link
+                        className="text-decoration-none text-white"
+                        href={"/tin-tuc/nhip-song-so"}
+                      >
+                        Nhịp sống số
+                      </Link>
+                    </li>
+                    <li className="px-3 pt-2">
+                      <Link
+                        className="text-decoration-none text-white"
+                        href={"/tin-tuc/tin-cong-nghe"}
+                      >
+                        Công nghệ
+                      </Link>
+                    </li>
+                  </ul>
                 </li>
                 <li>
                   <Link

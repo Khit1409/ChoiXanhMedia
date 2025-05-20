@@ -81,8 +81,5 @@ https://choixanh.com.vn/ww2/module.sanpham.chitiet.asp?id=60009
 
 **_NOTE CHO MAI_**
 
-- Làm trang cho người dùng
-- Làm trang tin tức
-- Làm trang giải trí
-- Làm trang tuyển dụng
 - Làm trang đăng ký
+- Làm banner, slice 

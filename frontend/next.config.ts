@@ -8,6 +8,8 @@ const nextConfig: NextConfig = {
       "choixanh.com.vn",
       "cdn2.tuoitre.vn",
       "www.bing.com",
+      "i1-sohoa.vnecdn.net",
+      "i2-vnexpress.vnecdn.net",
     ],
   },
 };

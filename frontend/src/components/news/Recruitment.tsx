@@ -23,15 +23,14 @@ export interface NewsResponseItem {
   data: NewsItem[];
 }
 
-export default function News() {
+export default function Recruitment() {
   const [newsTech, setNewsTech] = useState<NewsResponseItem[]>([]);
   const [loading, setLoading] = useState(true);
-
   useEffect(() => {
     const fetchTN = async () => {
       try {
         const res = await axios.get(
-          `https://choixanh.com.vn/ww2/module.tintuc.trangchu.asp?id=35139&sl=9&pageid=1`
+          `https://choixanh.com.vn/ww2/module.raovat.asp?id=35004`
         );
         if (Array.isArray(res.data)) {
           setNewsTech(res.data);
@@ -54,7 +53,7 @@ export default function News() {
   return (
     <div className="container py-4">
       <section>
-        <h1 className="h4 fw-bold text-info mb-4">Công nghệ</h1>
+        <h1 className="h4 fw-bold text-info mb-4">Tuyển dụng</h1>
         <div className="row row-cols-1 row-cols-md-2 g-3">
           {newsTech &&
             newsTech.map((news) =>

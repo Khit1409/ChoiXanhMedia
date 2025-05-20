@@ -1,3 +1,9 @@
+import Recruitment from "@/components/news/Recruitment";
+
 export default function page() {
-  return <div></div>;
+  return (
+    <div>
+      <Recruitment />
+    </div>
+  );
 }

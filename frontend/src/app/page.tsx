@@ -1,7 +1,7 @@
 "use client";
 
 import CommentReviewer from "@/components/news/CommentReviewer";
-import News from "@/components/news/News";
+import TechLife from "@/components/news/TechLife";
 import ProductContainer from "@/components/products/ProductContainer";
 
 export default function Home() {
@@ -9,7 +9,7 @@ export default function Home() {
     <main>
       <ProductContainer />
       <CommentReviewer />
-      <News />
+      <TechLife />
     </main>
   );
 }

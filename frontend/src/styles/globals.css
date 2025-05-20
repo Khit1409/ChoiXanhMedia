@@ -97,6 +97,18 @@ a {
 .productInfo {
   font-size: 13px;
 }
+.productMenu {
+  display: none;
+}
+.openProductMenu:hover .productMenu {
+  display: block;
+}
+.newsMenu {
+  display: none;
+}
+.openNewsMenu:hover .newsMenu {
+  display: block;
+}
 @keyframes spinAnimation {
   100% {
     transform: rotate(360deg);
