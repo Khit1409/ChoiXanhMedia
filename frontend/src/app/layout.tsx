@@ -6,17 +6,12 @@ import { ReduxProvider } from "@/redux/provider";
 import AuthProvider from "./AuthProvider";
 import Header from "@/components/sections/header";
 import Footer from "@/components/sections/footer";
-import "bootstrap/dist/css/bootstrap.min.css";
+import UserModel from "@/components/users/UserModel";
 
 const geistSans = Nunito({
   variable: "--font-geist-sans",
   subsets: ["latin"],
 });
-
-// const geistMono = Geist_Mono({
-//   variable: "--font-geist-mono",
-//   subsets: ["latin"],
-// });
 
 export const metadata: Metadata = {
   title:
@@ -46,13 +41,12 @@ export default function RootLayout({
           href="https://fonts.googleapis.com/icon?family=Material+Icons+Outlined&display=block"
         />
       </head>
-      <body
-        className={`${geistSans.variable} antialiased`}
-      >
+      <body className={`${geistSans.variable} antialiased`}>
         <main className="containerPage">
           <ReduxProvider>
             <AuthProvider>
               <Header />
+              <UserModel />
               <div className="container">{children}</div>
               <Footer />
             </AuthProvider>

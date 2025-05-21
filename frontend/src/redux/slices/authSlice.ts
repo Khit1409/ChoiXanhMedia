@@ -40,7 +40,42 @@ export const login = createAsyncThunk<
       return thunkAPI.rejectWithValue("Đăng nhập thất bại");
   }
 });
-
+//register
+export const register = createAsyncThunk<
+  number,
+  {
+    id2: string;
+    userid: string;
+    loaithanhvien: string;
+    tenkh: string;
+    tel: string;
+    email: string;
+    pass: string;
+  },
+  { rejectValue: string }
+>(
+  "auth/register",
+  async ({ id2, userid, loaithanhvien, tenkh, tel, email, pass }, thunkAPI) => {
+    try {
+      const res = await axios.post("http://localhost:5000/api/auth/dang-ky", {
+        id2,
+        userid,
+        loaithanhvien,
+        tenkh,
+        tel,
+        email,
+        pass,
+      });
+      if (res.data.code) {
+        return res.data.code;
+      }
+    } catch (error) {
+      if (axios.isAxiosError(error))
+        return thunkAPI.rejectWithValue("Đăng ký thất bại");
+    }
+    return thunkAPI.rejectWithValue("Lỗi không xác định!!!");
+  }
+);
 //logout
 export const logout = createAsyncThunk<string, void, { rejectValue: string }>(
   "auth/logout",
@@ -62,11 +97,16 @@ export const logout = createAsyncThunk<string, void, { rejectValue: string }>(
     }
   }
 );
-
+//slice
 const authSlice = createSlice({
   name: "auth",
   initialState,
-  reducers: {},
+  reducers: {
+    //open user menu
+    handleOpenUserMenu: (state, action) => {
+      state.openMenu = action.payload;
+    },
+  },
   extraReducers: (builder) => {
     builder
       // checkauth
@@ -114,8 +154,23 @@ const authSlice = createSlice({
         state.loading = false;
         state.loggedIn = false;
         state.error = action.payload || "Lỗi đăng nhập";
+      })
+      //register
+      .addCase(register.pending, (state) => {
+        state.error = null;
+        state.loading = true;
+        state.successCode = 0;
+      })
+      .addCase(register.fulfilled, (state, action) => {
+        state.successCode = action.payload;
+        state.loading = false;
+      })
+      .addCase(register.rejected, (state, action) => {
+        state.loading = false;
+        state.error = action.payload as string;
       });
   },
 });
 
 export default authSlice.reducer;
+export const { handleOpenUserMenu } = authSlice.actions; //mở model menu

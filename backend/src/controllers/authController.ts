@@ -84,7 +84,7 @@ export const checkAuth = async (req: Request, res: Response) => {
     ) as jwt.JwtPayload;
 
     const { userid, pass, member } = decoded;
-    // console.log("userid:", userid, "pass:", pass, "member:", member);
+    console.log("userid:", userid, "pass:", pass, "member:", member);
 
     //lấy user menu
     const menu = await axios.get(
@@ -141,20 +141,22 @@ export const register = async (req: Request, res: Response) => {
     // trả về kết quả
     if (response.data) {
       const results: ResponseAPI[] = response.data;
-      const message = results.map((rs) => {
-        return rs.ThongBao as string;
-      });
+      const message = results.map((rs) => rs.ThongBao);
       const mess = message[0];
       if (
         mess ===
         "Tài khoản chưa kích hoạt, vui lòng làm theo hướng dẫn trong email"
       ) {
-        return res.status(200).json({ message: "Thông báo", kq: mess });
+        return res
+          .status(200)
+          .json({ message: "Thông báo", kq: mess, code: 1 });
       } else {
-        return res.status(500).json({ message: "Thông báo", kq: mess });
+        return res
+          .status(500)
+          .json({ message: "Thông báo", kq: mess, code: 0 });
       }
     }
   } catch (error) {
-    return res.status(401).json({ message: "Loi server" });
+    return res.status(401).json({ message: "Lỗi server!!!" });
   }
 };

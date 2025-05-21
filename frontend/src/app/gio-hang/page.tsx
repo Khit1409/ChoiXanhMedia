@@ -1,6 +1,6 @@
 import React from 'react'
 
-export default function CartPage() {
+export default function Page() {
   return (
     <div>
       

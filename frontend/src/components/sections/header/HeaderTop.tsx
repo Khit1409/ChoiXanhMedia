@@ -1,4 +1,4 @@
-import { logout } from "@/redux/slices/authSlice";
+import { handleOpenUserMenu, logout } from "@/redux/slices/authSlice";
 import { AppDispatch, RootState } from "@/redux/store";
 import {
   faFacebook,
@@ -13,12 +13,22 @@ import {
   faUserPlus,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import React from "react";
+import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 export default function HeaderTop() {
   const { loggedIn } = useSelector((state: RootState) => state.auths);
   const dispatch = useDispatch<AppDispatch>();
+
+  const [openUserMenu, setOpenUserMenu] = useState(false);
+
+  //dispatch open menu
+  const openMenu = () => {
+    const newState = !openUserMenu;
+    setOpenUserMenu(newState);
+    dispatch(handleOpenUserMenu(newState));
+  };
+
   const handleLogout = async () => {
     try {
       await dispatch(logout());
@@ -56,42 +66,39 @@ export default function HeaderTop() {
       {/* Right side */}
       <ul className="d-flex align-items-center gap-4 list-unstyled mb-0">
         <li>
-          <a
-            href="#"
-            className="text-reset text-decoration-none d-flex gap-1 align-items-center"
-          >
+          <button className="btn text-reset text-decoration-none d-flex gap-1 align-items-center">
             <span className="d-md-block d-none">Thông báo</span>
             <FontAwesomeIcon icon={faBell} />
-          </a>
+          </button>
         </li>
         <li>
-          <a className="text-reset text-decoration-none d-flex gap-1 align-items-center">
+          <button className="btn text-reset text-decoration-none d-flex gap-1 align-items-center">
             <span className="d-md-block d-none">Hỗ trợ</span>
             <FontAwesomeIcon icon={faHeadphones} />
-          </a>
+          </button>
         </li>
         <li>
-          <a
-            href="/trang-ca-nhan"
-            className="text-reset text-decoration-none d-flex gap-1 align-items-center"
+          <button
+            className="btn text-reset text-decoration-none d-flex gap-1 align-items-center"
+            onClick={openMenu}
           >
-            <span className="d-md-block d-none me-1">Tài khoản</span>{" "}
+            <span className="d-md-block d-none me-1">Tài khoản</span>
             <FontAwesomeIcon icon={faUser} />
-          </a>
+          </button>
         </li>
         <li>
           {loggedIn ? (
-            <a
+            <button
               onClick={handleLogout}
               className="btn text-reset text-decoration-none d-flex gap-1 align-items-center"
             >
               <span className="d-md-block d-none me-1">Đăng xuất</span>
               <FontAwesomeIcon icon={faArrowRightFromBracket} />
-            </a>
+            </button>
           ) : (
             <a
               href="/dang-ky"
-              className="btn text-reset text-decoration-none d-flex gap-1 align-items-center"
+              className="text-reset text-decoration-none d-flex gap-1 align-items-center"
             >
               <span className="d-md-block d-none me-1">Đăng ký</span>
               <FontAwesomeIcon icon={faUserPlus} />

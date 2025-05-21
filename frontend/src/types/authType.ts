@@ -24,16 +24,20 @@ export interface AuthState {
   loading: boolean;
   decoded: Decoded | null;
   error: string | null;
+  openMenu: boolean | null;
   loggedIn: boolean;
   users: LoginResponse | null;
   mess: string | null;
+  successCode: number;
 }
 
 export const initialState: AuthState = {
+  openMenu: null,
   decoded: null,
   loading: false,
   error: null,
   users: null,
   mess: null,
   loggedIn: false,
+  successCode: 0,
 };

@@ -11,11 +11,14 @@ import { useDispatch, useSelector } from "react-redux";
 import ProductContainer from "./ProductContainer";
 import SpinAnimation from "../items/SpinAnimation";
 import { useRouter } from "next/navigation";
+import ModelAlert from "../tools/ModelAlert";
 
 export default function ProductDetail() {
   //reducer
   const dispatch = useDispatch<AppDispatch>();
-  const { productDetail } = useSelector((state: RootState) => state.products);
+  const { productDetail, loading } = useSelector(
+    (state: RootState) => state.products
+  );
   const { decoded } = useSelector((state: RootState) => state.auths);
   const { loggedIn } = useSelector((state: RootState) => state.auths);
   // request
@@ -31,6 +34,8 @@ export default function ProductDetail() {
   const [imgIndex, setImgIndex] = useState(0);
   const [expanded, setExpanded] = useState(false);
 
+  // model alert
+  const [model, setModel] = useState<boolean>(false);
   // create slide image
   useEffect(() => {
     if (imgList.length === 0) return;
@@ -52,10 +57,13 @@ export default function ProductDetail() {
       if (!loggedIn) {
         router.push("/dang-nhap");
       }
+      setModel(false);
       const result = await dispatch(
         addToCart({ userid: userid as string, pass: pass as string, id: id })
       );
-      console.log(result);
+      if (addToCart.fulfilled.match(result)) {
+        setModel(true);
+      }
     } catch (error) {
       console.log(error);
     }
@@ -84,6 +92,7 @@ export default function ProductDetail() {
 
   return (
     <div className="container pt-2">
+      {model && <ModelAlert setModel={setModel} />}
       {productDetail ? (
         productDetail.map((products, idx) => (
           <div key={idx}>
@@ -210,7 +219,7 @@ export default function ProductDetail() {
                       className="btn border rounded-0 border-2 border-success"
                       onClick={handleAddToCart}
                     >
-                      Thêm vào giỏ hàng
+                      {loading ? <SpinAnimation /> : "Thêm vào giỏ hàng"}
                     </button>
                     <button className="btn btn-success rounded-0">
                       Mua ngay
@@ -266,7 +275,7 @@ export default function ProductDetail() {
           </div>
         ))
       ) : (
-        <div className="min-vh-100 w-100 d-flex align-items-center justify-content-center">
+        <div className="d-flex align-items-center justify-content-center container min-vh-100">
           <SpinAnimation />
         </div>
       )}

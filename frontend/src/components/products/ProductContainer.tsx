@@ -11,10 +11,14 @@ import { DataProductResponse } from "@/types/productTypes";
 import { toSlug } from "@/redux/utils";
 import { useParams } from "next/navigation";
 import SpinAnimation from "../items/SpinAnimation";
+import Filter from "../tools/Filter";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faFilter } from "@fortawesome/free-solid-svg-icons";
 
 export default function ProductContainer() {
   const dispatch = useDispatch<AppDispatch>();
   const [products, setProducts] = useState<DataProductResponse[]>([]);
+  const [filterItems, setFilterItems] = useState(false);
   const { url } = useParams();
   useEffect(() => {
     const fetchProducts = async () => {
@@ -37,8 +41,19 @@ export default function ProductContainer() {
 
     fetchProducts();
   }, [dispatch, url]);
+  const toggleOpenFilter = () => {
+    setFilterItems(!filterItems);
+  };
   return (
     <section className="container-fluid py-5">
+      {/* Bộ lọc sản phẩm */}
+      <div className="pb-5">
+        <button className="btn border-success" onClick={toggleOpenFilter}>
+          <FontAwesomeIcon icon={faFilter} className="text-success" /> Lọc sản
+          phẩm
+        </button>
+      </div>
+      {filterItems && <Filter />}
       <h6 className="fw-bold text-success border-bottom border-3 border-success">
         SẢN PHẨM
       </h6>
@@ -93,7 +108,7 @@ export default function ProductContainer() {
           </div>
         ))
       ) : (
-        <div className="min-vh-100 w-100 d-flex align-items-center justify-content-center">
+        <div className="d-flex align-items-center justify-content-center container">
           <SpinAnimation />
         </div>
       )}

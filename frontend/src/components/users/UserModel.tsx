@@ -1,10 +1,11 @@
+"use client";
+
 import { logout } from "@/redux/slices/authSlice";
 import { AppDispatch, RootState } from "@/redux/store";
-import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 
-export default function UserBox() {
-  const { decoded } = useSelector((state: RootState) => state.auths);
+export default function UserModel() {
+  const { decoded, openMenu } = useSelector((state: RootState) => state.auths);
   const dispatch = useDispatch<AppDispatch>();
   const handleLogout = async () => {
     try {
@@ -17,15 +18,14 @@ export default function UserBox() {
 
   if (!decoded) return null;
 
-  return (
-    <div>
-      <ul className="py-2 list-unstyled m-0">
+  return openMenu ? (
+    <div className="">
+      <ul className="py-2 list-unstyled m-0 border bg-light">
         {decoded.menu.map((item) => (
           <li key={item.id} className="mb-2">
             <a
-              {...(item.tenham === "dang-thoat"
-                ? { onClick: handleLogout, role: "button" }
-                : { href: item.url })}
+              onClick={item.tenham === "Logout" ? handleLogout : () => null}
+              href={item.url !== "dang-thoat" ? item.url : ""}
               className="d-block text-black rounded px-3 py-2 text-decoration-none"
               style={{ transition: "background-color 0.2s ease" }}
             >
@@ -35,5 +35,8 @@ export default function UserBox() {
         ))}
       </ul>
     </div>
+  ) : (
+    <></>
   );
 }
+ 

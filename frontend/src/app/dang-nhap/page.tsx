@@ -6,7 +6,7 @@ import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useRouter } from "next/navigation";
 
-export default function Login() {
+export default function Page() {
   const dispatch = useDispatch<AppDispatch>();
   const router = useRouter();
   const { loggedIn } = useSelector((state: RootState) => state.auths);

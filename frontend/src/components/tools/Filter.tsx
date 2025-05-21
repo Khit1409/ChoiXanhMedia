@@ -1,5 +1,6 @@
 import axios from "axios";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
+import SpinAnimation from "../items/SpinAnimation";
 
 interface FilterMaster {
   id: string;
@@ -27,6 +28,21 @@ export default function Filter() {
     FilterMasterDetail[]
   >([]);
 
+  // boostrap function
+  const scrollRef = useRef<HTMLDivElement>(null);
+  useEffect(() => {
+    async function initScrollSpy() {
+      if (!scrollRef.current) return;
+      const { ScrollSpy } = await import("bootstrap");
+      new ScrollSpy(scrollRef.current, {
+        target: "#navbar-example2",
+        rootMargin: "0px 0px -40%",
+        smoothScroll: true,
+      });
+    }
+    initScrollSpy();
+  }, []);
+
   useEffect(() => {
     const fetchFilter = async () => {
       try {
@@ -41,7 +57,6 @@ export default function Filter() {
               )
             )
           );
-
           const all = details.flatMap((detail) => detail.data);
           setFilterMasterDetail(all);
         }
@@ -53,34 +68,38 @@ export default function Filter() {
   }, []);
 
   return (
-    <div className="my-6 px-4">
-      <h2 className="text-2xl font-bold mb-4 text-green-700">
-        Bộ lọc sản phẩm
-      </h2>
-      {filterMasterDetail &&
-        filterMasterDetail.map((items) => (
-          <div
-            key={items.ten}
-            className="mb-6 p-4 border border-gray-300 rounded-lg shadow-sm bg-white"
-          >
-            <p className="text-lg font-semibold text-gray-800 mb-2">
-              {items.ten}
-            </p>
-            <ul className="flex flex-wrap gap-2">
-              {items.thamso &&
-                items.thamso.map((ts) => (
-                  <li key={ts.ma}>
+    <div className="py-4 px-3 my-3 container">
+      <div
+        tabIndex={0}
+        className="mb-4 p-3 border border-secondary overflow-y-scroll positon-relative"
+        style={{
+          height: "400px",
+          overflowY: "auto",
+        }}
+        ref={scrollRef}
+      >
+        {filterMasterDetail && filterMasterDetail.length > 0 ? (
+          filterMasterDetail.map((items) => (
+            <div key={`${items.ma}-${items.thamso}`}>
+              <p className="h5 fw-semibold mb-2">{items.ten}</p>
+              <ul className="row row-cols-2 row-cols-sm-3 row-cols-md-4 row-cols-lg-5 g-2 list-unstyled">
+                {items.thamso.map((ts) => (
+                  <li key={ts.tengoi} className="col">
                     <a
                       href={ts.url}
-                      className="inline-block bg-green-100 hover:bg-green-200 text-green-800 font-medium py-1 px-3 rounded-full transition-all duration-200"
+                      className="text-decoration-none text-primary"
                     >
                       {ts.tengoi}
                     </a>
                   </li>
                 ))}
-            </ul>
-          </div>
-        ))}
+              </ul>
+            </div>
+          ))
+        ) : (
+          <SpinAnimation />
+        )}
+      </div>
     </div>
   );
 }
