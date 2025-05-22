@@ -91,7 +91,49 @@ export const getProductDetail = async (req: Request, res: Response) => {
       .json({ message: "Không thể lấy thông tin sản phẩm" });
   }
 };
+//thêm yêu thích
+export const addToWishList = async (req: Request, res: Response) => {
+  try {
+    // get  userid id pass from request
+    const id = req.body.id;
+    const userid = req.body.userid;
+    const pass = req.body.pass;
 
+    console.log("userid", userid, "pass", pass, "id", id);
+
+    //send request to api url
+    const sendReq = await axios.post(
+      `https://choixanh.com.vn/ww1/save.wishlist.asp?userid=${userid}&pass=${pass}&id=${id}`
+    );
+    console.log("kết quả trả về:", sendReq.data);
+    const sendReqResponse = sendReq.data.map((res: any) => res.maloi);
+    //check repsonse from sendReq
+    const errorCode = sendReqResponse[0];
+    console.log("mã lỗi:", errorCode);
+    if (errorCode === "1" || errorCode == 1) {
+      const products = await axios.get(
+        ` https://choixanh.com.vn/ww2/module.sanpham.chitiet.asp?id=${id}`
+      );
+      const product = products.data;
+
+      // const model = new Cart({ product });
+      // await model.save();
+
+      return res.status(200).json({
+        message: "Thêm sản phẩm vào giỏ hàng thành công!",
+        product,
+        result: 1,
+      });
+    } else {
+      return res.status(500).json({
+        message: "Lỗi không thể thêm sản phẩm, mã lỗi trả về từ api:",
+        error: 0,
+      });
+    }
+  } catch (error) {
+    return res.status(404).json({ message: "Lỗi server", error: -1 });
+  }
+};
 //thêm giỏ hàng
 export const addToCart = async (req: Request, res: Response) => {
   try {
@@ -100,7 +142,7 @@ export const addToCart = async (req: Request, res: Response) => {
     const userid = req.body.userid;
     const pass = req.body.pass;
 
-    console.log("userid", userid, "pass", pass, "id", id);
+    console.log("userid", userid, "pass", pass, "id", id,"thêm giỏ hàng");
 
     //send request to api url
     const sendReq = await axios.post(

@@ -80,6 +80,7 @@ https://choixanh.com.vn/ww2/tinhnang.hinhanh.idpart.asp?id=60009
 https://choixanh.com.vn/ww2/module.sanpham.chitiet.asp?id=60009
 
 **_NOTE CHO MAI_**
-
-- Làm trang đăng ký
-- Làm banner, slice 
+1. làm slice getCart. 
+2. chỉnh lại lỗi cập nhật state decoded. 
+3. chỉnh css banner.
+4. fix lại login checkout

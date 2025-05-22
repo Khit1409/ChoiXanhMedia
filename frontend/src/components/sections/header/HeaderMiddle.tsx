@@ -1,4 +1,4 @@
-import { RootState } from "@/redux/store";
+import { AppDispatch, RootState } from "@/redux/store";
 import { toSlug } from "@/redux/utils";
 import {
   faBars,
@@ -9,20 +9,26 @@ import {
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Image from "next/image";
 import Link from "next/link";
-import React, { useState } from "react";
-import { useSelector } from "react-redux";
+import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import Navbar from "./Navbar";
+import { openResponsiveMenu } from "@/redux/slices/menuSlice";
 
 export default function HeaderMiddle() {
   const { loggedIn } = useSelector((state: RootState) => state.auths);
+  const [quanti, setQuanti] = useState<number>(0);
+  const [quanti2, setQuanti2] = useState<number>(0);
   const [url, setUrl] = useState<string>();
+  const { responsiveMenu } = useSelector((state: RootState) => state.menus);
+  const dispatch = useDispatch<AppDispatch>();
+  //lấy số lượng giỏ hàng
+  useEffect(() => {
+    const savedCart = JSON.parse(sessionStorage.getItem("cart") || "[]");
+    const savedwl = JSON.parse(sessionStorage.getItem("wishlist") || "[]");
+    setQuanti2(savedwl.length);
+    setQuanti(savedCart.length);
+  }, []);
 
-  const [openMenu, setOpenMenu] = useState(false);
-
-  //mở navbar reponsive
-  const toggleResponsive = () => {
-    setOpenMenu((prev) => !prev);
-  };
   return (
     <>
       <div className="pt-3 pb-md-0 pb-3 d-flex justify-content-around align-items-center">
@@ -56,7 +62,7 @@ export default function HeaderMiddle() {
                   <FontAwesomeIcon icon={faCartShopping} />
                   {/* Badge số lượng giỏ hàng (nếu có) */}
                   <span className="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
-                    3{/* số lượng giỏ hàng */}
+                    {quanti} {/* số lượng giỏ hàng */}
                   </span>
                 </button>
               </Link>
@@ -65,7 +71,8 @@ export default function HeaderMiddle() {
                   <FontAwesomeIcon icon={faHeart} />
                   {/* Badge số lượng giỏ hàng (nếu có) */}
                   <span className="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
-                    3{/* số lượng giỏ hàng */}
+                    {quanti2}
+                    {/* số lượng wishlist */}
                   </span>
                 </button>
               </Link>
@@ -73,7 +80,6 @@ export default function HeaderMiddle() {
           ) : (
             <Link
               href={"/dang-nhap"}
-              onClick={toggleResponsive}
               className="bg-info d-md-block d-none py-1 px-2 text-decoration-none text-white text-center fw-bold rounded-0"
             >
               Sign in
@@ -82,7 +88,7 @@ export default function HeaderMiddle() {
           <div className="d-block d-md-none">
             <button
               className="btn btn-outline-primary position-relative"
-              onClick={toggleResponsive}
+              onClick={() => dispatch(openResponsiveMenu(!responsiveMenu))}
             >
               <FontAwesomeIcon icon={faBars} />
               {/* nút mở menu khi ở mode mobile */}
@@ -90,7 +96,7 @@ export default function HeaderMiddle() {
           </div>
         </div>
       </div>
-      <Navbar openMenu={openMenu} />
+      <Navbar />
     </>
   );
 }

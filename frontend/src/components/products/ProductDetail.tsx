@@ -1,10 +1,13 @@
 "use client";
 
-import { addToCart, getProductDetail } from "@/redux/slices/productSlice";
+import {
+  addToCart,
+  addToWishList,
+  getProductDetail,
+} from "@/redux/slices/productSlice";
 import { AppDispatch, RootState } from "@/redux/store";
 import { decodeHtml, reNameInfo } from "@/redux/utils";
 import Image from "next/image";
-import Link from "next/link";
 import { useParams } from "next/navigation";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -12,6 +15,8 @@ import ProductContainer from "./ProductContainer";
 import SpinAnimation from "../items/SpinAnimation";
 import { useRouter } from "next/navigation";
 import ModelAlert from "../tools/ModelAlert";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faHeart } from "@fortawesome/free-solid-svg-icons";
 
 export default function ProductDetail() {
   //reducer
@@ -24,6 +29,7 @@ export default function ProductDetail() {
   // request
   const userid = decoded?.users.userid;
   const pass = decoded?.users.pass;
+  // console.log("pass", pass, "user", userid);
   const { id } = useParams() as { id: string };
   // hook
   const router = useRouter();
@@ -68,6 +74,26 @@ export default function ProductDetail() {
       console.log(error);
     }
   };
+  const handleAddToWishList = async () => {
+    try {
+      if (!loggedIn) {
+        router.push("/dang-nhap");
+      }
+      setModel(false);
+      const result = await dispatch(
+        addToWishList({
+          userid: userid as string,
+          pass: pass as string,
+          id: id,
+        })
+      );
+      if (addToWishList.fulfilled.match(result)) {
+        setModel(true);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
 
   // call api
   useEffect(() => {
@@ -96,36 +122,6 @@ export default function ProductDetail() {
       {productDetail ? (
         productDetail.map((products, idx) => (
           <div key={idx}>
-            {/* Breadcrumb */}
-            <div className="row mb-3 py-2">
-              <div className="navbarProductDetail">
-                <a
-                  href="https://www.choixanh.com.vn"
-                  className="text-decoration-none"
-                >
-                  Chồi Xanh Media
-                </a>
-                <span className="me-1 text-info"> &gt; </span>
-                <Link href="/" className="text-decoration-none">
-                  Sản Phẩm
-                </Link>
-                <span className="me-1 text-info"> &gt;</span>
-                <Link href="/" className="text-decoration-none">
-                  Chi Tiết Sản Phẩm
-                </Link>
-                <span className="me-1 text-info"> &gt;</span>
-                {products.info.map((pro) => (
-                  <Link
-                    key={pro.id}
-                    href={pro.id}
-                    className="text-decoration-none"
-                  >
-                    {pro.tieude}
-                  </Link>
-                ))}
-              </div>
-            </div>
-
             <div className="row mb-5">
               {/* Ảnh sản phẩm */}
               <div className="col-md-6 mb-4">
@@ -141,7 +137,7 @@ export default function ProductDetail() {
                       />
                     )}
                   </div>
-                  <h5 className="border-bottom pb-2 ">Tổng quan sản phẩm</h5>
+                  <h5 className="border-bottom pb-2">Tổng quan sản phẩm</h5>
                   <div className="row g-3 gap-1 mt-2">
                     {products.images.map((imgs, groupIndex) =>
                       imgs.data.map((img, imgIndex) => (
@@ -177,23 +173,26 @@ export default function ProductDetail() {
                 <div className="p-4">
                   {products.info.map((info) => (
                     <div key={info.id}>
-                      <p>
+                      {/* tên sản phẩm */}
+                      <p className="fs-5">
                         <strong>
                           {info.tieude && info.tieude.toLocaleUpperCase()}
                         </strong>
                       </p>
                       <p className="mb-3">
-                        <span>Mã sản phẩm:</span> {id}
+                        <strong>Mã sản phẩm:</strong> {id}
                       </p>
                       <p className="mb-3">
-                        <span>Giá:</span> {info.gia - info.giakhuyenmai} VND
+                        <strong>Giá:</strong> {info.gia - info.giakhuyenmai} VND
                       </p>
                       {Object.entries(info).map(([name, value]) => {
                         if (["hinhlienquan"].includes(name)) return null;
                         if (Array.isArray(value)) {
                           return (
                             <p className="mb-3" key={`attr-${info.id}-${name}`}>
-                              <span className="me-1">{reNameInfo(name)}:</span>
+                              <strong className="me-1">
+                                {reNameInfo(name)}:
+                              </strong>
                               {value.map((vl, i) =>
                                 vl?.tengoi && vl?.url ? (
                                   <a
@@ -220,6 +219,12 @@ export default function ProductDetail() {
                       onClick={handleAddToCart}
                     >
                       {loading ? <SpinAnimation /> : "Thêm vào giỏ hàng"}
+                    </button>
+                    <button
+                      className="btn btn-success rounded-0"
+                      onClick={handleAddToWishList}
+                    >
+                      Yêu thích <FontAwesomeIcon icon={faHeart} />
                     </button>
                     <button className="btn btn-success rounded-0">
                       Mua ngay
@@ -268,7 +273,6 @@ export default function ProductDetail() {
               </button>
             </div>
 
-            {/* Sản phẩm liên quan */}
             <div>
               <ProductContainer />
             </div>

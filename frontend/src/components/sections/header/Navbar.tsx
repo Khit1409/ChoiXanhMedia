@@ -1,4 +1,6 @@
-import { RootState } from "@/redux/store";
+import { openResponsiveMenu } from "@/redux/slices/menuSlice";
+import { getAllProduct } from "@/redux/slices/productSlice";
+import { AppDispatch, RootState } from "@/redux/store";
 import { toSlug } from "@/redux/utils";
 import {
   faCartPlus,
@@ -11,47 +13,49 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Link from "next/link";
-import React, { useState } from "react";
-import { useSelector } from "react-redux";
+import React, { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 
-type PropsType = {
-  openMenu: boolean;
-};
-
-export default function Navbar({ openMenu }: PropsType) {
+export default function Navbar() {
+  const [quanti, setQuanti] = useState<number>(0);
+  const [quanti2, setQuanti2] = useState<number>(0);
+  const { responsiveMenu } = useSelector((state: RootState) => state.menus);
   const { loggedIn } = useSelector((state: RootState) => state.auths);
+  useEffect(() => {
+    const savedCart = JSON.parse(sessionStorage.getItem("cart") || "[]");
+    const savedwl = JSON.parse(sessionStorage.getItem("wishlist") || "[]");
+    setQuanti2(savedwl.length);
+    setQuanti(savedCart.length);
+  }, []);
+  //gọi menu sản phẩm
+  const dispatch = useDispatch<AppDispatch>();
+  useEffect(() => {
+    const fetchProductsMenu = async () => {
+      await dispatch(getAllProduct());
+    };
+    fetchProductsMenu();
+  }, [dispatch]);
 
-  const toggleResponsive = () => {
-    setOpenProductMenu(false);
-  };
-  const [openProductMenu, setOpenProductMenu] = useState(false);
-
-  const handleOpenProductMenu = () => {
-    setOpenProductMenu(!openProductMenu);
-  };
+  //product in root state
   const { products } = useSelector((state: RootState) => state.products);
   return (
-    <>
+    <div>
+      {/* desktop menu */}
       <nav
-        className="d-md-flex bg-success px-4 py-2 d-flex d-none align-items-center justify-content-center"
+        className="d-md-flex bg-success px-4 pt-1 d-flex d-none align-items-center justify-content-center"
         style={{
           animation: "slideDown 0.3s ease forwards",
         }}
       >
         <ul className="list-unstyled d-flex gap-5 text-white mb-0">
           <li>
-            <Link
-              href="/"
-              onClick={toggleResponsive}
-              className="text-white text-decoration-none"
-            >
+            <Link href="/" className="text-white text-decoration-none">
               <FontAwesomeIcon icon={faHouse} /> Trang chủ
             </Link>
           </li>
           <li>
             <Link
               href="/tuyen-dung"
-              onClick={toggleResponsive}
               className="text-white text-decoration-none"
             >
               <FontAwesomeIcon icon={faFile} /> Tuyển dụng
@@ -59,14 +63,13 @@ export default function Navbar({ openMenu }: PropsType) {
           </li>
           <li className="openProductMenu list-unstyled">
             <a
-              onClick={handleOpenProductMenu}
               className="text-white text-decoration-none cursor-pointer d-inline-block"
               role="button"
             >
               <FontAwesomeIcon icon={faCartPlus} /> Shop
             </a>
             {/* Dropdown sản phẩm */}
-            <ul className="productMenu bg-success position-absolute p-2 top-5 rounded shadow w-auto">
+            <ul className="productMenu position-absolute px-2 top-1 right-10 w-auto z-3 bg-success">
               {Array.isArray(products) &&
                 products.map((item) => {
                   if (!item.metadescriptions) return null;
@@ -74,11 +77,11 @@ export default function Navbar({ openMenu }: PropsType) {
                   return (
                     <li
                       key={item.id || Math.random()}
-                      className="list-unstyled"
+                      className="list-unstyled p-1 w-100"
                     >
                       <Link
                         href={`/san-pham/${url}`}
-                        className="text-decoration-none text-white d-block py-1"
+                        className="text-decoration-none d-block text-white"
                       >
                         {item.tieude}
                       </Link>
@@ -89,13 +92,10 @@ export default function Navbar({ openMenu }: PropsType) {
           </li>
 
           <li className="openNewsMenu list-unstyled">
-            <a
-              onClick={toggleResponsive}
-              className="text-white text-decoration-none cursor-pointer d-inline-block"
-            >
+            <a className="text-white text-decoration-none cursor-pointer d-inline-block">
               <FontAwesomeIcon icon={faNewspaper} /> Tin tức
             </a>
-            <ul className="newsMenu position-absolute bg-success rounded shadow top-5 p-2 w-auto list-unstyled">
+            <ul className="newsMenu list-unstyled position-absolute px-2 top-1 right-10 w-auto z-3 bg-success">
               <li>
                 <Link
                   className="text-decoration-none text-white d-block py-1"
@@ -115,17 +115,14 @@ export default function Navbar({ openMenu }: PropsType) {
             </ul>
           </li>
           <li>
-            <Link
-              href="/giai-tri"
-              onClick={toggleResponsive}
-              className="text-white text-decoration-none"
-            >
+            <Link href="/giai-tri" className="text-white text-decoration-none">
               <FontAwesomeIcon icon={faLaugh} /> Giải trí
             </Link>
           </li>
         </ul>
       </nav>
-      {openMenu && (
+      {/* mobile menu */}
+      {responsiveMenu && (
         <nav
           className="bg-success py-1 d-md-none pb-3"
           style={{
@@ -138,16 +135,16 @@ export default function Navbar({ openMenu }: PropsType) {
                 <li>
                   <Link
                     href="/"
-                    onClick={toggleResponsive}
                     className="text-white text-decoration-none"
+                    onClick={() => dispatch(openResponsiveMenu(false))}
                   >
                     Trang chủ
                   </Link>
                 </li>
                 <li>
                   <Link
+                    onClick={() => dispatch(openResponsiveMenu(false))}
                     href="/tuyen-dung"
-                    onClick={toggleResponsive}
                     className="text-white text-decoration-none"
                   >
                     Tuyển dụng
@@ -160,7 +157,7 @@ export default function Navbar({ openMenu }: PropsType) {
                     return (
                       <li key={item.id || Math.random()}>
                         <Link
-                          onClick={() => toggleResponsive()}
+                          onClick={() => dispatch(openResponsiveMenu(false))}
                           href={`/san-pham/${url}`}
                           className="text-decoration-none text-white"
                         >
@@ -171,14 +168,15 @@ export default function Navbar({ openMenu }: PropsType) {
                   })}
                 <li>
                   <a
-                    onClick={toggleResponsive}
                     className="text-white text-decoration-none"
+                    href="/tin-tuc"
                   >
-                    Công nghệ
+                    Tin tức
                   </a>
-                  <ul className="list-unstyled">
+                  <ul className="list-unstyled ">
                     <li className="px-3 pt-2">
                       <Link
+                        onClick={() => dispatch(openResponsiveMenu(false))}
                         className="text-decoration-none text-white"
                         href={"/tin-tuc/nhip-song-so"}
                       >
@@ -187,6 +185,7 @@ export default function Navbar({ openMenu }: PropsType) {
                     </li>
                     <li className="px-3 pt-2">
                       <Link
+                        onClick={() => dispatch(openResponsiveMenu(false))}
                         className="text-decoration-none text-white"
                         href={"/tin-tuc/tin-cong-nghe"}
                       >
@@ -197,8 +196,8 @@ export default function Navbar({ openMenu }: PropsType) {
                 </li>
                 <li>
                   <Link
+                    onClick={() => dispatch(openResponsiveMenu(false))}
                     href="/giai-tri"
-                    onClick={toggleResponsive}
                     className="text-white text-decoration-none"
                   >
                     Giải trí
@@ -211,7 +210,7 @@ export default function Navbar({ openMenu }: PropsType) {
                         <FontAwesomeIcon icon={faCartShopping} />
                         {/* Badge số lượng giỏ hàng (nếu có) */}
                         <span className="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
-                          3{/* số lượng giỏ hàng */}
+                          {quanti}{/* số lượng giỏ hàng */}
                         </span>
                       </button>
                     </Link>
@@ -220,15 +219,15 @@ export default function Navbar({ openMenu }: PropsType) {
                         <FontAwesomeIcon icon={faHeart} />
                         {/* Badge số lượng giỏ hàng (nếu có) */}
                         <span className="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
-                          3{/* số lượng giỏ hàng */}
+                          {/* số lượng wl*/}{quanti2}
                         </span>
                       </button>
                     </Link>
                   </li>
                 ) : (
                   <Link
-                    onClick={toggleResponsive}
                     href={"/dang-nhap"}
+                    onClick={() => dispatch(openResponsiveMenu(false))}
                     className="bg-info py-1 px-2 text-decoration-none text-white text-center fw-bold rounded"
                   >
                     Sign in
@@ -239,6 +238,6 @@ export default function Navbar({ openMenu }: PropsType) {
           </ul>
         </nav>
       )}
-    </>
+    </div>
   );
 }

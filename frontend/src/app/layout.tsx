@@ -7,6 +7,7 @@ import AuthProvider from "./AuthProvider";
 import Header from "@/components/sections/header";
 import Footer from "@/components/sections/footer";
 import UserModel from "@/components/users/UserModel";
+import PathNameComponent from "@/components/sections/header/PathNameComponent";
 
 const geistSans = Nunito({
   variable: "--font-geist-sans",
@@ -46,6 +47,7 @@ export default function RootLayout({
           <ReduxProvider>
             <AuthProvider>
               <Header />
+              <PathNameComponent /> 
               <UserModel />
               <div className="container">{children}</div>
               <Footer />

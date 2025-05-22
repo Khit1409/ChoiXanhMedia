@@ -14,7 +14,9 @@ export const checkAuth = createAsyncThunk<
     const response = await axios.get(`http://localhost:5000/api/auth/check`, {
       withCredentials: true,
     });
-    return response.data as Decoded;
+    if (response.data.token) {
+      return response.data as Decoded;
+    } else return thunkAPI.rejectWithValue("lỗi không tìm thấy token");
   } catch (error) {
     if (axios.isAxiosError(error)) {
       return thunkAPI.rejectWithValue("Lỗi get");
@@ -34,7 +36,9 @@ export const login = createAsyncThunk<
       { userid, pass },
       { withCredentials: true }
     );
-    return response.data.users;
+    if (response.data.users || response.data.token) {
+      return response.data.users;
+    } else return thunkAPI.rejectWithValue("Lỗi đăng nhập");
   } catch (error) {
     if (axios.isAxiosError(error))
       return thunkAPI.rejectWithValue("Đăng nhập thất bại");
@@ -101,12 +105,7 @@ export const logout = createAsyncThunk<string, void, { rejectValue: string }>(
 const authSlice = createSlice({
   name: "auth",
   initialState,
-  reducers: {
-    //open user menu
-    handleOpenUserMenu: (state, action) => {
-      state.openMenu = action.payload;
-    },
-  },
+  reducers: {},
   extraReducers: (builder) => {
     builder
       // checkauth
@@ -173,4 +172,3 @@ const authSlice = createSlice({
 });
 
 export default authSlice.reducer;
-export const { handleOpenUserMenu } = authSlice.actions; //mở model menu

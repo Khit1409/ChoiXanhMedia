@@ -12,6 +12,7 @@ import {
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useState } from "react";
 import { useDispatch } from "react-redux";
+import ModelAlert from "../tools/ModelAlert";
 
 interface FormData {
   tel: string;
@@ -57,26 +58,12 @@ export default function RegisterForm() {
       console.log(error);
     }
   };
-
+  // mã hoá mật khẩu để check
+  //
   return (
     <div className="d-flex align-items-center justify-content-center vh-100">
       {submitAcc ? (
-        <div>
-          <div className="modal-backdrop fade show" style={{ zIndex: 1040 }} />
-          <div
-            className={`position-fixed top-50 start-50 translate-middle bg-white p-4 shadow text-`}
-            style={{ zIndex: 1050, width: "400px" }}
-          >
-            <p className="mb-3">Vui lòng nhấn xác nhận</p>
-            <a
-              href={`https://choixanh.com.vn/ww1/save.active.asp?checkpass=&userid=${data.userid}&pass=${data.pass}`}
-              className=""
-              onClick={() => setSubmitAcc(false)}
-            >
-              Xác nhận
-            </a>
-          </div>
-        </div>
+        <ModelAlert setModel={setSubmitAcc} />
       ) : (
         <div className="bg-white shadow p-4 rounded w-75 h-75 d-flex align-items-center justify-content-center">
           <form
@@ -134,15 +121,14 @@ export default function RegisterForm() {
                 <FontAwesomeIcon icon={faUserCircle} />
               </label>
               <input
-                type="text"
+                type="email"
                 name="userid"
                 value={data.userid}
                 onChange={handleOnchange}
-                placeholder="Tên đăng nhập"
+                placeholder="Tên đăng nhập bắt buộc nhập email"
                 className="form-control ps-5 text-center rounded-pill"
               />
             </div>
-
             {/* mật khẩu */}
             <div className="position-relative mb-2">
               <label className="position-absolute top-50 start-0 translate-middle-y ms-2">
@@ -174,7 +160,6 @@ export default function RegisterForm() {
                 </a>
               </label>
             </div>
-
             {/* nút đăng ký */}
             <div className="d-flex justify-content-center">
               <button

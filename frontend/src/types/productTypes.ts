@@ -86,6 +86,14 @@ export interface AddCartResponse {
   link: string;
   sobg: number;
 }
+// interface
+export interface AddWishlistResponse {
+  ThongBao: string;
+  maloi: string | number;
+  link: string;
+  giohang: number;
+  sobg: number;
+}
 
 // interface chính
 export interface ProductState {

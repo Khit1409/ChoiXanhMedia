@@ -1,7 +1,7 @@
 import productReducer from "./slices/productSlice";
 import authReducer from "./slices/authSlice";
-
-export { productReducer, authReducer };
+import menuReducer from './slices/menuSlice'
+export { productReducer, authReducer,menuReducer };
 
 // //lấy url chuyển trang
 export const toSlug = (str: string) => {
@@ -34,6 +34,7 @@ export function fixBrokenJson(input: string) {
   return cleaned;
 }
 
+// chuyển thông số sản phẩm sang tiếng viêt
 export function reNameInfo(tieude: string): string {
   const list = [
     { thuonghieu: "Thương hiệu" },
@@ -70,3 +71,11 @@ export function reNameInfo(tieude: string): string {
   const item = list.find((obj) => Object.keys(obj)[0] === tieude);
   return item ? Object.values(item)[0] : tieude;
 }
+// viết hoa chữ cái đầu
+export function capitalizeWords(str: string) {
+  return str
+    .split(" ")
+    .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
+    .join(" ");
+}
+

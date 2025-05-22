@@ -32,12 +32,13 @@ export const login = async (req: Request, res: Response) => {
         db.ThongBao === "Đăng nhập thành công";
       })
     ) {
-      const member = data.map((db) => db.chucnang);
+      const member = data.map((db) => db.chucnang[0]);
+      // console.log("member:", member[0]);
       //mã hóa mật khẩu
       const hashPass = crypto.createHash("md5").update(pass).digest("hex");
 
       const token = jwt.sign(
-        { userid, pass: hashPass, member },
+        { userid, pass: hashPass, member: member },
         process.env.SECRET_KEY as string,
         {
           expiresIn: "1d",

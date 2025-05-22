@@ -5,7 +5,8 @@ import { AppDispatch, RootState } from "@/redux/store";
 import { useDispatch, useSelector } from "react-redux";
 
 export default function UserModel() {
-  const { decoded, openMenu } = useSelector((state: RootState) => state.auths);
+  const { decoded } = useSelector((state: RootState) => state.auths);
+  const { openMenu } = useSelector((state: RootState) => state.menus);
   const dispatch = useDispatch<AppDispatch>();
   const handleLogout = async () => {
     try {
@@ -22,7 +23,7 @@ export default function UserModel() {
     <div className="">
       <ul className="py-2 list-unstyled m-0 border bg-light">
         {decoded.menu.map((item) => (
-          <li key={item.id} className="mb-2">
+          <li key={`${item.id}-${Math.random()}`} className="mb-2">
             <a
               onClick={item.tenham === "Logout" ? handleLogout : () => null}
               href={item.url !== "dang-thoat" ? item.url : ""}
@@ -39,4 +40,3 @@ export default function UserModel() {
     <></>
   );
 }
- 

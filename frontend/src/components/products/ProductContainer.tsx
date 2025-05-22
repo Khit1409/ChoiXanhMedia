@@ -94,7 +94,7 @@ export default function ProductContainer() {
                           className="img-fluid"
                         />
                       </div>
-                      <div className="" style={{ maxInlineSize: "100%" }}>
+                      <div className="">
                         <p className="text-truncate">{product_detail.tieude}</p>
                         <p className="text-danger">
                           &#8363; {Number(product_detail.gia)}

@@ -35,7 +35,7 @@ export default function CommentReviewer() {
     const fetchComment = async () => {
       try {
         const res = await axios.get(
-          `https://choixanh.com.vn/ww2/module.tintuc.asp?id=35281&sl=3&pageid=1`
+          `https://choixanh.com.vn/ww2/module.tintuc.asp?id=35281`
         );
         if (res.data) {
           setComments(res.data);

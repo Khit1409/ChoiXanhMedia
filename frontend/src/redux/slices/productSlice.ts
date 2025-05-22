@@ -90,8 +90,47 @@ export const addToCart = createAsyncThunk<
     return thunkAPI.rejectWithValue("Lỗi không xác định, có thể do server");
   }
 });
+// add to wishlist function
+export const addToWishList = createAsyncThunk<
+  AddCartResponse[],
+  { userid: string; pass: string; id: string },
+  { rejectValue: string }
+>("product/wishlist", async ({ userid, pass, id }, thunkAPI) => {
+  try {
+    // Gửi yêu cầu thêm sản phẩm vào giỏ hàng
+    const response = await axios.post(`${productApiUrl}/them-wishlist`, {
+      userid,
+      pass,
+      id,
+    });
 
-// get cart from sessionStorage
+    const responseCode = response.data.result;
+    const newWishList = response.data.product;
+
+    if (responseCode == 1 || responseCode === "1") {
+      // session
+      const currentWL = JSON.parse(sessionStorage.getItem("wishlist") || "[]");
+
+      // Thêm sản phẩm mới vào giỏ hàng hiện tại
+      if (Array.isArray(newWishList)) {
+        currentWL.push(...newWishList);
+      } else {
+        currentWL.push(newWishList);
+      }
+
+      // Lưu lại vào sessionStorage
+      sessionStorage.setItem("wishList", JSON.stringify(currentWL));
+
+      //payload
+      return response.data.product;
+    }
+  } catch (error) {
+    if (axios.isAxiosError(error)) {
+      return thunkAPI.rejectWithValue("Lỗi axios post!");
+    }
+    return thunkAPI.rejectWithValue("Lỗi không xác định, có thể do server");
+  }
+});
 
 //slice
 const productSlice = createSlice({
@@ -143,6 +182,18 @@ const productSlice = createSlice({
       .addCase(addToCart.rejected, (state, action) => {
         state.loading = false;
         state.error = action.payload as string;
+      })
+      //add wish list
+      .addCase(addToWishList.pending, (state) => {
+        state.loading = true;
+        state.error = null;
+      })
+      .addCase(addToWishList.fulfilled, (state) => {
+        state.loading = false;
+      })
+      .addCase(addToWishList.rejected, (state, action) => {
+        state.error = action.payload as string;
+        state.loading = false;
       });
   },
 });
