@@ -12,11 +12,11 @@ export default function WishList() {
   const removeWL = (idToRemove: string) => {
     const updatedWl = products.filter((item) => item.id !== idToRemove);
     setProducts(updatedWl);
-    sessionStorage.setItem("wishlist", JSON.stringify(updatedWl));
+    sessionStorage.setItem("wishList", JSON.stringify(updatedWl));
   };
 
   useEffect(() => {
-    const savedwl = JSON.parse(sessionStorage.getItem("wishlist") || "[]");
+    const savedwl = JSON.parse(sessionStorage.getItem("wishList") || "[]");
     if (savedwl) {
       setProducts(savedwl);
     }
@@ -24,15 +24,15 @@ export default function WishList() {
   return (
     <div className="my-5">
       <h6 className="mb-4 fw-bold text-success border-bottom border-3 border-success">
-        GIỎ HÀNG ĐƯỢC THÊM
+        SẢN PHẨM YÊU THÍCH
       </h6>
       <div className="row row-cols-2 row-cols-sm-3 row-cols-md-4 row-cols-lg-6 g-2">
-        {products?.map((wl) =>
-          wl.hinhdaidien ? (
+        {products && products.length > 0 ? (
+          products.map((wl) => (
             <Link
               href={`san-pham/chi-tiet/${wl.id}`}
               className="col text-decoration-none"
-              key={`product-${wl.id}`}
+              key={`product-${wl.id}-${Math.random()}`}
             >
               <div className="border h-100 bg-white d-flex flex-column justify-content-around text-decoration-none text-dark p-2">
                 {wl.giakhuyenmai && wl.giakhuyenmai > 0 && (
@@ -69,7 +69,13 @@ export default function WishList() {
                 </div>
               </div>
             </Link>
-          ) : null
+          ))
+        ) : (
+          <div className="w-100 min-vh-100 d-flex align-items-center justify-content-center">
+            <p className="text-center">
+              Chưa thêm sản phẩm nào vào danh sách yêu thích...
+            </p>
+          </div>
         )}
       </div>
     </div>

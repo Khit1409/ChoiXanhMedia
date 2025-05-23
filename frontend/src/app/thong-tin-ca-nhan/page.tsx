@@ -1,6 +1,6 @@
 import Profile from "@/components/users/Profile";
 
-export default function Page() {
+export default function PersonInfo() {
   return (
     <div>
       <Profile />

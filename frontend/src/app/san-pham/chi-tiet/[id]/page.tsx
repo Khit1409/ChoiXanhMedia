@@ -1,7 +1,7 @@
 import ProductDetail from "@/components/products/ProductDetail";
 import React from "react";
 
-export default function Page() {
+export default function ProductDetailPage() {
   return (
     <div>
       <ProductDetail /> 

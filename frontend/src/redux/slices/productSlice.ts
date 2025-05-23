@@ -109,7 +109,7 @@ export const addToWishList = createAsyncThunk<
 
     if (responseCode == 1 || responseCode === "1") {
       // session
-      const currentWL = JSON.parse(sessionStorage.getItem("wishlist") || "[]");
+      const currentWL = JSON.parse(sessionStorage.getItem("wishList") || "[]");
 
       // Thêm sản phẩm mới vào giỏ hàng hiện tại
       if (Array.isArray(newWishList)) {

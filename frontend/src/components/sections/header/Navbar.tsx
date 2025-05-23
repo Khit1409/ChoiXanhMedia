@@ -23,7 +23,7 @@ export default function Navbar() {
   const { loggedIn } = useSelector((state: RootState) => state.auths);
   useEffect(() => {
     const savedCart = JSON.parse(sessionStorage.getItem("cart") || "[]");
-    const savedwl = JSON.parse(sessionStorage.getItem("wishlist") || "[]");
+    const savedwl = JSON.parse(sessionStorage.getItem("wishList") || "[]");
     setQuanti2(savedwl.length);
     setQuanti(savedCart.length);
   }, []);
@@ -68,8 +68,8 @@ export default function Navbar() {
             >
               <FontAwesomeIcon icon={faCartPlus} /> Shop
             </a>
-            {/* Dropdown sản phẩm */}
-            <ul className="productMenu position-absolute px-2 top-1 right-10 w-auto z-3 bg-success">
+            {/* menu dropdown sản phẩm */}
+            <ul className="productMenu position-absolute px-2 top-1 right-10 w-auto z-3 bg-success shadow-lg">
               {Array.isArray(products) &&
                 products.map((item) => {
                   if (!item.metadescriptions) return null;
@@ -95,6 +95,7 @@ export default function Navbar() {
             <a className="text-white text-decoration-none cursor-pointer d-inline-block">
               <FontAwesomeIcon icon={faNewspaper} /> Tin tức
             </a>
+            {/* menu dropdown tin tức */}
             <ul className="newsMenu list-unstyled position-absolute px-2 top-1 right-10 w-auto z-3 bg-success">
               <li>
                 <Link

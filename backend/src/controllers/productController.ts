@@ -120,7 +120,7 @@ export const addToWishList = async (req: Request, res: Response) => {
       // await model.save();
 
       return res.status(200).json({
-        message: "Thêm sản phẩm vào giỏ hàng thành công!",
+        message: "Thêm sản phẩm vào yêu thích thành công!",
         product,
         result: 1,
       });

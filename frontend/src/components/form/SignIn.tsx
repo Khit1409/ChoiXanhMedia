@@ -20,6 +20,7 @@ interface FormData {
 }
 
 export default function SignIn() {
+  // lưu state data
   const [formData, setFormData] = useState<FormData>({
     userid: "",
     pass: "",
@@ -56,15 +57,15 @@ export default function SignIn() {
 
   const [success, setSuccess] = useState(false);
   return (
-    <section className="gap-4 d-flex flex-md-row flex-column align-items-center justify-content-center py-5">
+    <section className="d-flex align-items-center justify-content-center py-5">
       {/* Form Đăng nhập */}
       {success ? (
         <ModelAlert setModel={setSuccess} />
       ) : (
-        <div>
+        <div className="border p-5 shadow">
           <form
             onSubmit={handleSignIn}
-            className="d-flex flex-column gap-3 p-md-5 rounded w-md-50 w-100"
+            className="d-flex flex-column gap-3 p-md-5 rounded "
           >
             <h2 className="text-center text-primary fw-bold">Đăng nhập</h2>
             <input
@@ -84,55 +85,54 @@ export default function SignIn() {
               className="form-control form-control-lg rounded-pill text-center"
             />
             <div className="text-center">
-              <button
-                type="submit"
-                className="btn btn-primary w-50 rounded-pill"
-              >
+              <button type="submit" className="btn btn-primary rounded-pill">
                 Đăng nhập
               </button>
             </div>
           </form>
           {/* Đăng nhập MXH + Link */}
-          <div className="col-md-6 p-md-5 rounded d-flex flex-column align-items-center justify-content-center gap-3">
-            <h5 className="fw-semibold text-secondary">
+          <div className="d-flex flex-column">
+            <h5 className="fw-semibold text-secondary text-center">
               Đăng nhập với mạng xã hội
             </h5>
-            <div className="row row-cols-2 flex align-items-center justify-content-center w-100 gy-2">
-              <div className="d-flex align-items-center justify-content-center">
-                <button className="btn btn-info text-white w-100 rounded-pill d-flex align-items-center justify-content-center gap-2">
-                  <FontAwesomeIcon icon={faLinkedin} />
-                  LinkedIn
-                </button>
+            <div className="d-flex flex-column gap-2 g-2">
+              <div className="row row-cols-2 g-2">
+                <div className="d-flex align-items-center justify-content-center">
+                  <button className="btn btn-info text-white w-100 rounded-pill d-flex align-items-center justify-content-center gap-2">
+                    <FontAwesomeIcon icon={faLinkedin} />
+                    LinkedIn
+                  </button>
+                </div>
+                <div className="d-flex align-items-center justify-content-center">
+                  <button className="btn btn-primary w-100 rounded-pill d-flex align-items-center justify-content-center gap-2">
+                    <FontAwesomeIcon icon={faFacebook} />
+                    Facebook
+                  </button>
+                </div>
+                <div className="d-flex align-items-center justify-content-center">
+                  <button className="btn btn-secondary w-100 rounded-pill d-flex align-items-center justify-content-center gap-2">
+                    <FontAwesomeIcon icon={faTwitter} />
+                    Twitter
+                  </button>
+                </div>
+                <div className="d-flex align-items-center justify-content-center">
+                  <button className="btn btn-danger w-100 rounded-pill d-flex align-items-center justify-content-center gap-2">
+                    <FontAwesomeIcon icon={faGoogle} />
+                    Google
+                  </button>
+                </div>
               </div>
-              <div className="d-flex align-items-center justify-content-center">
-                <button className="btn btn-primary w-100 rounded-pill d-flex align-items-center justify-content-center gap-2">
-                  <FontAwesomeIcon icon={faFacebook} />
-                  Facebook
-                </button>
+              <h5 className="fw-semibold text-secondary mt-3 text-center">
+                Chưa có tài khoản?
+              </h5>
+              <div className="d-flex gap-3 justify-content-center">
+                <Link href="/dang-ky" className="btn btn-success rounded-pill">
+                  <FontAwesomeIcon icon={faUserPlus} /> Đăng ký
+                </Link>
+                <Link href="/" className="btn btn-dark rounded-pill">
+                  <FontAwesomeIcon icon={faHouse} /> Trang chủ
+                </Link>
               </div>
-              <div className="d-flex align-items-center justify-content-center">
-                <button className="btn btn-secondary w-100 rounded-pill d-flex align-items-center justify-content-center gap-2">
-                  <FontAwesomeIcon icon={faTwitter} />
-                  Twitter
-                </button>
-              </div>
-              <div className="d-flex align-items-center justify-content-center">
-                <button className="btn btn-danger w-100 rounded-pill d-flex align-items-center justify-content-center gap-2">
-                  <FontAwesomeIcon icon={faGoogle} />
-                  Google
-                </button>
-              </div>
-            </div>
-            <h5 className="fw-semibold text-secondary mt-3">
-              Chưa có tài khoản?
-            </h5>
-            <div className="d-flex gap-3">
-              <Link href="/dang-ky" className="btn btn-success rounded-pill">
-                <FontAwesomeIcon icon={faUserPlus} /> Đăng ký
-              </Link>
-              <Link href="/" className="btn btn-dark rounded-pill">
-                <FontAwesomeIcon icon={faHouse} /> Trang chủ
-              </Link>
             </div>
           </div>
         </div>

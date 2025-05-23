@@ -23,19 +23,34 @@ export default function HeaderMiddle() {
   const dispatch = useDispatch<AppDispatch>();
   //lấy số lượng giỏ hàng
   useEffect(() => {
-    const savedCart = JSON.parse(sessionStorage.getItem("cart") || "[]");
-    const savedwl = JSON.parse(sessionStorage.getItem("wishlist") || "[]");
-    setQuanti2(savedwl.length);
-    setQuanti(savedCart.length);
-  }, []);
+    const fetchQuantity = async () => {
+      try {
+        const savedCart = await JSON.parse(
+          sessionStorage.getItem("cart") || "[]"
+        );
+        setQuanti(savedCart.length);
+
+        const savedwl = await JSON.parse(
+          sessionStorage.getItem("wishList") || "[]"
+        );
+        setQuanti2(savedwl.length);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    fetchQuantity();
+  }, [quanti, quanti2]);
 
   return (
     <>
       <div className="pt-3 pb-md-0 pb-3 d-flex justify-content-around align-items-center">
         {/* Logo */}
-        <div className="w-25 d-flex align-items-center justify-content-center">
+        <Link
+          href="/"
+          className="w-25 d-flex align-items-center justify-content-center"
+        >
           <Image src="/logo.jpg" width={40} height={40} alt="logo" />
-        </div>
+        </Link>
 
         {/* Search */}
         <form className="d-flex" style={{ inlineSize: "100%" }}>

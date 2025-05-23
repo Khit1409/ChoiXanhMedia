@@ -7,7 +7,7 @@ export default function PathNameComponent() {
   const pathname = usePathname();
   const pathParts = pathname.split("/").filter(Boolean);
 
-  const domainurl = "Chồi Xanh Media";
+  const domainurl = "Trang chủ";
 
   function capitalizeWords(str: string) {
     return str
@@ -22,7 +22,7 @@ export default function PathNameComponent() {
   });
 
   return (
-    <div className="container py-2">
+    <div className="container bg-silver my-2">
       <div className="d-flex gap-2">
         <Link href="/" className="text-decoration-none">
           {domainurl}

@@ -27,8 +27,8 @@ export default function Cart() {
         GIỎ HÀNG ĐƯỢC THÊM
       </h6>
       <div className="row row-cols-2 row-cols-sm-3 row-cols-md-4 row-cols-lg-6 g-2">
-        {carts?.map((cart) =>
-          cart.hinhdaidien ? (
+        {carts && carts.length > 0 ? (
+          carts.map((cart) => (
             <Link
               href={`san-pham/chi-tiet/${cart.id}`}
               className="col text-decoration-none"
@@ -69,7 +69,11 @@ export default function Cart() {
                 </div>
               </div>
             </Link>
-          ) : null
+          ))
+        ) : (
+          <div className="w-100 min-vh-100 d-flex align-items-center justify-content-center">
+            <p className="text-center">Chưa có giỏ hàng nào được thêm....</p>
+          </div>
         )}
       </div>
     </div>

@@ -109,6 +109,9 @@ a {
 .openNewsMenu:hover .newsMenu {
   display: block;
 }
+.bg-silver{
+  background-color: rgba(192, 192, 192, 0.6);
+}
 @keyframes spinAnimation {
   100% {
     transform: rotate(360deg);

@@ -1,9 +1,9 @@
 import SignIn from "@/components/form/SignIn";
 import React from "react";
 
-export default function Page() {
+export default function SignInPage() {
   return (
-    <div>
+    <div className="">
       <SignIn />
     </div>
   );

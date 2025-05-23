@@ -21,9 +21,7 @@ import { faHeart } from "@fortawesome/free-solid-svg-icons";
 export default function ProductDetail() {
   //reducer
   const dispatch = useDispatch<AppDispatch>();
-  const { productDetail, loading } = useSelector(
-    (state: RootState) => state.products
-  );
+  const { productDetail } = useSelector((state: RootState) => state.products);
   const { decoded } = useSelector((state: RootState) => state.auths);
   const { loggedIn } = useSelector((state: RootState) => state.auths);
   // request
@@ -39,6 +37,8 @@ export default function ProductDetail() {
   const [imgList, setImgList] = useState<string[]>([]);
   const [imgIndex, setImgIndex] = useState(0);
   const [expanded, setExpanded] = useState(false);
+  const [wlLoading, setWlLoading] = useState(false);
+  const [cartLoading, setCartLoading] = useState(false);
 
   // model alert
   const [model, setModel] = useState<boolean>(false);
@@ -64,22 +64,28 @@ export default function ProductDetail() {
         router.push("/dang-nhap");
       }
       setModel(false);
+      setCartLoading(true);
       const result = await dispatch(
         addToCart({ userid: userid as string, pass: pass as string, id: id })
       );
       if (addToCart.fulfilled.match(result)) {
         setModel(true);
+        setCartLoading(false);
+      } else {
+        setCartLoading(false);
       }
     } catch (error) {
       console.log(error);
     }
   };
+  //thêm vào yêu thích
   const handleAddToWishList = async () => {
     try {
       if (!loggedIn) {
         router.push("/dang-nhap");
       }
       setModel(false);
+      setWlLoading(true);
       const result = await dispatch(
         addToWishList({
           userid: userid as string,
@@ -89,6 +95,9 @@ export default function ProductDetail() {
       );
       if (addToWishList.fulfilled.match(result)) {
         setModel(true);
+        setWlLoading(false);
+      } else {
+        setWlLoading(false);
       }
     } catch (error) {
       console.log(error);
@@ -138,6 +147,7 @@ export default function ProductDetail() {
                     )}
                   </div>
                   <h5 className="border-bottom pb-2">Tổng quan sản phẩm</h5>
+                  {/* ảnh chi tiết */}
                   <div className="row g-3 gap-1 mt-2">
                     {products.images.map((imgs, groupIndex) =>
                       imgs.data.map((img, imgIndex) => (
@@ -218,13 +228,19 @@ export default function ProductDetail() {
                       className="btn border rounded-0 border-2 border-success"
                       onClick={handleAddToCart}
                     >
-                      {loading ? <SpinAnimation /> : "Thêm vào giỏ hàng"}
+                      {cartLoading ? <SpinAnimation /> : "Thêm vào giỏ hàng"}
                     </button>
                     <button
                       className="btn btn-success rounded-0"
                       onClick={handleAddToWishList}
                     >
-                      Yêu thích <FontAwesomeIcon icon={faHeart} />
+                      {wlLoading ? (
+                        <SpinAnimation />
+                      ) : (
+                        <>
+                          Yêu thích <FontAwesomeIcon icon={faHeart} />
+                        </>
+                      )}
                     </button>
                     <button className="btn btn-success rounded-0">
                       Mua ngay

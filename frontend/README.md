@@ -61,7 +61,7 @@ http://demodienmay.181.atoz.vn/ww2/module.tintuc.asp?id=35281&sl=9&pageid=1
 
 http://demodienmay.181.atoz.vn/ww2/crm.boloc.master.asp
 
-https://choixanh.com.vn/ww1/member.0.asp?userid=tranthevangtd@gmail.com&pass=8b4cf0258846b23e0a8272bee22c38dd=>api thông tin tài khoản khách hàng.
+https://choixanh.com.vn/ww1/member.0.asp?userid=tranthevangtd@gmail.com&pass=8b4cf0258846b23e0a8272bee22c38dd =>api thông tin tài khoản khách hàng.
 type: 'POST',url: `/ww1/save.wishlist.asp?userid=${encodeURIComponent(userid)}&pass=${encodeURIComponent(pass)}&id=${encodeURIComponent(id)}`
 type: 'POST',url: `/ww1/save.addcart.asp?userid=${encodeURIComponent(userid)}&pass=${encodeURIComponent(pass)}&id=${encodeURIComponent(id)}`
 //api nhập thông tin người dùng
@@ -80,7 +80,10 @@ https://choixanh.com.vn/ww2/tinhnang.hinhanh.idpart.asp?id=60009
 https://choixanh.com.vn/ww2/module.sanpham.chitiet.asp?id=60009
 
 **_NOTE CHO MAI_**
-1. làm slice getCart. 
-2. chỉnh lại lỗi cập nhật state decoded. 
-3. chỉnh css banner.
-4. fix lại login checkout
+
+1. làm slice getCart.
+2. Tạo form nhập thông tin người dùng api:
+   https://choixanh.com.vn/ww1/thongtinthanhvien.asp?userid=tranthevangtd@gmail.com&pass=8b4cf0258846b23e0a8272bee22c38dd
+3. chỉnh lại lỗi cập nhật state decoded.
+4. chỉnh css banner.
+5. fix lại login checkout.
