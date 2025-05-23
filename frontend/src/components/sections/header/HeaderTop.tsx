@@ -1,5 +1,4 @@
-import { logout } from "@/redux/slices/authSlice";
-import { handleOpenUserMenu } from "@/redux/slices/menuSlice";
+import { logout } from "@/slices/authSlice";
 import { AppDispatch, RootState } from "@/redux/store";
 import {
   faAppStore,
@@ -16,21 +15,14 @@ import {
   faUserPlus,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import React, { useState } from "react";
+import React from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { userMenuList } from "@/redux/utils";
 
 export default function HeaderTop() {
   const { loggedIn } = useSelector((state: RootState) => state.auths);
   const dispatch = useDispatch<AppDispatch>();
-
-  const [openUserMenu, setOpenUserMenu] = useState(false);
-
   //dispatch open menu
-  const openMenu = () => {
-    const newState = !openUserMenu;
-    setOpenUserMenu(newState);
-    dispatch(handleOpenUserMenu(newState));
-  };
 
   const handleLogout = async () => {
     try {
@@ -91,24 +83,36 @@ export default function HeaderTop() {
             <FontAwesomeIcon icon={faHeadphones} />
           </button>
         </li>
-        <li>
-          <button
-            className="btn text-reset text-decoration-none d-flex gap-1 align-items-center"
-            onClick={openMenu}
-          >
+        <li className="openUserModel">
+          <button className="btn text-reset text-decoration-none d-flex gap-1 align-items-center ">
             <span className="d-md-block d-none me-1">Tài khoản</span>
             <FontAwesomeIcon icon={faUser} />
           </button>
+          {/* dropdown user */}
+          <ul className="dropdown-menu productMenu px-2 w-auto bg-success shadow-lg userModel border-0">
+            {userMenuList.map((menu) => (
+              <li className="list-unstyled p-1 w-100" key={menu.id}>
+                <a
+                  href={menu.url}
+                  className="text-decoration-none d-block text-white"
+                >
+                  {menu.content}
+                </a>
+              </li>
+            ))}
+          </ul>
         </li>
         <li>
           {loggedIn ? (
-            <button
-              onClick={handleLogout}
-              className="btn text-reset text-decoration-none d-flex gap-1 align-items-center"
-            >
-              <span className="d-md-block d-none me-1">Đăng xuất</span>
-              <FontAwesomeIcon icon={faArrowRightFromBracket} />
-            </button>
+            <div className="">
+              <button
+                onClick={handleLogout}
+                className="btn text-white d-flex gap-1 align-items-center"
+              >
+                <span className="d-md-block d-none me-1">Logout</span>
+                <FontAwesomeIcon icon={faArrowRightFromBracket} />
+              </button>
+            </div>
           ) : (
             <a
               href="/dang-ky"

@@ -51,7 +51,7 @@ export default function TechLife() {
   }
 
   return (
-    <div className="container py-4">
+    <div className="py-4">
       <section>
         <h1 className="h4 fw-bold text-info mb-4">Đời Sống Công Nghệ</h1>
         <div className="row row-cols-1 row-cols-md-2 g-3">

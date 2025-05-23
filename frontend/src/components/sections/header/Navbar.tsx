@@ -1,5 +1,5 @@
-import { openResponsiveMenu } from "@/redux/slices/menuSlice";
-import { getAllProduct } from "@/redux/slices/productSlice";
+import { openResponsiveMenu } from "@/slices/menuSlice";
+import { getAllProduct } from "@/slices/productSlice";
 import { AppDispatch, RootState } from "@/redux/store";
 import { toSlug } from "@/redux/utils";
 import {
@@ -26,7 +26,7 @@ export default function Navbar() {
     const savedwl = JSON.parse(sessionStorage.getItem("wishList") || "[]");
     setQuanti2(savedwl.length);
     setQuanti(savedCart.length);
-  }, []);
+  }, [quanti, quanti2]);
   //gọi menu sản phẩm
   const dispatch = useDispatch<AppDispatch>();
   useEffect(() => {
@@ -69,7 +69,7 @@ export default function Navbar() {
               <FontAwesomeIcon icon={faCartPlus} /> Shop
             </a>
             {/* menu dropdown sản phẩm */}
-            <ul className="productMenu position-absolute px-2 top-1 right-10 w-auto z-3 bg-success shadow-lg">
+            <ul className="dropdown-menu productMenu px-2 w-auto bg-success shadow-lg">
               {Array.isArray(products) &&
                 products.map((item) => {
                   if (!item.metadescriptions) return null;
@@ -96,10 +96,10 @@ export default function Navbar() {
               <FontAwesomeIcon icon={faNewspaper} /> Tin tức
             </a>
             {/* menu dropdown tin tức */}
-            <ul className="newsMenu list-unstyled position-absolute px-2 top-1 right-10 w-auto z-3 bg-success">
+            <ul className="newsMenu dropdown-menu list-unstyled position-absolute px-2 top-1 right-10 w-auto z-3 bg-success">
               <li>
                 <Link
-                  className="text-decoration-none text-white d-block py-1"
+                  className="text-decoration-none text-white d-block py-1 "
                   href={"/tin-tuc/nhip-song-so"}
                 >
                   Nhịp sống số
@@ -160,7 +160,7 @@ export default function Navbar() {
                         <Link
                           onClick={() => dispatch(openResponsiveMenu(false))}
                           href={`/san-pham/${url}`}
-                          className="text-decoration-none text-white"
+                          className="text-decoration-none text-white dropdown-item"
                         >
                           {item.tieude}
                         </Link>
@@ -174,11 +174,11 @@ export default function Navbar() {
                   >
                     Tin tức
                   </a>
-                  <ul className="list-unstyled ">
+                  <ul className="list-unstyled">
                     <li className="px-3 pt-2">
                       <Link
                         onClick={() => dispatch(openResponsiveMenu(false))}
-                        className="text-decoration-none text-white"
+                        className="text-decoration-none text-white "
                         href={"/tin-tuc/nhip-song-so"}
                       >
                         Nhịp sống số
@@ -187,7 +187,7 @@ export default function Navbar() {
                     <li className="px-3 pt-2">
                       <Link
                         onClick={() => dispatch(openResponsiveMenu(false))}
-                        className="text-decoration-none text-white"
+                        className="text-decoration-none dropdown-item text-white"
                         href={"/tin-tuc/tin-cong-nghe"}
                       >
                         Công nghệ
@@ -211,7 +211,8 @@ export default function Navbar() {
                         <FontAwesomeIcon icon={faCartShopping} />
                         {/* Badge số lượng giỏ hàng (nếu có) */}
                         <span className="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
-                          {quanti}{/* số lượng giỏ hàng */}
+                          {quanti}
+                          {/* số lượng giỏ hàng */}
                         </span>
                       </button>
                     </Link>
@@ -220,7 +221,8 @@ export default function Navbar() {
                         <FontAwesomeIcon icon={faHeart} />
                         {/* Badge số lượng giỏ hàng (nếu có) */}
                         <span className="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-danger">
-                          {/* số lượng wl*/}{quanti2}
+                          {/* số lượng wl*/}
+                          {quanti2}
                         </span>
                       </button>
                     </Link>

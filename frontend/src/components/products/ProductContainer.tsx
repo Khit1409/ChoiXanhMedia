@@ -1,6 +1,6 @@
 "use client";
 
-import { getAllProduct } from "@/redux/slices/productSlice";
+import { getAllProduct } from "@/slices/productSlice";
 import { AppDispatch } from "@/redux/store";
 
 import Image from "next/image";
@@ -108,7 +108,7 @@ export default function ProductContainer() {
           </div>
         ))
       ) : (
-        <div className="d-flex align-items-center justify-content-center container">
+        <div className="min-vh-100 w-100 d-flex align-items-center justify-content-center">
           <SpinAnimation />
         </div>
       )}

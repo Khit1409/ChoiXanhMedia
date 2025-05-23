@@ -3,7 +3,7 @@ import React from 'react'
 
 export default function EntertaimentPage() {
   return (
-    <div className='container'>
+    <div>
       <Entertaiment/>
     </div>
   )

@@ -1,6 +1,6 @@
 "use client";
 
-import { register } from "@/redux/slices/authSlice";
+import { register } from "@/slices/authSlice";
 import { AppDispatch } from "@/redux/store";
 import {
   faEnvelope,

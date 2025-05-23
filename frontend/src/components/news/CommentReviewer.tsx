@@ -48,7 +48,7 @@ export default function CommentReviewer() {
   }, []);
 
   return (
-    <div className="container py-3">
+    <div className="py-3">
       <h2 className="text-center fw-bold mb-4 text-dark">Ý Kiến Khách Hàng</h2>
       <div className="row row-cols-1 row-cols-md-2 row-cols-lg-3 g-4">
         {comments &&

@@ -12,7 +12,7 @@ import Link from "next/link";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import Navbar from "./Navbar";
-import { openResponsiveMenu } from "@/redux/slices/menuSlice";
+import { openResponsiveMenu } from "@/slices/menuSlice";
 
 export default function HeaderMiddle() {
   const { loggedIn } = useSelector((state: RootState) => state.auths);
@@ -39,7 +39,7 @@ export default function HeaderMiddle() {
       }
     };
     fetchQuantity();
-  }, [quanti, quanti2]);
+  }, []);
 
   return (
     <>

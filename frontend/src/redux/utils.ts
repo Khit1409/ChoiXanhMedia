@@ -1,6 +1,6 @@
-import productReducer from "./slices/productSlice";
-import authReducer from "./slices/authSlice";
-import menuReducer from './slices/menuSlice'
+import productReducer from "../slices/productSlice";
+import authReducer from "../slices/authSlice";
+import menuReducer from '../slices/menuSlice'
 export { productReducer, authReducer,menuReducer };
 
 // //lấy url chuyển trang
@@ -79,3 +79,9 @@ export function capitalizeWords(str: string) {
     .join(" ");
 }
 
+export const userMenuList = [
+  {id:1,content:"Thông tin người dùng",url:"/thong-tin-tai-khoan"},
+  {id:2,content:"Đăng ký thành viên",url:"/thong-tin-thanh-vien"},
+  {id:3,content:"Lịch sử giao dịch",url:"/lich-su-giao-dich"},
+  {id:4,content:"Đổi mật khẩu",url:"/doi-mat-khau"},
+]

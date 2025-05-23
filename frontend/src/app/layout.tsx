@@ -1,13 +1,13 @@
 import type { Metadata } from "next";
 import { Nunito } from "next/font/google";
 import "../styles/globals.css";
-import "../icons/fontawesome";
+import "../components/icons/fontawesome";
 import { ReduxProvider } from "@/redux/provider";
-import AuthProvider from "./AuthProvider";
+import AuthProvider from "../redux/AuthProvider";
 import Header from "@/components/sections/header";
 import Footer from "@/components/sections/footer";
-import UserModel from "@/components/users/UserModel";
 import PathNameComponent from "@/components/sections/header/PathNameComponent";
+import Script from "next/script";
 
 const geistSans = Nunito({
   variable: "--font-geist-sans",
@@ -47,13 +47,13 @@ export default function RootLayout({
           <ReduxProvider>
             <AuthProvider>
               <Header />
-              <PathNameComponent /> 
-              <UserModel />
-              <div className="container">{children}</div>
+              <PathNameComponent />
+              <div className="container-fluid">{children}</div>
               <Footer />
             </AuthProvider>
           </ReduxProvider>
         </main>
+        <Script src="/bootstrap.bundle.min.js" />
       </body>
     </html>
   );

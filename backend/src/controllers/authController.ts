@@ -26,25 +26,21 @@ export const login = async (req: Request, res: Response) => {
       `https://choixanh.com.vn/ww1/userlogin.asp?userid=${userid}&pass=${pass}`
     );
     const data = response.data as ResponseAPI[];
-
-    if (
-      data.map((db) => {
-        db.ThongBao === "Đăng nhập thành công";
-      })
-    ) {
-      const member = data.map((db) => db.chucnang[0]);
-      // console.log("member:", member[0]);
+    //kiểm tra thông báo trả về...
+    const loginSuccess = data.some(
+      (db) => db.ThongBao === "Đăng nhập thành công"
+    );
+    if (loginSuccess) {
       //mã hóa mật khẩu
       const hashPass = crypto.createHash("md5").update(pass).digest("hex");
 
       const token = jwt.sign(
-        { userid, pass: hashPass, member: member },
+        { userid, pass: hashPass, member: 0 },
         process.env.SECRET_KEY as string,
         {
           expiresIn: "1d",
         }
       );
-
       return res
         .cookie("token", token, {
           httpOnly: true,
@@ -84,15 +80,7 @@ export const checkAuth = async (req: Request, res: Response) => {
       process.env.SECRET_KEY as string
     ) as jwt.JwtPayload;
 
-    const { userid, pass, member } = decoded;
-    console.log("userid:", userid, "pass:", pass, "member:", member);
-
-    //lấy user menu
-    const menu = await axios.get(
-      `https://choixanh.com.vn/ww1/member.${member}.asp?userid=${userid}&pass=${pass}`
-    );
-    const menuRes = menu.data as MenuUser[];
-    // console.log(menuRes);
+    const { userid, pass } = decoded;
 
     if (!userid || !pass) {
       return res.status(401).json({ message: "Token không hợp lệ" });
@@ -102,7 +90,6 @@ export const checkAuth = async (req: Request, res: Response) => {
       message: "Token hợp lệ",
       users: { userid, pass },
       token,
-      menu: menuRes,
     });
   } catch (error) {
     return res.status(401).json({ message: "Token hết hạn hoặc lỗi", error });

@@ -116,6 +116,8 @@ const authSlice = createSlice({
       .addCase(checkAuth.fulfilled, (state, action) => {
         state.decoded = action.payload;
         state.loggedIn = true;
+        // lưu lên ss
+        sessionStorage.setItem("loggedIn", "true");
         state.loading = false;
       })
       .addCase(checkAuth.rejected, (state, action) => {
@@ -133,6 +135,8 @@ const authSlice = createSlice({
         state.loading = false;
         state.users = action.payload;
         state.loggedIn = true;
+        state.error = null;
+        state.mess = "Đăng nhập thành công";
       })
       .addCase(login.rejected, (state, action) => {
         state.loading = false;
@@ -147,7 +151,9 @@ const authSlice = createSlice({
       .addCase(logout.fulfilled, (state, action) => {
         state.loading = false;
         state.mess = action.payload;
-        state.loggedIn = true;
+        state.loggedIn = false;
+        state.decoded = null;
+        state.users = null;
       })
       .addCase(logout.rejected, (state, action) => {
         state.loading = false;

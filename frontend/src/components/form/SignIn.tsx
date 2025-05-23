@@ -5,7 +5,7 @@ import { useState } from "react";
 import Link from "next/link";
 import { useDispatch } from "react-redux";
 import { AppDispatch } from "@/redux/store";
-import { login } from "@/redux/slices/authSlice";
+import { login } from "@/slices/authSlice";
 import {
   faFacebook,
   faGoogle,
@@ -13,6 +13,7 @@ import {
   faTwitter,
 } from "@fortawesome/free-brands-svg-icons";
 import ModelAlert from "../tools/ModelAlert";
+// import { useRouter } from "next/navigation";
 
 interface FormData {
   userid: string;
@@ -21,6 +22,8 @@ interface FormData {
 
 export default function SignIn() {
   // lưu state data
+  // const { loggedIn } = useSelector((state: RootState) => state.auths);
+  // const router = useRouter();
   const [formData, setFormData] = useState<FormData>({
     userid: "",
     pass: "",
@@ -42,7 +45,6 @@ export default function SignIn() {
         alert("Mật khẩu rỗng");
         return;
       }
-
       const result = await dispatch(
         login({ userid: formData.userid, pass: formData.pass })
       );

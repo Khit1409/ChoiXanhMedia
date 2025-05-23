@@ -4,7 +4,7 @@ import {
   addToCart,
   addToWishList,
   getProductDetail,
-} from "@/redux/slices/productSlice";
+} from "@/slices/productSlice";
 import { AppDispatch, RootState } from "@/redux/store";
 import { decodeHtml, reNameInfo } from "@/redux/utils";
 import Image from "next/image";
