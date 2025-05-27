@@ -1,0 +1,137 @@
+@import url("https://fonts.googleapis.com/css2?family=Ancizar+Sans:ital,wght@0,100..1000;1,100..1000&family=Montserrat:ital,wght@0,100..900;1,100..900&family=Nunito:ital,wght@0,200..1000;1,200..1000&display=swap");
+@import "bootstrap/dist/css/bootstrap.min.css";
+
+:root {
+  --background: #ffffff;
+  --foreground: #171717;
+  --font-nav-link: "Nunito", sans-serif;
+}
+
+@media (prefers-color-scheme: dark) {
+  :root {
+    --background: #ffffff;
+    --foreground: #000000;
+  }
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: "Nunito", sans-serif;
+  min-inline-size: l00vh;
+}
+.nav-link {
+  font-family: var(--font-nav-link);
+  color: white;
+  font-weight: bold;
+  font-size: 20px;
+}
+/* background css custom bootstrap */
+.bg-primary-second {
+  background-color: rgb(37, 134, 244);
+}
+a {
+  cursor: pointer;
+}
+.productNavigation {
+  font-size: 14px;
+}
+.productDescription p {
+  font-size: 12px;
+}
+.productDescription h2 {
+  font-size: 15px;
+}
+.productDescription h1 {
+  font-size: 16px;
+}
+.productDescription h3 {
+  font-size: 13px;
+}
+.navbarProductDetail {
+  font-size: 12px;
+}
+.productTitle {
+  color: #000000;
+  font-size: 12px;
+}
+/* model css */
+.userModel {
+  display: none;
+}
+.openUserModel:hover .userModel {
+  display: block;
+}
+/* animation css */
+.spinContainer {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.spinIcon {
+  inline-size: 50px;
+  block-size: 50px;
+  border-radius: 100%;
+  border: solid 2px gray;
+  animation: spinAnimation linear infinite;
+  border-block-start: transparent;
+}
+/* product css global */
+.whiteSmoke {
+  background-color: rgb(238, 239, 239);
+}
+.zoom-hover {
+  transition: tranform 0.3s infinite;
+}
+.zoom-hover img {
+  block-size: auto;
+  inline-size: auto;
+}
+.zoom-hover:hover {
+  transform: scale(1.1); /* Zoom lên 10% */
+}
+.bg-gray {
+  background-color: rgba(166, 163, 163, 0.919);
+}
+.productInfo {
+  font-size: 13px;
+}
+.productMenu {
+  display: none;
+}
+.openProductMenu:hover .productMenu {
+  display: block;
+}
+.dropdown-menu{
+  border-radius: 0;
+}
+.newsMenu {
+  display: none;
+}
+.openNewsMenu:hover .newsMenu {
+  display: block;
+}
+.bg-silver {
+  background-color: rgba(192, 192, 192, 0.6);
+}
+/* animation and responsive */
+@keyframes spinAnimation {
+  100% {
+    transform: rotate(360deg);
+  }
+}
+/* nhỏ hơn thì khác */
+@media (max-width: 750px) {
+  .mobileNavbar {
+    display: none;
+  }
+  .productRows {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+/* lớn hơn thì khác */
+@media (min-width: 750px) {
+  .productRows {
+    grid-template-columns: repeat(5, 1fr);
+  }
+}
