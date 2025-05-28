@@ -17,8 +17,9 @@ return new class extends Migration {
             $table->string('avatar', 255);
             $table->string('email', 255)->unique();
             $table->string('phone', 11);
-            $table->string('password', 255);
-            $table->enum('roles', ['user', 'seller','admin']);
+            $table->dateTime('birthday', 6)->nullable();
+            $table->string('hashed_password', 255);
+            $table->enum('roles', ['user', 'seller']);
             $table->timestamps();
         });
         // bảng danh mục người dùng tùy vào role

@@ -7,7 +7,9 @@ USE ChoiXanhMedia;
 CREATE TABLE
   users (
     id INT PRIMARY KEY AUTO_INCREMENT,
-    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    role_id int,
+    created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (role_id) REFERENCES roles (id),
   );
 
 -- User authenticate --
@@ -15,7 +17,6 @@ CREATE TABLE
   users_auths (
     id INT PRIMARY KEY AUTO_INCREMENT,
     user_id INT NOT NULL,
-    user_role ENUM ('user', 'admin', 'seller'),
     signin_method ENUM ('Default', 'Google', 'Facebook', 'Twitter'),
     identifier VARCHAR(255) NOT NULL UNIQUE,
     hashed_pass VARCHAR(255),
@@ -24,14 +25,6 @@ CREATE TABLE
   );
 
 -- Role category --
-CREATE TABLE
-  role_categories (
-    id INT PRIMARY KEY AUTO_INCREMENT,
-    role ENUM ('user', 'admin', 'seller') NOT NULL,
-    content VARCHAR(100),
-    url VARCHAR(100)
-  );
-
 -- User / Admin / Seller info --
 CREATE TABLE
   user_info (
