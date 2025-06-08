@@ -5,7 +5,7 @@ import { useState } from "react";
 import Link from "next/link";
 import { useDispatch } from "react-redux";
 import { AppDispatch } from "@/redux/store";
-import { login } from "@/slices/authSlice";
+import { checkAuth, login } from "@/redux/slices/auth.slice";
 import {
   faFacebook,
   faGoogle,
@@ -13,6 +13,7 @@ import {
   faTwitter,
 } from "@fortawesome/free-brands-svg-icons";
 import ModelAlert from "../tools/ModelAlert";
+import { useRouter } from "next/navigation";
 // import { useRouter } from "next/navigation";
 
 interface FormData {
@@ -21,6 +22,7 @@ interface FormData {
 }
 
 export default function SignIn() {
+  const router = useRouter();
   const [formData, setFormData] = useState<FormData>({
     email: "",
     password: "",
@@ -45,8 +47,10 @@ export default function SignIn() {
       const result = await dispatch(
         login({ email: formData.email, password: formData.password })
       );
-      if (result.payload == 1) {
+      if (login.fulfilled.match(result)) {
         setSuccess(true);
+        dispatch(checkAuth());
+        router.push("/");
       }
     } catch (error) {
       console.log(error);
@@ -55,7 +59,7 @@ export default function SignIn() {
 
   const [success, setSuccess] = useState(false);
   return (
-    <section className="d-flex align-items-center justify-content-center py-5">
+    <section className="d-flex align-items-center justify-content-center py-5 min-vh-100">
       {/* Form Đăng nhập */}
       {success ? (
         <ModelAlert setModel={setSuccess} />
@@ -124,7 +128,7 @@ export default function SignIn() {
                 Chưa có tài khoản?
               </h5>
               <div className="d-flex gap-3 justify-content-center">
-                <Link href="/dang-ky" className="btn btn-success rounded-pill">
+                <Link href="/register" className="btn btn-success rounded-pill">
                   <FontAwesomeIcon icon={faUserPlus} /> Đăng ký
                 </Link>
                 <Link href="/" className="btn btn-dark rounded-pill">

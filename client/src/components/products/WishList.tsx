@@ -3,7 +3,7 @@
 import React, { useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { DataProduct } from "@/types/productTypes";
+import { DataProduct } from "@/types/content.page.type";
 
 export default function WishList() {
   const [products, setProducts] = useState<DataProduct[]>([]);

@@ -1,6 +1,6 @@
-import productReducer from "../slices/productSlice";
-import authReducer from "../slices/authSlice";
-import menuReducer from "../slices/menuSlice";
+import productReducer from "./slices/page.content.slice";
+import authReducer from "./slices/auth.slice";
+import menuReducer from "./slices/custom.page.slice";
 import {
   faBuilding,
   faDiagramProject,

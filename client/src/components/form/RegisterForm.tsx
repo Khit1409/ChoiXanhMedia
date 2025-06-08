@@ -1,25 +1,25 @@
 "use client";
 
-import { register } from "@/slices/authSlice";
-import { AppDispatch } from "@/redux/store";
+import { register } from "@/redux/slices/auth.slice";
+import { AppDispatch, RootState } from "@/redux/store";
 import {
   faEnvelope,
+  faHome,
   faLock,
   faPhone,
   faUser,
-  faUserCircle,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import Link from "next/link";
 import { useState } from "react";
-import { useDispatch } from "react-redux";
-import ModelAlert from "../tools/ModelAlert";
+import { useDispatch, useSelector } from "react-redux";
 
 interface FormData {
   phone: string;
   avatar: string;
   roles: string;
   name: string;
-  birthdays: Date;
+  gender: string;
   email: string;
   password: string;
 }
@@ -34,152 +34,173 @@ export default function RegisterForm() {
     password: "",
     avatar: "",
     name: "",
-    birthdays: new Date(),
+    gender: "",
   });
 
-  const [submitAcc, setSubmitAcc] = useState(false);
+  const { resultCode, error } = useSelector((state: RootState) => state.auths);
 
-  const handleOnchange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  console.log(resultCode);
+  const handleOnchange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
+  ) => {
     setData({ ...data, [e.target.name]: e.target.value });
   };
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
+
+    if (!agreeToTerms) {
+      return;
+    }
+
     try {
-      const res = await dispatch(
+      await dispatch(
         register({
           email: data.email,
           password: data.password,
           avatar: data.avatar,
-          birthday: new Date(data.birthdays),
+          gender: data.gender,
           name: data.name,
           phone: data.phone,
           roles: data.roles,
         })
       );
-
-      if (register.fulfilled.match(res)) {
-        setSubmitAcc(true);
-      }
     } catch (error) {
-      console.log(error);
+      console.error(error);
     }
   };
-  // mã hoá mật khẩu để check
-  //
+
   return (
-    <div className="d-flex align-items-center justify-content-center vh-100">
-      {submitAcc ? (
-        <ModelAlert setModel={setSubmitAcc} />
-      ) : (
-        <div className="bg-white shadow p-4 rounded w-75 h-75 d-flex align-items-center justify-content-center">
-          <form
-            className="w-75 h-100 d-flex flex-column justify-content-around gap-3"
-            onSubmit={handleSubmit}
+    <div className="d-flex container align-items-center justify-content-center vh-100">
+      <div className="bg-white shadow p-5 rounded w-100 mw-450">
+        <h3 className="text-center mb-4">Đăng ký tài khoản</h3>
+        {resultCode != undefined ? (
+          resultCode == 0 ? (
+            <p className="text-center text-danger">{error}</p>
+          ) : (
+            <p className="text-center text-success">Đăng ký thành công</p>
+          )
+        ) : (
+          <></>
+        )}
+        <form onSubmit={handleSubmit} className="d-flex flex-column gap-3">
+          {/* Họ và tên */}
+          <div className="input-group">
+            <span className="input-group-text bg-white">
+              <FontAwesomeIcon icon={faUser} />
+            </span>
+            <input
+              type="text"
+              name="name"
+              value={data.name}
+              onChange={handleOnchange}
+              placeholder="Họ và tên"
+              className="form-control"
+              required
+            />
+          </div>
+
+          {/* Số điện thoại */}
+          <div className="input-group">
+            <span className="input-group-text bg-white">
+              <FontAwesomeIcon icon={faPhone} />
+            </span>
+            <input
+              type="tel"
+              name="phone"
+              value={data.phone}
+              onChange={handleOnchange}
+              placeholder="Số điện thoại"
+              className="form-control"
+              required
+            />
+          </div>
+
+          {/* Email */}
+          <div className="input-group">
+            <span className="input-group-text bg-white">
+              <FontAwesomeIcon icon={faEnvelope} />
+            </span>
+            <input
+              type="email"
+              name="email"
+              value={data.email}
+              onChange={handleOnchange}
+              placeholder="Email"
+              className="form-control"
+              required
+            />
+          </div>
+
+          {/* Giới tính */}
+          <select
+            name="gender"
+            onChange={handleOnchange}
+            value={data.gender}
+            className="form-select"
+            required
           >
-            {/* họ và tên */}
-            <div className="position-relative mb-2">
-              <label className="position-absolute top-50 start-0 translate-middle-y ms-2">
-                <FontAwesomeIcon icon={faUser} />
-              </label>
-              <input
-                type="text"
-                name="name"
-                value={data.name}
-                onChange={handleOnchange}
-                placeholder="Họ và tên"
-                className="form-control ps-5 text-center rounded-pill"
-              />
-            </div>
+            <option value="">Chọn giới tính</option>
+            <option value="male">Nam</option>
+            <option value="female">Nữ</option>
+            <option value="unknow">Khác</option>
+          </select>
+          {/* Mật khẩu */}
+          <div className="input-group">
+            <span className="input-group-text bg-white">
+              <FontAwesomeIcon icon={faLock} />
+            </span>
+            <input
+              type="password"
+              name="password"
+              value={data.password}
+              onChange={handleOnchange}
+              placeholder="Mật khẩu"
+              className="form-control"
+              required
+              minLength={6}
+            />
+          </div>
 
-            {/* email */}
-            <div className="position-relative mb-2">
-              <label className="position-absolute top-50 start-0 translate-middle-y ms-2">
-                <FontAwesomeIcon icon={faEnvelope} />
-              </label>
-              <input
-                type="text"
-                name="email"
-                value={data.email}
-                onChange={handleOnchange}
-                placeholder="Email"
-                className="form-control ps-5 text-center rounded-pill"
-              />
-            </div>
+          {/* Đồng ý điều khoản */}
+          <div className="form-check d-flex align-items-center gap-2">
+            <input
+              type="checkbox"
+              className="form-check-input"
+              id="terms"
+              checked={agreeToTerms}
+              onChange={() => setAgreeToTerms(!agreeToTerms)}
+              required
+            />
+            <label className="form-check-label" htmlFor="terms">
+              Tôi đồng ý với{" "}
+              <a href="#" className="text-primary text-decoration-underline">
+                điều khoản sử dụng
+              </a>
+            </label>
+          </div>
 
-            {/* số điện thoại */}
-            <div className="position-relative mb-2">
-              <label className="position-absolute top-50 start-0 translate-middle-y ms-2">
-                <FontAwesomeIcon icon={faPhone} />
-              </label>
-              <input
-                type="tel"
-                name="phone"
-                value={data.phone}
-                onChange={handleOnchange}
-                placeholder="Số điện thoại"
-                className="form-control ps-5 text-center rounded-pill"
-              />
-            </div>
+          {/* Nút đăng ký */}
+          <button
+            type="submit"
+            className="btn btn-success rounded-pill fw-semibold"
+            disabled={!agreeToTerms}
+          >
+            Đăng ký
+          </button>
+        </form>
 
-            {/* tên đăng nhập */}
-            <div className="position-relative mb-2">
-              <label className="position-absolute top-50 start-0 translate-middle-y ms-2">
-                <FontAwesomeIcon icon={faUserCircle} />
-              </label>
-              <input
-                type="email"
-                name="email"
-                value={data.email}
-                onChange={handleOnchange}
-                placeholder="Tên đăng nhập bắt buộc nhập email"
-                className="form-control ps-5 text-center rounded-pill"
-              />
-            </div>
-            {/* mật khẩu */}
-            <div className="position-relative mb-2">
-              <label className="position-absolute top-50 start-0 translate-middle-y ms-2">
-                <FontAwesomeIcon icon={faLock} />
-              </label>
-              <input
-                type="password"
-                name="password"
-                value={data.password}
-                onChange={handleOnchange}
-                placeholder="Mật khẩu"
-                className="form-control ps-5 text-center rounded-pill"
-              />
-            </div>
-
-            {/* checkbox */}
-            <div className="form-check d-flex justify-content-center align-items-center gap-2">
-              <input
-                type="checkbox"
-                className="form-check-input"
-                id="terms"
-                checked={agreeToTerms}
-                onChange={() => setAgreeToTerms(!agreeToTerms)}
-              />
-              <label className="form-check-label" htmlFor="terms">
-                Tôi đồng ý với{" "}
-                <a href="#" className="text-primary text-decoration-underline">
-                  Điều khoản sử dụng
-                </a>
-              </label>
-            </div>
-            {/* nút đăng ký */}
-            <div className="d-flex justify-content-center">
-              <button
-                disabled={!agreeToTerms}
-                type="submit"
-                className="btn btn-success rounded-pill w-50 fs-5"
-              >
-                Đăng ký
-              </button>
-            </div>
-          </form>
+        <div className="d-flex gap-2 my-4 justify-content-center align-items-center">
+          <Link href={"/"} className="btn btn">
+            <FontAwesomeIcon icon={faHome} className="mx-2" />
+            Home
+          </Link>
+          <Link href={"/login"} className="btn btn">
+            <FontAwesomeIcon icon={faUser} className="mx-2" />
+            Login
+          </Link>
         </div>
-      )}
+      </div>
     </div>
   );
 }

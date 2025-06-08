@@ -5,9 +5,9 @@ import { useDispatch, useSelector } from "react-redux";
 import Image from "next/image";
 import Link from "next/link";
 
-import { DataProduct } from "@/types/productTypes";
+import { DataProduct } from "@/types/content.page.type";
 import { AppDispatch, RootState } from "@/redux/store";
-import { handleOder } from "@/slices/productSlice";
+import { handleOder } from "@/redux/slices/page.content.slice";
 
 import SpinAnimation from "../items/SpinAnimation";
 import ModelAlert from "../tools/ModelAlert";

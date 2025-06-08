@@ -14,7 +14,7 @@ import Link from "next/link";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import Navbar from "./Navbar";
-import { openResponsiveMenu } from "@/slices/menuSlice";
+import { openResponsiveMenu } from "@/redux/slices/custom.page.slice";
 
 export default function HeaderMiddle() {
   const dispatch = useDispatch<AppDispatch>();
@@ -66,7 +66,7 @@ export default function HeaderMiddle() {
 
         {/* Action buttons */}
         <div className="d-flex gap-2 w-25 justify-content-center align-items-center">
-          {loggedIn ? (
+          {loggedIn == true ? (
             <div className="d-none d-md-flex gap-2">
               {/* Giỏ hàng */}
               <Link href="/gio-hang">
@@ -94,7 +94,7 @@ export default function HeaderMiddle() {
             </div>
           ) : (
             <Link
-              href="/dang-nhap"
+              href="/login"
               className="d-none d-md-block bg-info py-1 px-2 text-white fw-bold text-decoration-none rounded-0 text-center"
             >
               Sign in

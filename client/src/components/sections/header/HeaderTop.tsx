@@ -1,4 +1,4 @@
-import { logout } from "@/slices/authSlice";
+import { logout } from "@/redux/slices/auth.slice";
 import { AppDispatch, RootState } from "@/redux/store";
 import {
   faAppStore,
@@ -15,14 +15,17 @@ import {
   faUserPlus,
 } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import Link from "next/link";
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { userMenuList } from "@/redux/utils";
 
 export default function HeaderTop() {
-  const { loggedIn } = useSelector((state: RootState) => state.auths);
+  const { loggedIn, user_category } = useSelector(
+    (state: RootState) => state.auths
+  );
   const dispatch = useDispatch<AppDispatch>();
   //dispatch open menu
+  const { users } = useSelector((state: RootState) => state.auths);
 
   const handleLogout = async () => {
     try {
@@ -84,23 +87,38 @@ export default function HeaderTop() {
           </button>
         </li>
         <li className="openUserModel">
-          <button className="btn text-reset text-decoration-none d-flex gap-1 align-items-center ">
-            <span className="d-md-block d-none me-1">Tài khoản</span>
-            <FontAwesomeIcon icon={faUser} />
-          </button>
+          {users?.roles === "admin" ? (
+            <Link
+              href={"/admin"}
+              className="px-2 text-reset text-decoration-none d-flex gap-1 align-items-center "
+            >
+              <span className="d-md-block d-none me-1">Admin</span>
+              <FontAwesomeIcon icon={faUser} />
+            </Link>
+          ) : (
+            <Link
+              href={"#"}
+              className="px-2 text-reset text-decoration-none d-flex gap-1 align-items-center "
+            >
+              <span className="d-md-block d-none me-1">Tài khoản</span>
+              <FontAwesomeIcon icon={faUser} />
+            </Link>
+          )}
           {/* dropdown user */}
-          <ul className="dropdown-menu productMenu px-2 w-auto bg-success shadow-lg userModel border-0">
-            {userMenuList.map((menu) => (
-              <li className="list-unstyled p-1 w-100" key={menu.id}>
-                <a
-                  href={menu.url}
-                  className="text-decoration-none d-block text-white"
-                >
-                  {menu.content}
-                </a>
-              </li>
-            ))}
-          </ul>
+          {user_category?.length && (
+            <ul className="dropdown-menu productMenu px-2 w-auto bg-success shadow-lg userModel border-0">
+              {user_category?.map((menu) => (
+                <li className="list-unstyled p-1 w-100" key={menu.id}>
+                  <Link
+                    href={menu.url}
+                    className="text-decoration-none d-block text-white"
+                  >
+                    {menu.name}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          )}
         </li>
         <li>
           {loggedIn ? (
@@ -114,13 +132,13 @@ export default function HeaderTop() {
               </button>
             </div>
           ) : (
-            <a
-              href="/dang-ky"
+            <Link
+              href="/register"
               className="text-reset text-decoration-none d-flex gap-1 align-items-center"
             >
               <span className="d-md-block d-none me-1">Đăng ký</span>
               <FontAwesomeIcon icon={faUserPlus} />
-            </a>
+            </Link>
           )}
         </li>
       </ul>

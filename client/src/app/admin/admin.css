@@ -1,0 +1,26 @@
+.admin-header-navbar button {
+  color: white;
+}
+
+.admin-navbar button {
+  font-size: 14px;
+}
+.btn {
+  border: none;
+}
+.dropdown-menu {
+  font-size: 14px;
+  border: 0;
+}
+.border-t-danger {
+  border-block-start: solid 2px red;
+}
+.border-t-blue {
+  border-block-start: solid 2px blue;
+}
+.border-t-aqua {
+  border-block-start: solid 2px aqua;
+}
+a {
+  text-decoration: none;
+}

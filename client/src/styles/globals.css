@@ -18,13 +18,17 @@ body {
   background: var(--background);
   color: var(--foreground);
   font-family: "Nunito", sans-serif;
-  min-inline-size: l00vh;
+  overflow-x:hidden;
 }
 .nav-link {
   font-family: var(--font-nav-link);
   color: white;
   font-weight: bold;
   font-size: 20px;
+}
+
+.border-r-success{
+  border-inline-end:solid 1px green ;
 }
 /* background css custom bootstrap */
 .bg-primary-second {
@@ -100,7 +104,7 @@ a {
   display: none;
 }
 .openProductMenu:hover .productMenu {
-  display: block;
+  display: flex;
 }
 .dropdown-menu{
   border-radius: 0;

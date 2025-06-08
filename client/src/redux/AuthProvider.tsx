@@ -3,7 +3,7 @@
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { AppDispatch, RootState } from "@/redux/store";
-import { checkAuth } from "@/slices/authSlice";
+import { checkAuth } from "@/redux/slices/auth.slice";
 
 import SpinAnimation from "@/components/items/SpinAnimation";
 import { useRouter } from "next/navigation";
@@ -23,7 +23,7 @@ export default function AuthProvider({
 
   useEffect(() => {
     if (loggedIn == false) {
-      router.push("/dang-nhap");
+      router.push("/login");
     }
   }, [dispatch, loggedIn, router]);
 
