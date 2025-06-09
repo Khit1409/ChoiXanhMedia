@@ -40,6 +40,8 @@ Route::controller(PageController::class)->group(function () {
 
 Route::controller(ProductController::class)->group(function () {
     Route::get('product', 'getProduct');
+    Route::put('delete-product', 'deleteProduct');
+    Route::post('update-product', 'updateProduct');
     Route::get('product-detail/{id}', 'getProductDetail');
     Route::post('product/create-product', 'createProduct');
 });

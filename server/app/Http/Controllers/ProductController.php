@@ -127,6 +127,110 @@ class ProductController extends Controller
         }
     }
 
+
+    //delete
+    public function deleteProduct(Request $request)
+    {
+        $id = $request->query("id");
+
+        DB::table("products")->where("id", $id)->delete();
+        return response()->json(["message" => "Delete Successfull", 'resultCode' => 1], 200);
+    }
+    //update sản phẩm
+    public function updateProduct(Request $request)
+    {
+        $request->validate([
+            'id' => 'required|integer',
+
+            'price' => 'nullable|integer',
+            'name' => 'nullable|string',
+            'filter_keyword' => 'nullable|string',
+            'description' => 'nullable|string',
+            'sale' => 'nullable|integer',
+            'img' => 'nullable|string',
+
+            'thumbnails' => 'nullable|array',
+            'thumbnails.*.name' => 'required_with:thumbnails|string',
+            'thumbnails.*.src' => 'required_with:thumbnails|string',
+
+            'productInfo' => 'nullable|array',
+            'productInfo.*.name' => 'required_with:productInfo|string',
+            'productInfo.*.productInfoValue' => 'required_with:productInfo|array',
+            'productInfo.*.productInfoValue.*.value' => 'required_with:productInfo|string',
+        ]);
+
+        DB::beginTransaction();
+
+        try {
+            // 1. Cập nhật sản phẩm chính nếu field tồn tại
+            $updateData = [];
+            $fields = ['name', 'price', 'filter_keyword', 'img', 'sale', 'description'];
+
+            foreach ($fields as $field) {
+                if ($request->filled($field)) {
+                    $updateData[$field] = $request->$field;
+                }
+            }
+
+            if (!empty($updateData)) {
+                $updateData['updated_at'] = now();
+                DB::table('products')->where('id', $request->id)->update($updateData);
+            }
+
+            // 2. Nếu có thumbnails thì xóa cũ và thêm mới
+            if ($request->has('thumbnails')) {
+                DB::table('productThumbnails')->where('parent_id', $request->id)->delete();
+
+                $thumbnails = [];
+                foreach ($request->thumbnails as $thumb) {
+                    $thumbnails[] = [
+                        'parent_id' => $request->id,
+                        'name' => $thumb['name'],
+                        'src' => $thumb['src'],
+                        'created_at' => now(),
+                        'updated_at' => now(),
+                    ];
+                }
+
+                DB::table('productThumbnails')->insert($thumbnails);
+            }
+
+            // 3. Nếu có productInfo thì xóa cũ và thêm mới
+            if ($request->has('productInfo')) {
+                $oldInfoIds = DB::table('productInfo')->where('parent_id', $request->id)->pluck('id')->toArray();
+                DB::table('productInfoValue')->whereIn('parent_id', $oldInfoIds)->delete();
+                DB::table('productInfo')->where('parent_id', $request->id)->delete();
+
+                foreach ($request->productInfo as $info) {
+                    $infoId = DB::table('productInfo')->insertGetId([
+                        'parent_id' => $request->id,
+                        'name' => $info['name'],
+                        'created_at' => now(),
+                        'updated_at' => now(),
+                    ]);
+
+                    $infoValues = [];
+                    foreach ($info['productInfoValue'] as $valueItem) {
+                        $infoValues[] = [
+                            'parent_id' => $infoId,
+                            'value' => $valueItem['value'],
+                            'created_at' => now(),
+                            'updated_at' => now(),
+                        ];
+                    }
+
+                    DB::table('productInfoValue')->insert($infoValues);
+                }
+            }
+
+            DB::commit();
+            return response()->json(['message' => "Cập nhật sản phẩm thành công", 'resultCode' => 1], 200);
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return response()->json(["error" => $e->getMessage()], 500);
+        }
+    }
+
     // get product detail
 
     public function getProductDetail($id)

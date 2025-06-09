@@ -15,18 +15,33 @@ class PageController extends Controller
     }
     public function postLogoCustom(Request $request)
     {
-        DB::table('customLogo')->update([
-            'name' => $request->name,
-            'src' => $request->src,
-            'width' => $request->width,
-            'height' => $request->height,
-            'padding' => $request->padding,
-            'margin' => $request->marginh,
-            'border_radius' => $request->border_radius,
+        $request->validate([
+            'name' => 'nullable|string',
+            'src' => 'nullable|string',
+            'width' => 'nullable|string',
+            'height' => 'nullable|string',
+            'padding' => 'nullable|string',
+            'margin' => 'nullable|string',
+            'border_radius' => 'nullable|string',
         ]);
+
+        $updateData = [];
+        $fields = ['name', 'src', 'width', 'height', 'padding', 'margin', 'border_radius'];
+
+        foreach ($fields as $field) {
+            if ($request->has($field)) {
+                $updateData[$field] = $request->$field;
+            }
+        }
+
+        if (!empty($updateData)) {
+            $updateData['updated_at'] = now();
+            DB::table('customLogo')->update($updateData);
+        }
 
         return response()->json(['resultCode' => 1], 200);
     }
+
     public function getCustom(Request $request)
     {
         $id = $request->query("id");
@@ -88,62 +103,76 @@ class PageController extends Controller
         });
         return response()->json(['custom' => $categories], 200);
     }
-
     public function updateHomePage(Request $request)
     {
         $request->validate([
-            'title' => 'required|string',
-            'description' => 'required|string',
-            'allowShowProduct' => 'required|boolean',
-            'allowShowMap' => 'required|boolean',
-            'allowShowBlog' => 'required|boolean',
-            'keyword' => 'required|array',
-            'keyword.*' => 'required|string'
+            'title' => 'nullable|string',
+            'description' => 'nullable|string',
+            'allowShowProduct' => 'nullable|boolean',
+            'allowShowMap' => 'nullable|boolean',
+            'allowShowBlog' => 'nullable|boolean',
+            'keyword' => 'nullable|array',
+            'keyword.*' => 'required_with:keyword|string',
         ]);
 
-        // Lấy ID của dòng cần update
-        $custom = DB::table('customHomePage')->first();
+        DB::beginTransaction();
 
-        // Nếu chưa có, tạo mới
-        if (!$custom) {
-            $customId = DB::table('customHomePage')->insertGetId([
-                'title' => $request->title,
-                'description' => $request->description,
-                'allowShowProduct' => $request->allowShowProduct,
-                'allowShowBlog' => $request->allowShowBlog,
-                'allowShowMap' => $request->allowShowMap,
-                'created_at' => now(),
-                'updated_at' => now()
-            ]);
-        } else {
-            $customId = $custom->id;
-            DB::table('customHomePage')
-                ->where('id', $customId)
-                ->update([
-                    'title' => $request->title,
-                    'description' => $request->description,
-                    'allowShowProduct' => $request->allowShowProduct,
-                    'allowShowBlog' => $request->allowShowBlog,
-                    'allowShowMap' => $request->allowShowMap,
+        try {
+            // Lấy dòng hiện tại trong bảng customHomePage
+            $custom = DB::table('customHomePage')->first();
+
+            // Nếu chưa có, tạo mới với các field có trong request
+            if (!$custom) {
+                $insertData = [
+                    'title' => $request->title ?? '',
+                    'description' => $request->description ?? '',
+                    'allowShowProduct' => $request->allowShowProduct ?? false,
+                    'allowShowBlog' => $request->allowShowBlog ?? false,
+                    'allowShowMap' => $request->allowShowMap ?? false,
+                    'created_at' => now(),
                     'updated_at' => now()
-                ]);
+                ];
+
+                $customId = DB::table('customHomePage')->insertGetId($insertData);
+            } else {
+                $customId = $custom->id;
+
+                $updateData = [];
+                $fields = ['title', 'description', 'allowShowProduct', 'allowShowBlog', 'allowShowMap'];
+                foreach ($fields as $field) {
+                    if ($request->has($field)) {
+                        $updateData[$field] = $request->$field;
+                    }
+                }
+
+                if (!empty($updateData)) {
+                    $updateData['updated_at'] = now();
+                    DB::table('customHomePage')->where('id', $customId)->update($updateData);
+                }
+            }
+
+            // Nếu có keywords mới, thì xóa cũ và thêm mới
+            if ($request->has('keyword')) {
+                DB::table('homePageKeywords')->where('parent_id', $customId)->delete();
+
+                foreach ($request->keyword as $key) {
+                    DB::table('homePageKeywords')->insert([
+                        'parent_id' => $customId,
+                        'content' => $key,
+                        'created_at' => now(),
+                        'updated_at' => now()
+                    ]);
+                }
+            }
+
+            DB::commit();
+            return response()->json(['message' => 'Cập nhật trang chủ thành công'], 200);
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return response()->json(['error' => $e->getMessage()], 500);
         }
-
-        // Xóa keywords cũ
-        DB::table('homePageKeywords')->where('parent_id', $customId)->delete();
-
-        // Thêm keywords mới
-        foreach ($request->keyword as $key) {
-            DB::table('homePageKeywords')->insert([
-                'parent_id' => $customId,
-                'content' => $key,
-                'created_at' => now(),
-                'updated_at' => now()
-            ]);
-        }
-
-        return response()->json(['message' => 'Thành công'], 200);
     }
+
 
 
     public function createPage(Request $request)

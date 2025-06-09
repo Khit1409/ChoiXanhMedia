@@ -13,6 +13,7 @@ export interface ProductsCategories {
 export interface ProductDetail {
   id: number;
   name: string;
+  filter_keyword: string;
   price: number;
   sale: number;
   description: string;
@@ -101,7 +102,7 @@ export interface CreateProductReq {
   price: number;
   parentId: number;
   sale: number;
-  filter_keyword:string;
+  filter_keyword: string;
   description: string;
   category_filter_url: string;
   category_name: string;
@@ -132,13 +133,13 @@ interface ProductState {
   loading: boolean;
   productDetail: ProductDetail[] | null;
   resultCode: number | null;
-  blogDetail:blogs[]|null;
+  blogDetail: blogs[] | null;
   error: string | null;
 }
 //initial state
 export const initialState: ProductState = {
   products: null,
-  blogDetail:null,
+  blogDetail: null,
   blogs: null,
   productDetail: null,
   resultCode: null,

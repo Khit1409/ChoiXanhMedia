@@ -2,6 +2,9 @@
 import { getProduct } from "@/redux/slices/page.content.slice";
 import { AppDispatch, RootState } from "@/redux/store";
 import { toSlug } from "@/redux/utils";
+import { faTrash } from "@fortawesome/free-solid-svg-icons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import axios from "axios";
 import Link from "next/link";
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
@@ -14,6 +17,17 @@ export default function ManagerProduct() {
     dispatch(getProduct({ id: 0 }));
   }, [dispatch]);
 
+  const handleDelete = async (id: number) => {
+    const res = await axios.put(
+      `http://localhost:8000/api/delete-product?id=${id}`
+    );
+    if (res.data.resultCode == 1) {
+      alert("Thành công");
+      dispatch(getProduct({ id: 0 }));
+    } else {
+      alert("Thất bại!");
+    }
+  };
   return (
     <div className="mt-4">
       <table className="table table-bordered">
@@ -23,6 +37,7 @@ export default function ManagerProduct() {
             <th>Tên</th>
             <th>Giá</th>
             <th>Ngày thêm</th>
+            <th>Thao tác</th>
           </tr>
         </thead>
         <tbody>
@@ -44,6 +59,15 @@ export default function ManagerProduct() {
                 </td>
                 <td>{pro.price}</td>
                 <td>{pro.created_at.toLocaleString()}</td>
+                <td className="text-center">
+                  <button
+                    onClick={() => handleDelete(pro.id)}
+                    className="btn btn-danger"
+                  >
+                    <FontAwesomeIcon icon={faTrash} className="me-2" />
+                    Xóa
+                  </button>
+                </td>
               </tr>
             ))
           )}

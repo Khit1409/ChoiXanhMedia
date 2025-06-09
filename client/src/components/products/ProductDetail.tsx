@@ -28,9 +28,7 @@ export default function ProductDetail() {
   useEffect(() => {
     const fetchDetail = async () => {
       try {
-        const response = await dispatch(getProductDetail({ id: Number(id) }));
-        if (getProductDetail.fulfilled.match(response)) {
-        }
+        await dispatch(getProductDetail({ id: Number(id) }));
       } catch (error) {
         console.error(error);
       }
@@ -150,7 +148,7 @@ export default function ProductDetail() {
 
             {/* Related Products */}
             <div>
-              <ProductContainer/>
+              <ProductContainer />
             </div>
           </div>
         ))

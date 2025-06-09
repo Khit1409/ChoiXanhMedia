@@ -113,9 +113,11 @@ export default function UpdateParentPage() {
                 <h2 className="text-center">{item.name.toUpperCase()}</h2>
                 <div className="row g-3">
                   <div className="col-md-12">
-                    <label className="form-label me-2">Tên trang cũ</label>
+                    <label className="form-label me-2">
+                      <strong>Tên trang cũ</strong>: {seo.oldPageName}
+                    </label>
                     <input
-                      type="text"
+                      type="hidden"
                       name="oldPageName"
                       onChange={handleOnchangeSeo}
                       className="rounded-0 text-secondary form-control border-0"
