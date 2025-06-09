@@ -34,6 +34,8 @@ Route::controller(PageController::class)->group(function () {
     Route::put('update-parent-page/{id}', 'updateParentPage');
     Route::post('delete-page', 'deletePage');
     Route::post('delete-child-page', 'deleteChildPage');
+    Route::get('get-custom-logo', 'getLogoCustom');
+    Route::post('post-custom-logo', 'postLogoCustom');
 });
 
 Route::controller(ProductController::class)->group(function () {

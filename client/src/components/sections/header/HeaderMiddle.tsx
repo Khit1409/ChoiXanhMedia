@@ -14,13 +14,17 @@ import Link from "next/link";
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import Navbar from "./Navbar";
-import { openResponsiveMenu } from "@/redux/slices/custom.page.slice";
+import { getCustomLogo, openResponsiveMenu } from "@/redux/slices/custom.page.slice";
 
 export default function HeaderMiddle() {
   const dispatch = useDispatch<AppDispatch>();
   const { loggedIn } = useSelector((state: RootState) => state.auths);
-  const { responsiveMenu } = useSelector((state: RootState) => state.menus);
-
+  const { responsiveMenu, logo } = useSelector(
+    (state: RootState) => state.menus
+  );
+  useEffect(() => {
+    dispatch(getCustomLogo());
+  }, [dispatch]);
   const [cartQuantity, setCartQuantity] = useState<number>(0);
   const [wishQuantity, setWishQuantity] = useState<number>(0);
   const [searchKeyword, setSearchKeyword] = useState<string>("");
@@ -41,12 +45,20 @@ export default function HeaderMiddle() {
     <div>
       <div className="pt-3 pb-md-0 pb-3 d-flex justify-content-around align-items-center">
         {/* Logo */}
-        <Link
-          href="/"
-          className="w-25 d-flex align-items-center justify-content-center"
-        >
-          <Image src="/logo.jpg" width={40} height={40} alt="logo" />
-        </Link>
+        {logo?.map((cus) => (
+          <Link
+            href="/"
+            key={cus.id}
+            className="w-25 d-flex align-items-center justify-content-center"
+          >
+            <Image
+              src={cus.src}
+              width={Number(cus.width)}
+              height={Number(cus.height)}
+              alt="logo"
+            />
+          </Link>
+        ))}
 
         {/* Search */}
         <form className="d-flex w-100 mx-2">

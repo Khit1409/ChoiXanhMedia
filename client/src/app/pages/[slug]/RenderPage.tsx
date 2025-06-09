@@ -34,10 +34,11 @@ export default function RenderPage() {
           case "product":
             content = <ProductContainer />;
             break;
-          case "contact":
-            content = <ContactPage />;
           case "blog":
             content = <BlogContainer />;
+            break;
+          case "contact":
+            content = <ContactPage />;
             break;
           default:
             content = <div>Loại trang không hỗ trợ: {cus.pageType}</div>;

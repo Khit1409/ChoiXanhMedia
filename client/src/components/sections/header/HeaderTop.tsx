@@ -1,9 +1,7 @@
 import { logout } from "@/redux/slices/auth.slice";
 import { AppDispatch, RootState } from "@/redux/store";
 import {
-  faAppStore,
   faFacebook,
-  faGooglePlay,
   faInstagram,
   faYoutube,
 } from "@fortawesome/free-brands-svg-icons";
@@ -40,24 +38,7 @@ export default function HeaderTop() {
     <div className="d-flex justify-content-between px-5">
       {/* Left side */}
       <ul className="d-flex align-items-center gap-3 list-unstyled mb-0">
-        <li className="d-flex gap-2 align-items-center">
-          <a className="d-md-block d-none text-decoration-none text-white">
-            Tải ứng dụng
-          </a>
-          <div className="d-flex gap-3">
-            <a href="#" className="text-reset">
-              <FontAwesomeIcon icon={faGooglePlay} />
-            </a>
-            <a href="#" className="text-reset">
-              <FontAwesomeIcon icon={faAppStore} />
-            </a>
-          </div>
-        </li>
-        <span>|</span>
         <li className="d-flex gap-2">
-          <a className="d-md-block d-none text-decoration-none text-white">
-            Kết nối
-          </a>
           <div className="d-flex gap-3">
             <a href="#" className="text-reset">
               <FontAwesomeIcon icon={faFacebook} />

@@ -3,6 +3,7 @@ import { getPageCategories } from "@/redux/slices/custom.page.slice";
 import { AppDispatch, RootState } from "@/redux/store";
 import {
   faFolderOpen,
+  faGear,
   faHouse,
   faPlus,
   faRefresh,
@@ -45,9 +46,12 @@ export default function Dashboard() {
           <FontAwesomeIcon icon={faRefresh} /> Cập nhật thay đổi
         </button>
       </div>
-      <div className="d-flex justify-content-end mb-3">
+      <div className="d-flex justify-content-end mb-3 gap-2">
         <Link href="/admin/add-new-page" className="btn btn-success shadow-sm">
           <FontAwesomeIcon icon={faPlus} className="me-1" /> Thêm trang mới
+        </Link>
+        <Link href="/admin/update-logo-page" className="btn btn-success shadow-sm">
+          <FontAwesomeIcon icon={faGear} className="me-1" />Sửa logo
         </Link>
       </div>
 
@@ -103,7 +107,6 @@ export default function Dashboard() {
                 <td>{cate.created_at.toLocaleString()}</td>
                 <td>
                   <div className="d-flex justify-content-center gap-2">
-                    <button className="btn btn-sm btn-primary">Thêm</button>
                     <button className="btn btn-sm btn-warning">Sửa</button>
                     <button
                       className="btn btn-sm btn-danger"

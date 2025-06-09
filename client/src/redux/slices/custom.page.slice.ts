@@ -40,6 +40,38 @@ export const fetchCustom = createAsyncThunk<
   }
 });
 
+//get Custom logo
+
+export const getCustomLogo = createAsyncThunk<
+  {
+    id: string;
+    name: string;
+    src: string;
+    padding: string;
+    border_radius: string;
+    margin: string;
+    width: string;
+    height: string;
+    created_at: Date;
+    update_at: Date;
+  }[],
+  void,
+  { rejectValue: string }
+>("get/logo", async (_, thunkAPI) => {
+  try {
+    const response = await axios.get(
+      `http://localhost:8000/api/get-custom-logo`
+    );
+    if (response.data) {
+      return response.data.logo;
+    }
+  } catch (error) {
+    if (axios.isAxiosError(error)) {
+      return thunkAPI.rejectWithValue(`${error}`);
+    }
+    return thunkAPI.rejectWithValue(`${error}`);
+  }
+});
 // ------------------------ Slice ------------------------
 
 const menuSlice = createSlice({
@@ -77,6 +109,18 @@ const menuSlice = createSlice({
         state.loading = false;
       })
       .addCase(fetchCustom.rejected, (state, action) => {
+        state.error = action.payload as string;
+        state.loading = false;
+      })
+      //lấy logo
+      .addCase(getCustomLogo.pending, (state) => {
+        state.loading = true;
+      })
+      .addCase(getCustomLogo.fulfilled, (state, action) => {
+        state.logo = action.payload;
+        state.loading = false;
+      })
+      .addCase(getCustomLogo.rejected, (state, action) => {
         state.error = action.payload as string;
         state.loading = false;
       });

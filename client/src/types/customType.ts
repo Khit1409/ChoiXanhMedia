@@ -13,6 +13,7 @@ export interface CustomState {
 export interface CustomNavbar {
   id: number;
   pageType: string;
+  logo: string;
   name: string;
   level: number;
   url: string;
@@ -59,6 +60,19 @@ export interface Keyword {
   updated_at: Date;
 }
 
+export interface Logo {
+  id: string;
+  name: string;
+  src: string;
+  padding: string;
+  border_radius: string;
+  margin: string;
+  width: string;
+  height: string;
+  created_at: Date;
+  update_at: Date;
+}
+
 interface CustomPageInitalState {
   error: string | null;
   loading: boolean;
@@ -66,11 +80,13 @@ interface CustomPageInitalState {
   responsiveMenu: boolean;
   custom: CustomState[] | null;
   openMenu: boolean | null;
+  logo: Logo[]|null;
   changeMenu: boolean;
 }
 
 export const initialState: CustomPageInitalState = {
   error: null,
+  logo: null,
   changeMenu: false,
   custom: null,
   responsiveMenu: false,

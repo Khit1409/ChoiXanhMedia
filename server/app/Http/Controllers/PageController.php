@@ -6,8 +6,27 @@ use DB;
 
 class PageController extends Controller
 {
-    //fetch seo
-    //đã hoàn thành.
+
+    public function getLogoCustom()
+    {
+        $logo = DB::table("customLogo")->get();
+
+        return response()->json(['logo' => $logo], 200);
+    }
+    public function postLogoCustom(Request $request)
+    {
+        DB::table('customLogo')->update([
+            'name' => $request->name,
+            'src' => $request->src,
+            'width' => $request->width,
+            'height' => $request->height,
+            'padding' => $request->padding,
+            'margin' => $request->marginh,
+            'border_radius' => $request->border_radius,
+        ]);
+
+        return response()->json(['resultCode' => 1], 200);
+    }
     public function getCustom(Request $request)
     {
         $id = $request->query("id");

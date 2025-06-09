@@ -21,15 +21,15 @@ export default function BlogContainer() {
   }, [dispatch, id]);
 
   return blogs?.length ? (
-    <section className="container py-5">
+    <section className="container-fluid py-5">
       <h4 className="fw-bold text-success border-bottom border-3 border-success pb-2 mb-4">
         BÀI VIẾT
       </h4>
 
-      <div className="row g-4">
+      <div className="row row-cols-1 row-md-cols-3 row-lg-cols-4 g-4">
         {blogs.map((blog) =>
           blog.data.map((item) => (
-            <div className="col-md-6 col-lg-4" key={item.id}>
+            <div className="col-md-4 col-lg-3" key={item.id}>
               <Link href={item.url} className="text-decoration-none text-dark">
                 <div className="card h-100 shadow-sm border-0">
                   <Image
